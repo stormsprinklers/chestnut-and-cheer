@@ -39,9 +39,9 @@ export const metadata: Metadata = {
   description:
     "Premium temporary and permanent holiday lighting for residential and commercial properties in Utah County and Salt Lake County. Free quotes, licensed & insured.",
   openGraph: {
-    title: `${COMPANY.name} | Premium Holiday Lighting`,
+    title: `${COMPANY.name} | ${COMPANY.tagline}`,
     description:
-      "Custom-fit Christmas lights for roofs, trees, and bushes. Serving Utah County & Salt Lake County.",
+      `${COMPANY.tagline} Custom-fit Christmas lights for roofs, trees, and bushes. Serving Utah County & Salt Lake County.`,
     type: "website",
     locale: "en_US",
     siteName: COMPANY.name,

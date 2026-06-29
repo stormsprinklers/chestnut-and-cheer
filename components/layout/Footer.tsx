@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Tagline } from "@/components/ui/Tagline";
 import { ASSETS, COMPANY, LINKS, NAV_LINKS } from "@/lib/constants";
 
 export function Footer() {
@@ -17,7 +18,10 @@ export function Footer() {
             className="h-16 w-auto object-contain object-left"
             loading="lazy"
           />
-          <p className="mt-4 text-sm text-warm-white/70 leading-relaxed">
+          <p className="mt-3 font-display text-sm text-accent-gold">
+            <Tagline />
+          </p>
+          <p className="mt-3 text-sm text-warm-white/70 leading-relaxed">
             Premium holiday lighting for residential and commercial properties
             across Utah County and Salt Lake County.
           </p>

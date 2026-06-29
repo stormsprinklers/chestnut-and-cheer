@@ -26,7 +26,7 @@ export const ASSETS = {
 
 export const COMPANY = {
   name: "Chestnut & Cheer",
-  tagline: "Premium Holiday Lighting",
+  tagline: "we're nuts about christmas lights!",
   email: "hello@utah.christmas",
   phone: "385-999-NUTS",
   phoneDigits: "3859996887",

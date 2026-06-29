@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Phone, MessageSquare, Calendar } from "lucide-react";
+import { Tagline } from "@/components/ui/Tagline";
 import { ASSETS, COMPANY, LINKS, NAV_LINKS } from "@/lib/constants";
 
 export function Header() {
@@ -20,7 +21,9 @@ export function Header() {
             <div className="font-display text-lg font-bold leading-tight text-chestnut">
               {COMPANY.name}
             </div>
-            <div className="text-xs text-chestnut/60">{COMPANY.tagline}</div>
+            <div className="text-xs text-chestnut/60">
+              <Tagline />
+            </div>
           </div>
         </Link>
 

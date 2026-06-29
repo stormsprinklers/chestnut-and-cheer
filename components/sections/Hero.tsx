@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { Mascot } from "@/components/ui/Mascot";
+import { Tagline } from "@/components/ui/Tagline";
 import { ASSETS, LINKS } from "@/lib/constants";
 
 export function Hero() {
@@ -23,6 +24,9 @@ export function Hero() {
             <h1 className="font-display text-3xl font-bold leading-tight text-warm-white sm:text-5xl lg:text-6xl">
               Premium Holiday Lighting for Your Home & Business
             </h1>
+            <p className="mt-3 font-display text-lg text-accent-gold sm:text-xl">
+              <Tagline />
+            </p>
             <p className="mt-4 text-base leading-relaxed text-warm-white/80 sm:mt-6 sm:text-lg">
               Chestnut & Cheer installs high-quality temporary and permanent
               Christmas lights on roofs, trees, and bushes — plus gutter cleaning
