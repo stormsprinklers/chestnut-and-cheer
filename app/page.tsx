@@ -1,15 +1,35 @@
+import dynamic from "next/dynamic";
 import { Hero } from "@/components/sections/Hero";
 import { SocialProof } from "@/components/sections/SocialProof";
 import { ServicesOverview } from "@/components/sections/ServicesOverview";
 import { WhyChooseUs } from "@/components/sections/WhyChooseUs";
-import { BeforeAfter } from "@/components/sections/BeforeAfter";
 import { BookingProcess } from "@/components/sections/BookingProcess";
-import { Countdown } from "@/components/sections/Countdown";
 import { Reviews } from "@/components/sections/Reviews";
-import { FAQs } from "@/components/sections/FAQs";
 import { Contact } from "@/components/sections/Contact";
 import { ServiceAreaMap } from "@/components/sections/ServiceAreaMap";
 import { BookingPlaceholder } from "@/components/sections/BookingPlaceholder";
+
+const BeforeAfter = dynamic(
+  () =>
+    import("@/components/sections/BeforeAfter").then((m) => ({
+      default: m.BeforeAfter,
+    })),
+  { loading: () => <div className="section-pad" aria-hidden /> },
+);
+
+const Countdown = dynamic(
+  () =>
+    import("@/components/sections/Countdown").then((m) => ({
+      default: m.Countdown,
+    })),
+  { loading: () => <div className="section-pad" aria-hidden /> },
+);
+
+const FAQs = dynamic(
+  () =>
+    import("@/components/sections/FAQs").then((m) => ({ default: m.FAQs })),
+  { loading: () => <div className="section-pad" aria-hidden /> },
+);
 
 export default function Home() {
   return (

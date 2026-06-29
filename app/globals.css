@@ -24,12 +24,14 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-tap-highlight-color: transparent;
 }
 
 h1,
@@ -37,4 +39,26 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display), Georgia, serif;
+  text-wrap: balance;
+}
+
+.section-pad {
+  padding-block: 3rem;
+}
+
+@media (min-width: 640px) {
+  .section-pad {
+    padding-block: 4rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-pad {
+    padding-block: 5rem;
+  }
+}
+
+.below-fold {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
 }

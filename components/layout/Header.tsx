@@ -5,8 +5,8 @@ import { ASSETS, COMPANY, LINKS, NAV_LINKS } from "@/lib/constants";
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b border-chestnut/10 bg-cream/95 backdrop-blur-md">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+    <header className="sticky top-0 z-50 border-b border-chestnut/10 bg-cream/95 backdrop-blur-md supports-[padding:max(0px)]:pt-[env(safe-area-inset-top)]">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-2.5 sm:gap-4 sm:px-6 sm:py-3">
         <Link href="/" className="flex items-center gap-3 shrink-0">
           <Image
             src={ASSETS.brand.head}
@@ -39,21 +39,21 @@ export function Header() {
         <div className="flex items-center gap-2">
           <a
             href={LINKS.tel}
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-red text-warm-white transition-colors hover:bg-primary-red/90 lg:hidden"
+            className="flex h-11 w-11 items-center justify-center rounded-full bg-primary-red text-warm-white transition-colors hover:bg-primary-red/90 active:scale-95 lg:hidden touch-manipulation"
             aria-label={`Call ${COMPANY.phone}`}
           >
             <Phone className="h-4 w-4" />
           </a>
           <a
             href={LINKS.sms}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-chestnut/20 bg-white text-chestnut transition-colors hover:bg-chestnut/5 lg:hidden"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-chestnut/20 bg-white text-chestnut transition-colors hover:bg-chestnut/5 active:scale-95 lg:hidden touch-manipulation"
             aria-label={`Text ${COMPANY.phone}`}
           >
             <MessageSquare className="h-4 w-4" />
           </a>
           <Link
             href={LINKS.booking}
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-accent-gold text-chestnut transition-colors hover:bg-accent-gold/90 lg:hidden"
+            className="flex h-11 w-11 items-center justify-center rounded-full bg-accent-gold text-chestnut transition-colors hover:bg-accent-gold/90 active:scale-95 lg:hidden touch-manipulation"
             aria-label="Book online"
           >
             <Calendar className="h-4 w-4" />

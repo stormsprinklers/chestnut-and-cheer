@@ -37,8 +37,8 @@ export function Mascot({
         alt={MASCOT_ALTS[variant]}
         fill
         className={`object-contain object-bottom ${flipped ? "-scale-x-100" : ""}`}
-        sizes={`${size}px`}
-        priority={priority}
+        sizes={`(max-width: 1024px) ${Math.min(size, 140)}px, ${size}px`}
+        {...(priority ? { priority: true } : { loading: "lazy" as const })}
       />
     </div>
   );

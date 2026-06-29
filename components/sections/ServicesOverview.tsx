@@ -4,7 +4,7 @@ import { SERVICES } from "@/lib/constants";
 
 export function ServicesOverview() {
   return (
-    <section id="services" className="py-20">
+    <section id="services" className="section-pad below-fold">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="text-center">
           <h2 className="font-display text-3xl font-bold text-chestnut sm:text-4xl">
@@ -29,7 +29,8 @@ export function ServicesOverview() {
                   alt={service.title}
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 33vw"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  loading="lazy"
                 />
               </div>
               <div className="p-6">

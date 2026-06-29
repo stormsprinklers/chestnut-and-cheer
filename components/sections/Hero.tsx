@@ -7,44 +7,43 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden bg-chestnut">
       <div className="absolute inset-0 bg-gradient-to-br from-chestnut via-chestnut to-primary-red/40" />
-      <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
-        <div className="grid items-center gap-10 lg:grid-cols-[auto_1fr_1fr]">
+      <div className="relative mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-16 lg:py-24">
+        <div className="grid items-center gap-8 lg:grid-cols-[auto_1fr_1fr] lg:gap-10">
           <Mascot
             variant="light"
             side="left"
             size={200}
             className="hidden self-end lg:block"
-            priority
           />
 
-          <div>
-            <p className="mb-4 inline-block rounded-full bg-accent-gold/20 px-4 py-1 text-sm font-semibold text-accent-gold">
+          <div className="order-2 lg:order-none">
+            <p className="mb-3 inline-block rounded-full bg-accent-gold/20 px-3 py-1 text-xs font-semibold text-accent-gold sm:mb-4 sm:px-4 sm:text-sm">
               Utah County & Salt Lake County
             </p>
-            <h1 className="font-display text-4xl font-bold leading-tight text-warm-white sm:text-5xl lg:text-6xl">
+            <h1 className="font-display text-3xl font-bold leading-tight text-warm-white sm:text-5xl lg:text-6xl">
               Premium Holiday Lighting for Your Home & Business
             </h1>
-            <p className="mt-6 text-lg leading-relaxed text-warm-white/80">
+            <p className="mt-4 text-base leading-relaxed text-warm-white/80 sm:mt-6 sm:text-lg">
               Chestnut & Cheer installs high-quality temporary and permanent
               Christmas lights on roofs, trees, and bushes — plus gutter cleaning
               while we&apos;re on the roof. Free quotes via Google Meet or
               in-person.
             </p>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Button href={LINKS.booking} variant="gold">
+            <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:gap-4">
+              <Button href={LINKS.booking} variant="gold" className="w-full sm:w-auto">
                 Book Online
               </Button>
               <Button
                 href={LINKS.contact}
                 variant="outline"
-                className="border-warm-white/30 text-warm-white hover:bg-warm-white/10"
+                className="w-full border-warm-white/30 text-warm-white hover:bg-warm-white/10 sm:w-auto"
               >
                 Get a Free Quote
               </Button>
             </div>
           </div>
 
-          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-warm-white/10 shadow-2xl">
+          <div className="relative order-1 aspect-[4/3] overflow-hidden rounded-2xl border border-warm-white/10 shadow-2xl lg:order-none">
             <Image
               src={ASSETS.photos.hero}
               alt="Beautiful home decorated with premium holiday lights"
@@ -52,17 +51,10 @@ export function Hero() {
               className="object-cover"
               sizes="(max-width: 1024px) 100vw, 40vw"
               priority
+              fetchPriority="high"
             />
           </div>
         </div>
-
-        <Mascot
-          variant="light"
-          side="left"
-          size={140}
-          className="mx-auto mt-6 lg:hidden"
-          priority
-        />
       </div>
     </section>
   );

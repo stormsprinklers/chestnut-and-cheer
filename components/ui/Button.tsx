@@ -29,7 +29,7 @@ export function Button({
   external = false,
 }: ButtonProps) {
   const base =
-    "inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors";
+    "inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors touch-manipulation min-h-11";
 
   if (external) {
     return (

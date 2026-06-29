@@ -15,6 +15,7 @@ export function Footer() {
             width={220}
             height={80}
             className="h-16 w-auto object-contain object-left"
+            loading="lazy"
           />
           <p className="mt-4 text-sm text-warm-white/70 leading-relaxed">
             Premium holiday lighting for residential and commercial properties

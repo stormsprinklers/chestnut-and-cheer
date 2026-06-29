@@ -3,7 +3,7 @@ import { WHY_CHOOSE_US } from "@/lib/constants";
 
 export function WhyChooseUs() {
   return (
-    <section id="why-us" className="bg-chestnut py-20 text-warm-white">
+    <section id="why-us" className="section-pad below-fold bg-chestnut text-warm-white">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="flex flex-col items-center gap-6 lg:flex-row lg:justify-center">
           <Mascot variant="gift" side="left" size={180} className="hidden lg:block" />
@@ -17,8 +17,6 @@ export function WhyChooseUs() {
             </p>
           </div>
         </div>
-
-        <Mascot variant="gift" side="left" size={140} className="mx-auto mt-6 lg:hidden" />
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {WHY_CHOOSE_US.map((item) => (

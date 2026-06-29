@@ -18,8 +18,11 @@ public/images/
 │   ├── gift.avif            — Mascot holding a present
 │   └── cheer.avif           — Mascot jumping & cheering
 ├── photos/
-│   ├── string-lights.avif   — Hero & temporary service
-│   ├── sparkle.avif         — Permanent service card
+│   ├── hero-home.avif       — Hero image
+│   ├── string-lights.avif   — Decorative / alternate
+│   ├── temporary-install.avif — Temporary service card
+│   ├── sparkle.avif         — Decorative accent
+│   ├── permanent-lighting.avif — Permanent service card
 │   ├── commercial-tree.avif — Commercial service card
 │   └── virtual-quote.avif   — Booking / consultation step
 ├── reviews/

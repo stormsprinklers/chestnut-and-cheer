@@ -1,8 +1,9 @@
 import { COMPANY, MAP_EMBED_URL } from "@/lib/constants";
+import { LazyMap } from "@/components/ui/LazyMap";
 
 export function ServiceAreaMap() {
   return (
-    <section className="py-20">
+    <section className="section-pad below-fold">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="text-center">
           <h2 className="font-display text-3xl font-bold text-chestnut sm:text-4xl">
@@ -14,17 +15,10 @@ export function ServiceAreaMap() {
           </p>
         </div>
 
-        <div className="mt-10 overflow-hidden rounded-2xl border border-chestnut/10 shadow-sm">
-          <iframe
-            title="Chestnut & Cheer service area map"
+        <div className="mt-8 overflow-hidden rounded-2xl border border-chestnut/10 shadow-sm sm:mt-10">
+          <LazyMap
             src={MAP_EMBED_URL}
-            width="100%"
-            height="400"
-            style={{ border: 0 }}
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            className="w-full"
+            title="Chestnut & Cheer service area map"
           />
         </div>
       </div>

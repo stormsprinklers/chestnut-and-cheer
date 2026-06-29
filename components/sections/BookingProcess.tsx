@@ -4,7 +4,7 @@ import { ASSETS, BOOKING_STEPS } from "@/lib/constants";
 
 export function BookingProcess() {
   return (
-    <section className="bg-cream py-20">
+    <section className="section-pad bg-cream">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="text-center">
           <h2 className="font-display text-3xl font-bold text-chestnut sm:text-4xl">
@@ -28,6 +28,7 @@ export function BookingProcess() {
                       width={56}
                       height={56}
                       className="h-full w-full object-cover"
+                      loading="lazy"
                     />
                   </div>
                 ) : (
@@ -52,8 +53,6 @@ export function BookingProcess() {
             className="hidden shrink-0 lg:block"
           />
         </div>
-
-        <Mascot variant="cheer" side="left" size={140} className="mx-auto mt-8 lg:hidden" />
       </div>
     </section>
   );

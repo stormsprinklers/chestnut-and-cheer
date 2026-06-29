@@ -9,9 +9,11 @@ export const ASSETS = {
     cheer: "/images/mascots/cheer.avif",
   },
   photos: {
-    hero: "/images/photos/string-lights.avif",
+    hero: "/images/photos/hero-home.avif",
     stringLights: "/images/photos/string-lights.avif",
+    temporaryInstall: "/images/photos/temporary-install.avif",
     sparkle: "/images/photos/sparkle.avif",
+    permanentLighting: "/images/photos/permanent-lighting.avif",
     commercialTree: "/images/photos/commercial-tree.avif",
     virtualQuote: "/images/photos/virtual-quote.avif",
   },
@@ -69,7 +71,7 @@ export const SERVICES = [
       "Summer storage included",
       "No customer-owned light installs",
     ],
-    image: ASSETS.photos.stringLights,
+    image: ASSETS.photos.temporaryInstall,
   },
   {
     id: "permanent",
@@ -82,7 +84,7 @@ export const SERVICES = [
       "Premium, durable product",
       "Year-round lighting options",
     ],
-    image: ASSETS.photos.sparkle,
+    image: ASSETS.photos.permanentLighting,
   },
   {
     id: "commercial",

@@ -2,7 +2,7 @@ import { BeforeAfterSlider } from "@/components/ui/BeforeAfterSlider";
 
 export function BeforeAfter() {
   return (
-    <section id="before-after" className="py-20">
+    <section id="before-after" className="section-pad below-fold">
       <div className="mx-auto max-w-4xl px-4 sm:px-6">
         <div className="text-center">
           <h2 className="font-display text-3xl font-bold text-chestnut sm:text-4xl">

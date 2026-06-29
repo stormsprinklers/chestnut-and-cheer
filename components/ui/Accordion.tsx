@@ -23,7 +23,7 @@ export function Accordion({ items }: AccordionProps) {
           <div key={item.question}>
             <button
               type="button"
-              className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
+              className="flex w-full min-h-11 items-center justify-between gap-4 px-4 py-4 text-left touch-manipulation sm:px-6 sm:py-5"
               onClick={() => setOpenIndex(isOpen ? null : index)}
               aria-expanded={isOpen}
             >

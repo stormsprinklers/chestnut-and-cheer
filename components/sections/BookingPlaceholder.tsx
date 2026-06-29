@@ -5,7 +5,7 @@ import { COMPANY, LINKS } from "@/lib/constants";
 
 export function BookingPlaceholder() {
   return (
-    <section id="booking" className="bg-primary-red py-20 text-warm-white">
+    <section id="booking" className="section-pad bg-primary-red text-warm-white">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <div className="flex flex-col items-center gap-8 lg:flex-row lg:items-start">
           <Mascot variant="gift" side="left" size={200} className="hidden shrink-0 lg:block" />
@@ -75,21 +75,21 @@ export function BookingPlaceholder() {
               </div>
             </div>
 
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
-              <Button href={LINKS.tel} variant="gold">
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-4 lg:justify-start">
+              <Button href={LINKS.tel} variant="gold" className="w-full sm:w-auto">
                 <Phone className="h-4 w-4" />
                 Call {COMPANY.phone}
               </Button>
               <a
                 href={LINKS.sms}
-                className="inline-flex items-center gap-2 rounded-full border border-warm-white/30 px-5 py-2.5 text-sm font-semibold text-warm-white transition-colors hover:bg-warm-white/10"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-warm-white/30 px-5 py-2.5 text-sm font-semibold text-warm-white transition-colors hover:bg-warm-white/10 sm:w-auto touch-manipulation"
               >
                 <MessageSquare className="h-4 w-4" />
                 Text Us
               </a>
               <a
                 href={LINKS.mailto}
-                className="inline-flex items-center gap-2 rounded-full border border-warm-white/30 px-5 py-2.5 text-sm font-semibold text-warm-white transition-colors hover:bg-warm-white/10"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-warm-white/30 px-5 py-2.5 text-sm font-semibold text-warm-white transition-colors hover:bg-warm-white/10 sm:w-auto touch-manipulation"
               >
                 <Mail className="h-4 w-4" />
                 Email Us
@@ -97,8 +97,6 @@ export function BookingPlaceholder() {
             </div>
           </div>
         </div>
-
-        <Mascot variant="gift" side="left" size={140} className="mx-auto mt-8 lg:hidden" />
       </div>
     </section>
   );

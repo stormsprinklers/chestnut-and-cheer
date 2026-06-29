@@ -57,7 +57,6 @@ export function BeforeAfterSlider({
           fill
           className="object-cover"
           sizes="(max-width: 768px) 100vw, 800px"
-          priority
         />
 
         <div
@@ -70,7 +69,6 @@ export function BeforeAfterSlider({
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, 800px"
-            priority
           />
         </div>
 
@@ -81,7 +79,7 @@ export function BeforeAfterSlider({
           <button
             type="button"
             aria-label="Drag to compare before and after"
-            className="absolute top-1/2 left-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 cursor-ew-resize items-center justify-center rounded-full border-2 border-warm-white bg-primary-red text-warm-white shadow-lg"
+            className="absolute top-1/2 left-1/2 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 cursor-ew-resize items-center justify-center rounded-full border-2 border-warm-white bg-primary-red text-warm-white shadow-lg touch-manipulation"
             onPointerDown={handlePointerDown}
           >
             <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden>
