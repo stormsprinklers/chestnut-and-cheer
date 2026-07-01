@@ -22,7 +22,7 @@ export function Hero() {
               Utah County & Salt Lake County
             </p>
             <h1 className="font-display text-3xl font-bold leading-tight text-warm-white sm:text-5xl lg:text-6xl">
-              Premium Holiday Lighting for Your Home & Business
+              Christmas Light Installation in Utah &amp; Salt Lake County
             </h1>
             <p className="mt-3 font-display text-lg text-accent-gold sm:text-xl">
               <Tagline />
@@ -50,7 +50,7 @@ export function Hero() {
           <div className="relative order-1 aspect-[4/3] overflow-hidden rounded-2xl border border-warm-white/10 shadow-2xl lg:order-none">
             <Image
               src={ASSETS.photos.hero}
-              alt="Beautiful home decorated with premium holiday lights"
+              alt="Christmas light installation on a home in Utah County"
               fill
               className="object-cover"
               sizes="(max-width: 1024px) 100vw, 40vw"

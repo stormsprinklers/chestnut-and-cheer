@@ -1,4 +1,5 @@
 import { BeforeAfterSlider } from "@/components/ui/BeforeAfterSlider";
+import { ASSETS } from "@/lib/constants";
 
 export function BeforeAfter() {
   return (
@@ -17,9 +18,9 @@ export function BeforeAfter() {
         <div className="mt-10">
           <BeforeAfterSlider
             beforeSrc="/images/before-after/before.svg"
-            afterSrc="/images/before-after/after.svg"
-            beforeAlt="Home without holiday lights"
-            afterAlt="Home with holiday lights"
+            afterSrc={ASSETS.photos.hero}
+            beforeAlt="Utah home without holiday lights"
+            afterAlt="Utah home with professional Christmas light installation"
           />
         </div>
       </div>

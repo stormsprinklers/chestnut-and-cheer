@@ -3,7 +3,8 @@ import { Playfair_Display, Source_Sans_3 } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { FloatingBookButton } from "@/components/layout/FloatingBookButton";
-import { COMPANY } from "@/lib/constants";
+import { COMPANY, ASSETS } from "@/lib/constants";
+import { SITE_URL, absoluteUrl } from "@/lib/site";
 import "./globals.css";
 
 const displayFont = Playfair_Display({
@@ -20,9 +21,6 @@ const bodyFont = Source_Sans_3({
   display: "swap",
 });
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
@@ -31,20 +29,39 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: `${COMPANY.name} | ${COMPANY.tagline}`,
+    default: `${COMPANY.name} | Christmas Light Installation Utah`,
     template: `%s | ${COMPANY.name}`,
   },
   description:
-    "Premium temporary and permanent holiday lighting for residential and commercial properties in Utah County and Salt Lake County. Free quotes, licensed & insured.",
+    "Professional Christmas light installation in Utah County & Salt Lake County. Temporary & permanent holiday lighting for homes and businesses. Free quotes — licensed S330 contractor.",
   openGraph: {
-    title: `${COMPANY.name} | ${COMPANY.tagline}`,
+    title: `${COMPANY.name} | Christmas Light Installation Utah`,
     description:
       `${COMPANY.tagline} Custom-fit Christmas lights for roofs, trees, and bushes. Serving Utah County & Salt Lake County.`,
     type: "website",
     locale: "en_US",
     siteName: COMPANY.name,
+    url: SITE_URL,
+    images: [
+      {
+        url: absoluteUrl(ASSETS.photos.hero),
+        width: 1600,
+        height: 1200,
+        alt: "Home with professional Christmas light installation in Utah",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${COMPANY.name} | Christmas Light Installation Utah`,
+    description: COMPANY.tagline,
+    images: [absoluteUrl(ASSETS.photos.hero)],
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 
