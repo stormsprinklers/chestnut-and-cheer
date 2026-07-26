@@ -1,30 +1,21 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Phone, MessageSquare, Calendar } from "lucide-react";
-import { Tagline } from "@/components/ui/Tagline";
 import { ASSETS, COMPANY, LINKS, NAV_LINKS } from "@/lib/constants";
 
 export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-chestnut/10 bg-cream/95 backdrop-blur-md supports-[padding:max(0px)]:pt-[env(safe-area-inset-top)]">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-2.5 sm:gap-4 sm:px-6 sm:py-3">
-        <Link href="/" className="flex items-center gap-3 shrink-0">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-2 sm:gap-4 sm:px-6 sm:py-2.5">
+        <Link href="/" className="flex shrink-0 items-center" aria-label={COMPANY.name}>
           <Image
-            src={ASSETS.brand.head}
+            src={ASSETS.brand.logoPrimary}
             alt={COMPANY.name}
-            width={44}
-            height={44}
-            className="h-10 w-10 object-contain sm:h-11 sm:w-11"
+            width={200}
+            height={133}
+            className="h-11 w-auto object-contain sm:h-14"
             priority
           />
-          <div className="hidden sm:block">
-            <div className="font-display text-lg font-bold leading-tight text-chestnut">
-              {COMPANY.name}
-            </div>
-            <div className="text-xs text-chestnut/60">
-              <Tagline />
-            </div>
-          </div>
         </Link>
 
         <nav className="hidden items-center gap-6 lg:flex" aria-label="Main navigation">

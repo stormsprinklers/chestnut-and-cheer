@@ -6,7 +6,7 @@ export function Countdown() {
     <section className="section-pad below-fold">
       <div className="mx-auto max-w-4xl px-4 sm:px-6">
         <div className="flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:justify-center">
-          <Mascot variant="light" side="left" size={180} className="hidden lg:block" />
+          <Mascot variant="worker" side="left" size={180} className="hidden lg:block" />
 
           <div className="text-center">
             <h2 className="font-display text-3xl font-bold text-chestnut sm:text-4xl">

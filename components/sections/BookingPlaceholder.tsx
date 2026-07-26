@@ -1,14 +1,21 @@
+import Image from "next/image";
 import { Calendar, Phone, MessageSquare, Mail } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { Mascot } from "@/components/ui/Mascot";
-import { COMPANY, LINKS } from "@/lib/constants";
+import { ASSETS, COMPANY, LINKS } from "@/lib/constants";
 
 export function BookingPlaceholder() {
   return (
     <section id="booking" className="section-pad bg-primary-red text-warm-white">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <div className="flex flex-col items-center gap-8 lg:flex-row lg:items-start">
-          <Mascot variant="gift" side="left" size={200} className="hidden shrink-0 lg:block" />
+          <Image
+            src={ASSETS.brand.logoWithMascot}
+            alt={`${COMPANY.name} Christmas Lights`}
+            width={280}
+            height={210}
+            className="hidden h-auto w-56 shrink-0 object-contain lg:block"
+            loading="lazy"
+          />
 
           <div className="flex-1">
             <div className="text-center lg:text-left">

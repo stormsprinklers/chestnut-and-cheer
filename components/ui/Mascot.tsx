@@ -1,13 +1,15 @@
 import Image from "next/image";
 import { ASSETS } from "@/lib/constants";
 
-export type MascotVariant = "light" | "gift" | "cheer";
+export type MascotVariant = "worker" | "gift" | "cheer" | "jump" | "fullBody";
 export type MascotSide = "left" | "right";
 
 const MASCOT_ALTS: Record<MascotVariant, string> = {
-  light: "Chestnut & Cheer mascot holding a holiday light",
+  worker: "Chestnut & Cheer mascot carrying a ladder",
   gift: "Chestnut & Cheer mascot holding a present",
   cheer: "Chestnut & Cheer mascot cheering",
+  jump: "Chestnut & Cheer mascot jumping with excitement",
+  fullBody: "Chestnut & Cheer squirrel mascot",
 };
 
 type MascotProps = {

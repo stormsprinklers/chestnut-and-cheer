@@ -1,18 +1,25 @@
 export const ASSETS = {
   brand: {
+    /** Mascot head — favicon / compact icon */
     head: "/images/brand/head-color.avif",
+    /** Badge logo (no mascot) — header & footer */
     logoPrimary: "/images/brand/logo-primary.avif",
+    /** Badge with mascot — secondary brand moments only */
+    logoWithMascot: "/images/brand/logo-with-mascot.avif",
+    tagline: "/images/brand/tagline.avif",
+    sparkle: "/images/brand/sparkle.avif",
+    stringLights: "/images/brand/string-lights.avif",
   },
   mascots: {
-    light: "/images/mascots/light.avif",
+    worker: "/images/mascots/worker.avif",
     gift: "/images/mascots/gift.avif",
     cheer: "/images/mascots/cheer.avif",
+    jump: "/images/mascots/jump.avif",
+    fullBody: "/images/mascots/full-body.avif",
   },
   photos: {
     hero: "/images/photos/hero-home.avif",
-    stringLights: "/images/photos/string-lights.avif",
     temporaryInstall: "/images/photos/temporary-install.avif",
-    sparkle: "/images/photos/sparkle.avif",
     permanentLighting: "/images/photos/permanent-lighting.avif",
     commercialTree: "/images/photos/commercial-tree.avif",
     virtualQuote: "/images/photos/virtual-quote.avif",
@@ -41,22 +48,112 @@ export const COMPANY = {
   serviceAreas: ["Utah County", "Salt Lake County"],
 } as const;
 
+/** Same service area cities as Storm Sprinklers (../website home). */
+export const UTAH_COUNTY_CITIES = [
+  "Highland",
+  "Alpine",
+  "Pleasant Grove",
+  "Lehi",
+  "American Fork",
+  "Saratoga Springs",
+  "Eagle Mountain",
+  "Cedar Hills",
+  "Lindon",
+  "Orem",
+  "Provo",
+  "Springville",
+  "Spanish Fork",
+  "Mapleton",
+  "Payson",
+  "Santaquin",
+  "Salem",
+  "Vineyard",
+  "Elk Ridge",
+  "Woodland Hills",
+] as const;
+
+export const SALT_LAKE_COUNTY_CITIES = [
+  "Salt Lake City",
+  "West Valley City",
+  "West Jordan",
+  "South Jordan",
+  "Riverton",
+  "Draper",
+  "Sandy",
+  "Murray",
+  "Midvale",
+  "Taylorsville",
+  "Herriman",
+  "Bluffdale",
+  "Cottonwood Heights",
+  "Holladay",
+  "Millcreek",
+  "Magna",
+  "Kearns",
+  "South Salt Lake",
+] as const;
+
 export const LINKS = {
   tel: `tel:${COMPANY.phoneDigits}`,
   sms: `sms:${COMPANY.phoneDigits}`,
   mailto: `mailto:${COMPANY.email}`,
-  booking: "#booking",
-  contact: "#contact",
+  booking: "/#booking",
+  contact: "/#contact",
+  pricing: "/pricing",
 } as const;
 
 export const NAV_LINKS = [
-  { label: "Services", href: "#services" },
-  { label: "Why Us", href: "#why-us" },
-  { label: "Gallery", href: "#before-after" },
-  { label: "Reviews", href: "#reviews" },
-  { label: "FAQ", href: "#faq" },
-  { label: "Contact", href: "#contact" },
+  { label: "Services", href: "/#services" },
+  { label: "Pricing", href: "/pricing" },
+  { label: "Why Us", href: "/#why-us" },
+  { label: "Gallery", href: "/#before-after" },
+  { label: "Reviews", href: "/#reviews" },
+  { label: "FAQ", href: "/#faq" },
+  { label: "Contact", href: "/#contact" },
 ] as const;
+
+export const PRICING = {
+  yearOne: {
+    label: "Year 1",
+    title: "Parts + Installation",
+    startsAt: 699,
+    summary:
+      "Your first year includes the lights, timer, and custom design — plus professional installation.",
+    includes: [
+      "Commercial-grade lights",
+      "Timer",
+      "Custom design for your property",
+      "Professional installation",
+    ],
+  },
+  renewal: {
+    label: "Year 2+",
+    title: "Installation Only",
+    startsAt: 299,
+    summary:
+      "Stay with us and your price drops — we already own the lights, so you pay for installation only.",
+    includes: [
+      "Professional reinstallation",
+      "Your existing custom design",
+      "Same premium light package",
+    ],
+  },
+  includedEveryYear: [
+    "Custom-designed commercial-grade lights",
+    "Professional installation",
+    "In-season maintenance",
+    "Takedown after the holidays",
+    "Off-season storage",
+    "Replacement of normal bulb failures",
+  ],
+  quoteFactors: [
+    { label: "Tree size", detail: "Height, canopy, and how many trees to light" },
+    { label: "Roof angle", detail: "Steeper or complex rooflines take more time" },
+    { label: "Home height", detail: "Two-story and taller homes need extra equipment" },
+    { label: "Coverage area", detail: "Roofline length, bushes, and accent features" },
+    { label: "Design complexity", detail: "Simple outlines vs. full custom displays" },
+  ],
+} as const;
 
 export const SERVICES = [
   {
@@ -184,7 +281,7 @@ export const FAQS = [
   {
     question: "How does pricing work?",
     answer:
-      "Pricing depends on your property size, roofline length, tree coverage, and whether you choose temporary or permanent lighting. We provide free quotes — no surprises. Commercial projects are quoted separately based on scope.",
+      "Year 1 is Parts + Installation (starts at $699) and covers lights, timer, custom design, and install. Year 2+ with us drops to Installation Only (starts at $299). Every job is custom-quoted based on tree size, roof angle, home height, and other property features. Prices include commercial-grade lights, install, in-season maintenance, takedown, storage, and normal bulb replacements.",
   },
   {
     question: "When do you take down temporary lights?",
@@ -214,7 +311,7 @@ export const FAQS = [
   {
     question: "What areas do you serve?",
     answer:
-      "We serve Utah County and Salt Lake County, including Orem, Provo, Lehi, American Fork, Sandy, Draper, and surrounding communities.",
+      "We service all cities within Utah County and Salt Lake County—including Provo, Orem, Lehi, Spanish Fork, Salt Lake City, Draper, Sandy, and many more. Call if you're unsure!",
   },
   {
     question: "What if a bulb goes out?",

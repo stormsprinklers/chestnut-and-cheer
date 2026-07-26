@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Tagline } from "@/components/ui/Tagline";
 import { ASSETS, COMPANY, LINKS, NAV_LINKS } from "@/lib/constants";
 
 export function Footer() {
@@ -8,19 +7,35 @@ export function Footer() {
 
   return (
     <footer className="border-t border-chestnut/10 bg-chestnut text-warm-white">
+      <div className="mx-auto max-w-4xl px-4 pt-8 sm:px-6">
+        <Image
+          src={ASSETS.brand.stringLights}
+          alt=""
+          width={1000}
+          height={224}
+          className="mx-auto h-auto w-full max-w-2xl object-contain opacity-80"
+          aria-hidden
+          loading="lazy"
+        />
+      </div>
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-3">
         <div>
           <Image
             src={ASSETS.brand.logoPrimary}
             alt={COMPANY.name}
             width={220}
-            height={80}
-            className="h-16 w-auto object-contain object-left"
+            height={147}
+            className="h-16 w-auto object-contain object-left sm:h-[4.5rem]"
             loading="lazy"
           />
-          <p className="mt-3 font-display text-sm text-accent-gold">
-            <Tagline />
-          </p>
+          <Image
+            src={ASSETS.brand.tagline}
+            alt={COMPANY.tagline}
+            width={220}
+            height={75}
+            className="mt-3 h-auto w-44 object-contain object-left opacity-90"
+            loading="lazy"
+          />
           <p className="mt-3 text-sm text-warm-white/70 leading-relaxed">
             Premium holiday lighting for residential and commercial properties
             across Utah County and Salt Lake County.

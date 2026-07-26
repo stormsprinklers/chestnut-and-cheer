@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: `Christmas Light Installation | ${COMPANY.name}`,
-    description: `${COMPANY.tagline} Serving Orem, Provo, Lehi, Sandy, and surrounding Utah communities.`,
+    description: `${COMPANY.tagline} Serving Utah County & Salt Lake County — Provo, Orem, Lehi, Sandy, Draper, and more.`,
     url: SITE_URL,
     images: [
       {

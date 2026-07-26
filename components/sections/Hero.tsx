@@ -1,20 +1,38 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { Mascot } from "@/components/ui/Mascot";
-import { Tagline } from "@/components/ui/Tagline";
 import { ASSETS, LINKS } from "@/lib/constants";
 
 export function Hero() {
   return (
     <section className="relative overflow-hidden bg-chestnut">
       <div className="absolute inset-0 bg-gradient-to-br from-chestnut via-chestnut to-primary-red/40" />
+      <Image
+        src={ASSETS.brand.sparkle}
+        alt=""
+        width={48}
+        height={50}
+        className="pointer-events-none absolute right-[12%] top-8 hidden opacity-70 sm:block"
+        aria-hidden
+        priority
+      />
+      <Image
+        src={ASSETS.brand.sparkle}
+        alt=""
+        width={32}
+        height={33}
+        className="pointer-events-none absolute left-[18%] top-16 hidden opacity-50 lg:block"
+        aria-hidden
+      />
+
       <div className="relative mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-16 lg:py-24">
         <div className="grid items-center gap-8 lg:grid-cols-[auto_1fr_1fr] lg:gap-10">
           <Mascot
-            variant="light"
+            variant="worker"
             side="left"
             size={200}
             className="hidden self-end lg:block"
+            priority
           />
 
           <div className="order-2 lg:order-none">
@@ -24,9 +42,14 @@ export function Hero() {
             <h1 className="font-display text-3xl font-bold leading-tight text-warm-white sm:text-5xl lg:text-6xl">
               Christmas Light Installation in Utah &amp; Salt Lake County
             </h1>
-            <p className="mt-3 font-display text-lg text-accent-gold sm:text-xl">
-              <Tagline />
-            </p>
+            <Image
+              src={ASSETS.brand.tagline}
+              alt="We're nuts about Christmas lights!"
+              width={360}
+              height={122}
+              className="mt-4 h-auto w-56 object-contain object-left sm:mt-5 sm:w-72"
+              priority
+            />
             <p className="mt-4 text-base leading-relaxed text-warm-white/80 sm:mt-6 sm:text-lg">
               Chestnut & Cheer installs high-quality temporary and permanent
               Christmas lights on roofs, trees, and bushes — plus gutter cleaning
@@ -59,6 +82,18 @@ export function Hero() {
             />
           </div>
         </div>
+      </div>
+
+      <div className="relative mx-auto max-w-5xl px-4 pb-4 sm:px-6 sm:pb-6">
+        <Image
+          src={ASSETS.brand.stringLights}
+          alt=""
+          width={1200}
+          height={268}
+          className="mx-auto h-auto w-full max-w-3xl object-contain opacity-90"
+          aria-hidden
+          priority
+        />
       </div>
     </section>
   );

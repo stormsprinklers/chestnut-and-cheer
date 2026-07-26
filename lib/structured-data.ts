@@ -3,6 +3,8 @@ import {
   FAQS,
   SERVICES,
   ASSETS,
+  UTAH_COUNTY_CITIES,
+  SALT_LAKE_COUNTY_CITIES,
 } from "@/lib/constants";
 import { absoluteUrl, SITE_URL } from "@/lib/site";
 
@@ -51,10 +53,25 @@ export function getLocalBusinessSchema() {
       postalCode: COMPANY.address.zip,
       addressCountry: "US",
     },
-    areaServed: COMPANY.serviceAreas.map((area) => ({
-      "@type": "AdministrativeArea",
-      name: area,
-    })),
+    areaServed: [
+      ...COMPANY.serviceAreas.map((area) => ({
+        "@type": "AdministrativeArea" as const,
+        name: area,
+      })),
+      ...UTAH_COUNTY_CITIES.map((city) => ({
+        "@type": "City" as const,
+        name: city,
+        containedInPlace: { "@type": "AdministrativeArea", name: "Utah County" },
+      })),
+      ...SALT_LAKE_COUNTY_CITIES.map((city) => ({
+        "@type": "City" as const,
+        name: city,
+        containedInPlace: {
+          "@type": "AdministrativeArea",
+          name: "Salt Lake County",
+        },
+      })),
+    ],
     priceRange: "$$",
     knowsAbout: [
       "Christmas light installation",
