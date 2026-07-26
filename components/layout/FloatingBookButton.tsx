@@ -1,8 +1,14 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Calendar } from "lucide-react";
 import { LINKS } from "@/lib/constants";
 
 export function FloatingBookButton() {
+  const pathname = usePathname();
+  if (pathname?.startsWith("/visualize")) return null;
+
   return (
     <Link
       href={LINKS.booking}

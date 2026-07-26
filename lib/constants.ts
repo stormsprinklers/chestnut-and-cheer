@@ -24,6 +24,10 @@ export const ASSETS = {
     commercialTree: "/images/photos/commercial-tree.avif",
     virtualQuote: "/images/photos/virtual-quote.avif",
   },
+  beforeAfter: {
+    before: "/images/before-after/before.avif",
+    after: "/images/before-after/after.avif",
+  },
   reviews: {
     starsRed: "/images/reviews/stars-red.avif",
     starsGreen: "/images/reviews/stars-green.avif",
@@ -100,11 +104,13 @@ export const LINKS = {
   booking: "/#booking",
   contact: "/#contact",
   pricing: "/pricing",
+  visualize: "/visualize",
 } as const;
 
 export const NAV_LINKS = [
   { label: "Services", href: "/#services" },
   { label: "Pricing", href: "/pricing" },
+  { label: "Visualize", href: "/visualize" },
   { label: "Why Us", href: "/#why-us" },
   { label: "Gallery", href: "/#before-after" },
   { label: "Reviews", href: "/#reviews" },

@@ -17,10 +17,10 @@ export function BeforeAfter() {
 
         <div className="mt-10">
           <BeforeAfterSlider
-            beforeSrc="/images/before-after/before.svg"
-            afterSrc={ASSETS.photos.hero}
-            beforeAlt="Utah home without holiday lights"
-            afterAlt="Utah home with professional Christmas light installation"
+            beforeSrc={ASSETS.beforeAfter.before}
+            afterSrc={ASSETS.beforeAfter.after}
+            beforeAlt="Utah home before Christmas light installation"
+            afterAlt="Same Utah home after professional Christmas light installation"
           />
         </div>
       </div>

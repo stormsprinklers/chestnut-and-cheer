@@ -35,10 +35,16 @@ public/images/
 ├── mascots/              — Converted mascot AVIFs
 ├── photos/               — Photo AVIFs (hero, services, etc.)
 ├── reviews/              — Review star graphics
-└── before-after/         — Before/after photos (when ready)
+└── before-after/
+    ├── before.avif       — Daytime home (no lights)
+    └── after.avif        — Same home lit at night
 ```
 
 ## Adding or replacing brand PNGs
 
 1. Replace files in `C&C Brand Assets/PNG Assets/`.
 2. Run `npm run images:convert`.
+
+## Replacing before/after photos
+
+Drop source images into `public/images/`, convert to AVIF at ~1600px wide, save as `before-after/before.avif` and `before-after/after.avif`.
