@@ -3,6 +3,11 @@ import { randomUUID } from "crypto";
 import { buildLeadExternalId, forwardLeadToCrm, isCrmConfigured } from "@/lib/integrations/crm";
 import { buildEstimateMetadata, buildEstimateNotes } from "@/lib/estimate/payload";
 import type { EstimateFormState } from "@/lib/estimate/types";
+import {
+  clientIpFromRequest,
+  isHoneypotTripped,
+  verifyTurnstileToken,
+} from "@/lib/turnstile";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -10,6 +15,9 @@ export const maxDuration = 60;
 type Body = {
   form: EstimateFormState;
   attribution?: Record<string, unknown>;
+  turnstileToken?: string;
+  "cf-turnstile-response"?: string;
+  websiteUrl?: string;
 };
 
 function validate(form: EstimateFormState): string | null {
@@ -29,6 +37,20 @@ export async function POST(request: Request) {
     body = (await request.json()) as Body;
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  }
+
+  // Silent success for bots that fill the honeypot.
+  if (isHoneypotTripped(body.websiteUrl)) {
+    return NextResponse.json({ ok: true, externalId: "honeypot" });
+  }
+
+  const turnstileToken =
+    (typeof body.turnstileToken === "string" && body.turnstileToken) ||
+    (typeof body["cf-turnstile-response"] === "string" && body["cf-turnstile-response"]) ||
+    null;
+  const turnstile = await verifyTurnstileToken(turnstileToken, clientIpFromRequest(request));
+  if (!turnstile.ok) {
+    return NextResponse.json({ error: turnstile.error }, { status: turnstile.status });
   }
 
   const form = body.form;
@@ -57,7 +79,18 @@ export async function POST(request: Request) {
     city: form.city.trim() || null,
   });
 
-  if (!crmResult.ok && !("skipped" in crmResult && crmResult.skipped)) {
+  if ("skipped" in crmResult && crmResult.skipped) {
+    console.error("[estimate] CRM not configured — refusing lead");
+    return NextResponse.json(
+      {
+        error:
+          "We couldn't save your request right now. Please call or text us and we'll help right away.",
+      },
+      { status: 503 }
+    );
+  }
+
+  if (!crmResult.ok) {
     return NextResponse.json(
       {
         error:
@@ -65,15 +98,6 @@ export async function POST(request: Request) {
       },
       { status: 502 }
     );
-  }
-
-  if ("skipped" in crmResult && crmResult.skipped) {
-    // Dev-friendly: accept submission locally when CRM isn't configured
-    console.warn("[estimate] CRM not configured — lead accepted locally only", {
-      externalId,
-      name,
-      email: form.email,
-    });
   }
 
   return NextResponse.json({

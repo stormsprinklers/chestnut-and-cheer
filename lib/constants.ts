@@ -110,7 +110,7 @@ export const LINKS = {
   bookConsultation: process.env.NEXT_PUBLIC_CRM_BOOKING_URL?.trim() || "",
   /** @deprecated use estimate — kept for any deep links */
   booking: "/estimate",
-  contact: "/estimate",
+  contact: "/#contact",
   pricing: "/pricing",
   visualize: "/visualize",
 } as const;

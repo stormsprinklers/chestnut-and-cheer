@@ -1,5 +1,6 @@
 import OpenAI, { toFile } from "openai";
 import { NextResponse } from "next/server";
+import { clientIpFromRequest, verifyTurnstileToken } from "@/lib/turnstile";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -43,6 +44,16 @@ export async function POST(request: Request) {
     form = await request.formData();
   } catch {
     return NextResponse.json({ error: "Invalid upload." }, { status: 400 });
+  }
+
+  const turnstileToken =
+    (typeof form.get("turnstileToken") === "string" && String(form.get("turnstileToken"))) ||
+    (typeof form.get("cf-turnstile-response") === "string" &&
+      String(form.get("cf-turnstile-response"))) ||
+    null;
+  const turnstile = await verifyTurnstileToken(turnstileToken, clientIpFromRequest(request));
+  if (!turnstile.ok) {
+    return NextResponse.json({ error: turnstile.error }, { status: turnstile.status });
   }
 
   const image = form.get("image");

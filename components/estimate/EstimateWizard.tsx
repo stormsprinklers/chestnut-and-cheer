@@ -8,6 +8,7 @@ import {
   type ParsedPlace,
 } from "@/components/estimate/AddressAutocomplete";
 import { EstimateProgress } from "@/components/estimate/EstimateProgress";
+import TurnstileWidget from "@/components/TurnstileWidget";
 import { Button } from "@/components/ui/Button";
 import { Mascot } from "@/components/ui/Mascot";
 import { LINKS } from "@/lib/constants";
@@ -70,6 +71,9 @@ export function EstimateWizard() {
   const [form, setForm] = useState<EstimateFormState>(INITIAL_ESTIMATE_STATE);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileReset, setTurnstileReset] = useState(0);
+  const [honeypot, setHoneypot] = useState("");
 
   useEffect(() => {
     captureAttributionFromUrl(
@@ -138,7 +142,9 @@ export function EstimateWizard() {
         if (!form.budget) return "Select an investment range (or “not sure”).";
         return null;
       case "method":
-        return form.quoteMethod ? null : "Choose how you'd like to receive your quote.";
+        if (!form.quoteMethod) return "Choose how you'd like to receive your quote.";
+        if (!turnstileToken) return "Please complete the human verification checkbox.";
+        return null;
       default:
         return null;
     }
@@ -182,23 +188,36 @@ export function EstimateWizard() {
   };
 
   const submit = async () => {
+    if (!turnstileToken) {
+      setError("Please complete the human verification checkbox.");
+      return;
+    }
     setSubmitting(true);
     setError(null);
     try {
       const res = await fetch("/api/estimate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ form, attribution: getAttribution() }),
+        body: JSON.stringify({
+          form,
+          attribution: getAttribution(),
+          turnstileToken,
+          websiteUrl: honeypot,
+        }),
       });
       const data = (await res.json()) as { error?: string };
       if (!res.ok) {
         setError(data.error ?? "Something went wrong. Please try again.");
+        setTurnstileToken(null);
+        setTurnstileReset((n) => n + 1);
         return;
       }
       trackEstimateEvent("form_submitted", { need: form.need });
       setPhase("done");
     } catch {
       setError("Network error. Check your connection and try again.");
+      setTurnstileToken(null);
+      setTurnstileReset((n) => n + 1);
     } finally {
       setSubmitting(false);
     }
@@ -782,6 +801,27 @@ export function EstimateWizard() {
                 </button>
               ))}
             </div>
+            <label
+              aria-hidden="true"
+              style={{
+                position: "absolute",
+                left: "-10000px",
+                top: "auto",
+                width: 1,
+                height: 1,
+                overflow: "hidden",
+              }}
+            >
+              Website
+              <input
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+              />
+            </label>
+            <TurnstileWidget onToken={setTurnstileToken} resetKey={turnstileReset} />
           </section>
         )}
 
