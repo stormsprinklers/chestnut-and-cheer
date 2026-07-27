@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { Mascot } from "@/components/ui/Mascot";
-import { ASSETS, LINKS } from "@/lib/constants";
+import { ASSETS, COMPANY, LINKS } from "@/lib/constants";
 
 export function Hero() {
   return (
@@ -11,7 +11,7 @@ export function Hero() {
       <div className="relative mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-16 lg:py-24">
         <div className="grid items-center gap-8 lg:grid-cols-[auto_1fr_1fr] lg:gap-10">
           <Mascot
-            variant="worker"
+            variant="holdingLights"
             side="left"
             size={200}
             className="hidden self-end lg:block"
@@ -32,15 +32,15 @@ export function Hero() {
               in-person.
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:gap-4">
-              <Button href={LINKS.booking} variant="gold" className="w-full sm:w-auto">
-                Book Online
+              <Button href={LINKS.estimate} variant="gold" className="w-full sm:w-auto">
+                Get Instant Estimate
               </Button>
               <Button
-                href={LINKS.contact}
+                href={LINKS.tel}
                 variant="outline"
                 className="w-full border-warm-white/30 text-warm-white hover:bg-warm-white/10 sm:w-auto"
               >
-                Get a Free Quote
+                Call {COMPANY.phone}
               </Button>
             </div>
           </div>

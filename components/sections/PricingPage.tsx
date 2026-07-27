@@ -39,15 +39,15 @@ export function PricingPage() {
               installation only. Every job is custom-quoted for your property.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-4">
-              <Button href={LINKS.contact} variant="gold" className="w-full sm:w-auto">
-                Get a Free Quote
+              <Button href={LINKS.estimate} variant="gold" className="w-full sm:w-auto">
+                Get Instant Estimate
               </Button>
               <Button
-                href={LINKS.booking}
+                href={LINKS.tel}
                 variant="outline"
                 className="w-full border-warm-white/30 text-warm-white hover:bg-warm-white/10 sm:w-auto"
               >
-                Book Online
+                Call Us
               </Button>
             </div>
           </div>
@@ -56,14 +56,18 @@ export function PricingPage() {
 
       <section className="section-pad">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="text-center">
-            <h2 className="font-display text-3xl font-bold text-chestnut sm:text-4xl">
-              Year 1 vs. Year 2+
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-chestnut/70">
-              Your first season builds the display. Every season after that, you
-              only pay for us to put it back up.
-            </p>
+          <div className="flex flex-col items-center gap-6 lg:flex-row lg:justify-center lg:gap-8">
+            <Mascot variant="pointing" side="left" size={160} className="hidden lg:block" />
+            <div className="text-center">
+              <h2 className="font-display text-3xl font-bold text-chestnut sm:text-4xl">
+                Year 1 vs. Year 2+
+              </h2>
+              <p className="mx-auto mt-4 max-w-2xl text-chestnut/70">
+                Your first season builds the display. Every season after that, you
+                only pay for us to put it back up.
+              </p>
+            </div>
+            <Mascot variant="pointing" side="right" size={160} className="hidden lg:block" />
           </div>
 
           <div className="mt-12 grid gap-6 lg:grid-cols-2">
@@ -122,11 +126,11 @@ export function PricingPage() {
                   </ul>
                   <div className="mt-8">
                     <Button
-                      href={LINKS.contact}
+                      href={LINKS.estimate}
                       variant={featured ? "gold" : "primary"}
                       className="w-full"
                     >
-                      Request a Custom Quote
+                      Get Instant Estimate
                     </Button>
                   </div>
                 </article>
@@ -159,7 +163,7 @@ export function PricingPage() {
                 ))}
               </ul>
             </div>
-            <Mascot variant="gift" side="right" size={200} className="hidden shrink-0 lg:block" />
+            <Mascot variant="pointing" side="right" size={200} className="hidden shrink-0 lg:block" />
           </div>
         </div>
       </section>
@@ -201,7 +205,8 @@ export function PricingPage() {
       </section>
 
       <section className="section-pad bg-primary-red text-warm-white">
-        <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
+        <div className="mx-auto flex max-w-3xl flex-col items-center px-4 text-center sm:px-6">
+          <Mascot variant="phone" size={140} className="mb-4" />
           <h2 className="font-display text-3xl font-bold sm:text-4xl">
             Ready for a free quote?
           </h2>
@@ -210,8 +215,8 @@ export function PricingPage() {
             no surprises, no pressure.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-4">
-            <Button href={LINKS.contact} variant="gold" className="w-full sm:w-auto">
-              Get a Free Quote
+            <Button href={LINKS.estimate} variant="gold" className="w-full sm:w-auto">
+              Get Instant Estimate
             </Button>
             <Button
               href={LINKS.tel}

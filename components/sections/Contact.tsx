@@ -43,16 +43,16 @@ export function Contact() {
             </ul>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
-              <Button href={LINKS.tel} variant="primary" className="w-full sm:w-auto">
-                Call Now
+              <Button href={LINKS.estimate} variant="primary" className="w-full sm:w-auto">
+                Get Instant Estimate
               </Button>
-              <Button href={LINKS.sms} variant="outline" className="w-full sm:w-auto">
-                Text Us
+              <Button href={LINKS.tel} variant="outline" className="w-full sm:w-auto">
+                Call Now
               </Button>
             </div>
           </div>
 
-          <Mascot variant="cheer" side="right" size={180} className="hidden lg:block" />
+          <Mascot variant="phone" side="right" size={180} className="hidden lg:block" />
 
           <form
             action="#"

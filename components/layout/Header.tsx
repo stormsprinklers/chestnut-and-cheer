@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Phone, MessageSquare, Calendar } from "lucide-react";
+import { Phone, MessageSquare, Sparkles } from "lucide-react";
 import { ASSETS, COMPANY, LINKS, NAV_LINKS } from "@/lib/constants";
 
 export function Header() {
@@ -18,10 +18,10 @@ export function Header() {
           />
         </Link>
 
-        <nav className="hidden items-center gap-6 lg:flex" aria-label="Main navigation">
+        <nav className="hidden items-center gap-5 xl:flex" aria-label="Main navigation">
           {NAV_LINKS.map((link) => (
             <Link
-              key={link.href}
+              key={link.href + link.label}
               href={link.href}
               className="text-sm font-medium text-chestnut/80 transition-colors hover:text-primary-red"
             >
@@ -46,11 +46,11 @@ export function Header() {
             <MessageSquare className="h-4 w-4" />
           </a>
           <Link
-            href={LINKS.booking}
+            href={LINKS.estimate}
             className="flex h-11 w-11 items-center justify-center rounded-full bg-accent-gold text-chestnut transition-colors hover:bg-accent-gold/90 active:scale-95 lg:hidden touch-manipulation"
-            aria-label="Book online"
+            aria-label="Get Instant Estimate"
           >
-            <Calendar className="h-4 w-4" />
+            <Sparkles className="h-4 w-4" />
           </Link>
 
           <a
@@ -60,19 +60,12 @@ export function Header() {
             <Phone className="h-4 w-4" />
             {COMPANY.phone}
           </a>
-          <a
-            href={LINKS.sms}
-            className="hidden items-center gap-2 rounded-full border border-chestnut/20 bg-white px-4 py-2 text-sm font-semibold text-chestnut transition-colors hover:bg-chestnut/5 lg:inline-flex"
-          >
-            <MessageSquare className="h-4 w-4" />
-            Text Us
-          </a>
           <Link
-            href={LINKS.booking}
+            href={LINKS.estimate}
             className="hidden items-center gap-2 rounded-full bg-accent-gold px-4 py-2 text-sm font-semibold text-chestnut transition-colors hover:bg-accent-gold/90 lg:inline-flex"
           >
-            <Calendar className="h-4 w-4" />
-            Book Online
+            <Sparkles className="h-4 w-4" />
+            Get Instant Estimate
           </Link>
         </div>
       </div>

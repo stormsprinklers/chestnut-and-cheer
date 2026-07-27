@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Download } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { Mascot } from "@/components/ui/Mascot";
 import { LINKS } from "@/lib/constants";
 
 type ResultViewProps = {
@@ -21,7 +22,8 @@ export function ResultView({ beforeUrl, afterUrl, onStartOver }: ResultViewProps
 
   return (
     <div className="space-y-6">
-      <div className="text-center">
+      <div className="flex flex-col items-center text-center">
+        <Mascot variant="cheer" size={140} className="mb-2" />
         <h2 className="font-display text-2xl font-bold text-chestnut sm:text-3xl">
           Your lights preview
         </h2>
@@ -65,11 +67,8 @@ export function ResultView({ beforeUrl, afterUrl, onStartOver }: ResultViewProps
       </div>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center">
-        <Button href={LINKS.contact} variant="gold" className="w-full sm:w-auto">
-          Get a Free Quote
-        </Button>
-        <Button href={LINKS.booking} variant="primary" className="w-full sm:w-auto">
-          Book Online
+        <Button href={LINKS.estimate} variant="gold" className="w-full sm:w-auto">
+          Get Instant Estimate
         </Button>
         <button
           type="button"

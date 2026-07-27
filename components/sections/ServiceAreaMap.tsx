@@ -64,7 +64,7 @@ export function ServiceAreaMap() {
           to check.
         </p>
         <div className="mt-6 flex justify-center">
-          <Button href={LINKS.contact} variant="primary">
+          <Button href={LINKS.estimate} variant="primary">
             Ask About Your Area
           </Button>
         </div>

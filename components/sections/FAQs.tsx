@@ -19,7 +19,7 @@ export function FAQs() {
           <div className="w-full flex-1">
             <Accordion items={FAQS} />
           </div>
-          <Mascot variant="cheer" side="right" size={180} className="hidden lg:block" />
+          <Mascot variant="fullBody" side="right" size={180} className="hidden lg:block" />
         </div>
       </div>
     </section>

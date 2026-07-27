@@ -57,10 +57,10 @@ export function Footer() {
             ))}
             <li>
               <Link
-                href={LINKS.booking}
+                href={LINKS.estimate}
                 className="text-sm text-warm-white/70 transition-colors hover:text-accent-gold"
               >
-                Book Online
+                Get Instant Estimate
               </Link>
             </li>
           </ul>

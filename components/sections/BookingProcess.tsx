@@ -1,6 +1,5 @@
-import Image from "next/image";
 import { Mascot } from "@/components/ui/Mascot";
-import { ASSETS, BOOKING_STEPS } from "@/lib/constants";
+import { BOOKING_STEPS } from "@/lib/constants";
 
 export function BookingProcess() {
   return (
@@ -16,42 +15,23 @@ export function BookingProcess() {
           </p>
         </div>
 
-        <div className="mt-12 flex flex-col items-center gap-10 lg:flex-row lg:items-start lg:justify-between">
-          <div className="grid flex-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {BOOKING_STEPS.map((step) => (
-              <div key={step.step} className="relative text-center">
-                {step.step === 2 ? (
-                  <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center overflow-hidden rounded-full border-2 border-primary-red/20 bg-white">
-                    <Image
-                      src={ASSETS.photos.virtualQuote}
-                      alt="Virtual quote consultation"
-                      width={56}
-                      height={56}
-                      className="h-full w-full object-cover"
-                      loading="lazy"
-                    />
-                  </div>
-                ) : (
-                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-primary-red font-display text-2xl font-bold text-warm-white">
-                    {step.step}
-                  </div>
-                )}
-                <h3 className="mt-4 font-display text-lg font-semibold text-chestnut">
-                  {step.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-chestnut/70">
-                  {step.description}
-                </p>
+        <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          {BOOKING_STEPS.map((step) => (
+            <div key={step.step} className="relative text-center">
+              <div className="mx-auto mb-2 flex justify-center">
+                <Mascot variant={step.mascot} size={120} className="mx-auto" />
               </div>
-            ))}
-          </div>
-
-          <Mascot
-            variant="cheer"
-            side="right"
-            size={200}
-            className="hidden shrink-0 lg:block"
-          />
+              <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-primary-red font-display text-lg font-bold text-warm-white">
+                {step.step}
+              </div>
+              <h3 className="mt-3 font-display text-lg font-semibold text-chestnut">
+                {step.title}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-chestnut/70">
+                {step.description}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

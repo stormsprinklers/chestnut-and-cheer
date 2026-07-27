@@ -16,6 +16,10 @@ export const ASSETS = {
     cheer: "/images/mascots/cheer.avif",
     jump: "/images/mascots/jump.avif",
     fullBody: "/images/mascots/full-body.avif",
+    phone: "/images/mascots/phone.avif",
+    csr: "/images/mascots/csr.avif",
+    pointing: "/images/mascots/pointing.avif",
+    holdingLights: "/images/mascots/holding-lights.avif",
   },
   photos: {
     hero: "/images/photos/hero-home.avif",
@@ -101,8 +105,12 @@ export const LINKS = {
   tel: `tel:${COMPANY.phoneDigits}`,
   sms: `sms:${COMPANY.phoneDigits}`,
   mailto: `mailto:${COMPANY.email}`,
-  booking: "/#booking",
-  contact: "/#contact",
+  estimate: "/estimate",
+  /** CRM public booking calendar for consultations (set NEXT_PUBLIC_CRM_BOOKING_URL) */
+  bookConsultation: process.env.NEXT_PUBLIC_CRM_BOOKING_URL?.trim() || "",
+  /** @deprecated use estimate — kept for any deep links */
+  booking: "/estimate",
+  contact: "/estimate",
   pricing: "/pricing",
   visualize: "/visualize",
 } as const;
@@ -110,12 +118,12 @@ export const LINKS = {
 export const NAV_LINKS = [
   { label: "Services", href: "/#services" },
   { label: "Pricing", href: "/pricing" },
+  { label: "Get Estimate", href: "/estimate" },
   { label: "Visualize", href: "/visualize" },
   { label: "Why Us", href: "/#why-us" },
   { label: "Gallery", href: "/#before-after" },
   { label: "Reviews", href: "/#reviews" },
   { label: "FAQ", href: "/#faq" },
-  { label: "Contact", href: "/#contact" },
 ] as const;
 
 export const PRICING = {
@@ -239,23 +247,27 @@ export const WHY_CHOOSE_US = [
 export const BOOKING_STEPS = [
   {
     step: 1,
-    title: "Request a Quote",
-    description: "Call, text, or email us — or book online when our scheduler launches.",
+    title: "Get Instant Estimate",
+    description: "Call, text, or email us — or get an instant estimate online in about 2 minutes.",
+    mascot: "phone" as const,
   },
   {
     step: 2,
     title: "Free Consultation",
     description: "Google Meet video quote or in-person walkthrough of your property.",
+    mascot: "csr" as const,
   },
   {
     step: 3,
     title: "Professional Install",
     description: "Our team installs custom-fit lighting on roofs, trees, and bushes.",
+    mascot: "worker" as const,
   },
   {
     step: 4,
     title: "Enjoy the Season",
     description: "We handle takedown in January & early February, plus summer storage for temporary installs.",
+    mascot: "cheer" as const,
   },
 ] as const;
 

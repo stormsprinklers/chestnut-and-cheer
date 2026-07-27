@@ -61,6 +61,26 @@ const conversions = [
     width: 400,
   },
   {
+    src: "Mascot_Phone.png",
+    dest: "mascots/phone.avif",
+    width: 400,
+  },
+  {
+    src: "Mascot_CSR.png",
+    dest: "mascots/csr.avif",
+    width: 400,
+  },
+  {
+    src: "Mascot_Pointing_Right.png",
+    dest: "mascots/pointing.avif",
+    width: 400,
+  },
+  {
+    src: "Mascot_Holding_Lights.png",
+    dest: "mascots/holding-lights.avif",
+    width: 400,
+  },
+  {
     src: "Sparkle.png",
     dest: "brand/sparkle.avif",
     width: 256,

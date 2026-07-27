@@ -1,20 +1,25 @@
 import Image from "next/image";
 import { Check } from "lucide-react";
+import { Mascot } from "@/components/ui/Mascot";
 import { SERVICES } from "@/lib/constants";
 
 export function ServicesOverview() {
   return (
     <section id="services" className="section-pad below-fold">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="text-center">
-          <h2 className="font-display text-3xl font-bold text-chestnut sm:text-4xl">
-            Our Services
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-chestnut/70">
-            From one-season sparkle to year-round brilliance — we handle
-            residential and commercial holiday lighting across Utah and Salt Lake
-            County.
-          </p>
+        <div className="flex flex-col items-center gap-6 lg:flex-row lg:justify-center lg:gap-8">
+          <Mascot variant="pointing" side="left" size={160} className="hidden lg:block" />
+          <div className="text-center">
+            <h2 className="font-display text-3xl font-bold text-chestnut sm:text-4xl">
+              Our Services
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-chestnut/70">
+              From one-season sparkle to year-round brilliance — we handle
+              residential and commercial holiday lighting across Utah and Salt Lake
+              County.
+            </p>
+          </div>
+          <Mascot variant="pointing" side="right" size={160} className="hidden lg:block" />
         </div>
 
         <div className="mt-12 grid gap-8 md:grid-cols-3">

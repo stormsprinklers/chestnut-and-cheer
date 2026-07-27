@@ -20,11 +20,15 @@ That writes optimized AVIFs into `brand/` and `mascots/`, and regenerates `app/i
 | `Tagline.png` | `brand/tagline.avif` | Hero & footer tagline graphic |
 | `Sparkle.png` | `brand/sparkle.avif` | Decorative accents |
 | `String Lights.png` | `brand/string-lights.avif` | Hero / section decoration |
-| `Mascot_Worker.png` | `mascots/worker.avif` | Section mascot |
-| `Mascot_Gift.png` | `mascots/gift.avif` | Section mascot |
-| `Mascot_Cheering.png` | `mascots/cheer.avif` | Section mascot |
-| `Mascot_Jumping.png` | `mascots/jump.avif` | Extra mascot |
-| `Full-Body-Mascot.png` | `mascots/full-body.avif` | Extra mascot |
+| `Mascot_Worker.png` | `mascots/worker.avif` | How it works step 3 / install |
+| `Mascot_Gift.png` | `mascots/gift.avif` | Countdown / special offers |
+| `Mascot_Cheering.png` | `mascots/cheer.avif` | How it works step 4 / thank-you |
+| `Mascot_Jumping.png` | `mascots/jump.avif` | Extra variety |
+| `Full-Body-Mascot.png` | `mascots/full-body.avif` | Single bulb pose (FAQ, etc.) |
+| `Mascot_Phone.png` | `mascots/phone.avif` | Request a quote / contact |
+| `Mascot_CSR.png` | `mascots/csr.avif` | Free consultation step |
+| `Mascot_Pointing_Right.png` | `mascots/pointing.avif` | Point at offers (flip for left) |
+| `Mascot_Holding_Lights.png` | `mascots/holding-lights.avif` | General / hero |
 
 ## Folder structure
 
