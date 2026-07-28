@@ -162,7 +162,6 @@ export const NAV_LINKS = [
   { label: "Get Estimate", href: "/estimate" },
   { label: "Visualize", href: "/visualize" },
   { label: "About", href: "/about" },
-  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
 ] as const;
 

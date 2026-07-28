@@ -11,6 +11,7 @@ import {
   TreePine,
 } from "lucide-react";
 import { Mascot } from "@/components/ui/Mascot";
+import { Reviews } from "@/components/sections/Reviews";
 import { Button } from "@/components/ui/Button";
 import {
   DOOR_HANGER_ATTRIBUTION,
@@ -21,7 +22,6 @@ import {
   ASSETS,
   COMPANY,
   LINKS,
-  TESTIMONIALS,
   TRUST_BADGES,
 } from "@/lib/constants";
 
@@ -65,15 +65,14 @@ export function DoorHangerLanding() {
         <div className="absolute inset-0 bg-gradient-to-br from-chestnut via-chestnut to-primary-red/45" />
         <div className="relative mx-auto flex max-w-5xl flex-col items-center px-4 pb-12 pt-10 text-center sm:px-6 sm:pb-16 sm:pt-14">
           <Image
-            src={ASSETS.brand.logoPrimary}
-            alt={COMPANY.name}
-            width={220}
-            height={147}
-            className="h-16 w-auto object-contain sm:h-20"
+            src={ASSETS.brand.logoWithMascot}
+            alt={`${COMPANY.name} Christmas Lights`}
+            width={360}
+            height={280}
+            className="h-36 w-auto object-contain sm:h-44"
             priority
           />
-          <Mascot variant="holdingLights" size={140} className="mt-4 sm:mt-5" priority />
-          <p className="mt-4 inline-block rounded-full bg-accent-gold/20 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-accent-gold sm:text-sm">
+          <p className="mt-5 inline-block rounded-full bg-accent-gold/20 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-accent-gold sm:text-sm">
             Limited time offer
           </p>
           <h1 className="mt-3 font-display text-5xl font-bold leading-none text-warm-white sm:text-6xl">
@@ -122,49 +121,21 @@ export function DoorHangerLanding() {
               </li>
             ))}
           </ul>
-        </div>
-      </section>
-
-      {/* Social proof */}
-      <section className="section-pad bg-white">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6">
-          <div className="flex flex-wrap items-center justify-center gap-3 text-sm text-chestnut/70">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-sm text-chestnut/70">
             {TRUST_BADGES.map((badge) => (
               <span
                 key={badge.label}
-                className="inline-flex items-center gap-2 rounded-full border border-chestnut/10 bg-cream px-3 py-1.5"
+                className="inline-flex items-center gap-2 rounded-full border border-chestnut/10 bg-white px-3 py-1.5"
               >
                 <Check className="h-3.5 w-3.5 text-primary-red" aria-hidden />
                 <span className="font-semibold text-chestnut">{badge.label}</span>
               </span>
             ))}
           </div>
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {TESTIMONIALS.map((t) => (
-              <blockquote
-                key={t.author}
-                className="rounded-2xl border border-chestnut/10 bg-cream p-5"
-              >
-                <Image
-                  src={t.starsImage}
-                  alt="5 star rating"
-                  width={160}
-                  height={32}
-                  className="h-7 w-auto object-contain"
-                  loading="lazy"
-                />
-                <p className="mt-3 text-sm leading-relaxed text-chestnut/80">
-                  &ldquo;{t.quote}&rdquo;
-                </p>
-                <footer className="mt-3 text-sm font-semibold text-chestnut">
-                  {t.author}
-                  <span className="block font-normal text-chestnut/60">{t.location}</span>
-                </footer>
-              </blockquote>
-            ))}
-          </div>
         </div>
       </section>
+
+      <Reviews />
 
       {/* How it works + CTA */}
       <section className="section-pad">
