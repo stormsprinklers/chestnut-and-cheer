@@ -52,7 +52,7 @@ export const COMPANY = {
     zip: "84057",
     full: "1372 W Center St, Orem UT 84057",
   },
-  license: "S330 Landscape Contractor",
+  license: "S330 #14211467-5501",
   serviceAreas: ["Utah County", "Salt Lake County"],
 } as const;
 
@@ -110,20 +110,60 @@ export const LINKS = {
   bookConsultation: process.env.NEXT_PUBLIC_CRM_BOOKING_URL?.trim() || "",
   /** @deprecated use estimate — kept for any deep links */
   booking: "/estimate",
-  contact: "/#contact",
+  contact: "/contact",
   pricing: "/pricing",
   visualize: "/visualize",
+  about: "/about",
+  blog: "/blog",
+  doorHanger: "/door-hanger",
+  permanentLighting: "/permanent-lighting",
+  seasonalLighting: "/seasonal-holiday-lighting",
+  commercialLighting: "/commercial-holiday-lighting",
+  gutterCleaning: "/gutter-cleaning",
+  privacy: "/privacy-policy",
+  terms: "/terms-of-service",
+  accessibility: "/accessibility",
 } as const;
+
+export const FOOTER_COLUMNS = [
+  {
+    title: "Services",
+    links: [
+      { label: "Seasonal Holiday Lighting", href: LINKS.seasonalLighting },
+      { label: "Permanent Lighting", href: LINKS.permanentLighting },
+      { label: "Commercial Holiday Lighting", href: LINKS.commercialLighting },
+      { label: "Gutter Cleaning", href: LINKS.gutterCleaning },
+      { label: "Pricing", href: LINKS.pricing },
+      { label: "Visualize Lights", href: LINKS.visualize },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { label: "About Us", href: LINKS.about },
+      { label: "Blog", href: LINKS.blog },
+      { label: "Contact", href: LINKS.contact },
+      { label: "Get Instant Estimate", href: LINKS.estimate },
+    ],
+  },
+  {
+    title: "Policies",
+    links: [
+      { label: "Privacy Policy", href: LINKS.privacy },
+      { label: "Terms of Service", href: LINKS.terms },
+      { label: "Accessibility", href: LINKS.accessibility },
+    ],
+  },
+] as const;
 
 export const NAV_LINKS = [
   { label: "Services", href: "/#services" },
   { label: "Pricing", href: "/pricing" },
   { label: "Get Estimate", href: "/estimate" },
   { label: "Visualize", href: "/visualize" },
-  { label: "Why Us", href: "/#why-us" },
-  { label: "Gallery", href: "/#before-after" },
-  { label: "Reviews", href: "/#reviews" },
-  { label: "FAQ", href: "/#faq" },
+  { label: "About", href: "/about" },
+  { label: "Blog", href: "/blog" },
+  { label: "Contact", href: "/contact" },
 ] as const;
 
 export const PRICING = {
@@ -183,6 +223,7 @@ export const SERVICES = [
       "No customer-owned light installs",
     ],
     image: ASSETS.photos.temporaryInstall,
+    href: "/seasonal-holiday-lighting",
   },
   {
     id: "permanent",
@@ -196,6 +237,7 @@ export const SERVICES = [
       "Year-round lighting options",
     ],
     image: ASSETS.photos.permanentLighting,
+    href: "/permanent-lighting",
   },
   {
     id: "commercial",
@@ -209,6 +251,7 @@ export const SERVICES = [
       "Off-season revenue programs",
     ],
     image: ASSETS.photos.commercialTree,
+    href: "/commercial-holiday-lighting",
   },
 ] as const;
 
@@ -240,7 +283,7 @@ export const WHY_CHOOSE_US = [
   },
   {
     title: "Licensed & Insured",
-    description: `Fully licensed and insured with an ${COMPANY.license} license for your peace of mind.`,
+    description: `Fully licensed and insured — Utah DOPL license ${COMPANY.license} for your peace of mind.`,
   },
 ] as const;
 

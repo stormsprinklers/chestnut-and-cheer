@@ -3,6 +3,7 @@ import { randomUUID } from "crypto";
 import { buildLeadExternalId, forwardLeadToCrm, isCrmConfigured } from "@/lib/integrations/crm";
 import { buildEstimateMetadata, buildEstimateNotes } from "@/lib/estimate/payload";
 import type { EstimateFormState } from "@/lib/estimate/types";
+import { isDoorHangerAttribution } from "@/lib/estimate/analytics";
 import {
   clientIpFromRequest,
   isHoneypotTripped,
@@ -39,7 +40,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  // Silent success for bots that fill the honeypot.
   if (isHoneypotTripped(body.websiteUrl)) {
     return NextResponse.json({ ok: true, externalId: "honeypot" });
   }
@@ -61,10 +61,12 @@ export async function POST(request: Request) {
   const error = validate(form);
   if (error) return NextResponse.json({ error }, { status: 400 });
 
-  const name = `${form.firstName.trim()} ${form.lastName.trim()}`.trim();
-  const externalId = buildLeadExternalId("christmas-estimate", randomUUID());
   const attribution = body.attribution ?? {};
-  const notes = buildEstimateNotes(form);
+  const fromDoorHanger = isDoorHangerAttribution(attribution);
+  const leadSource = fromDoorHanger ? "christmas-door-hanger" : "christmas-estimate";
+  const name = `${form.firstName.trim()} ${form.lastName.trim()}`.trim();
+  const externalId = buildLeadExternalId(leadSource, randomUUID());
+  const notes = buildEstimateNotes(form, attribution);
   const metadata = buildEstimateMetadata(form, attribution);
 
   const crmResult = await forwardLeadToCrm({
@@ -72,7 +74,7 @@ export async function POST(request: Request) {
     name,
     phone: form.phone.trim(),
     email: form.email.trim(),
-    source: "christmas-estimate",
+    source: leadSource,
     notes,
     metadata,
     address: form.address.trim(),

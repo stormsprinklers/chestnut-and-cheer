@@ -9,6 +9,7 @@ import {
   TIMING_OPTIONS,
 } from "@/lib/estimate/types";
 import { computeSoftEstimate } from "@/lib/estimate/pricing";
+import { isDoorHangerAttribution } from "@/lib/estimate/analytics";
 
 function labelOf<T extends string>(
   options: { value: T; label: string }[],
@@ -18,7 +19,10 @@ function labelOf<T extends string>(
   return options.find((o) => o.value === value)?.label ?? value;
 }
 
-export function buildEstimateNotes(state: EstimateFormState): string {
+export function buildEstimateNotes(
+  state: EstimateFormState,
+  attribution?: Record<string, unknown>
+): string {
   const soft = computeSoftEstimate(state);
   const lines: string[] = [
     `Need: ${labelOf(NEED_OPTIONS, state.need)}`,
@@ -26,6 +30,12 @@ export function buildEstimateNotes(state: EstimateFormState): string {
     `In service area: ${state.inServiceArea === null ? "unknown" : state.inServiceArea ? "yes" : "no"}`,
     `Soft estimate range: ${soft.label} (${soft.basis})`,
   ];
+
+  if (attribution && isDoorHangerAttribution(attribution)) {
+    lines.unshift(
+      "PROMO: $100 OFF door hanger offer (DOORHANGER100) — apply to Christmas lights installation"
+    );
+  }
 
   if (state.need === "residential") {
     lines.push(
@@ -72,7 +82,7 @@ export function buildEstimateMetadata(
 ) {
   const soft = computeSoftEstimate(state);
   return {
-    form: "christmas-estimate",
+    form: isDoorHangerAttribution(attribution) ? "christmas-door-hanger" : "christmas-estimate",
     need: state.need,
     tag:
       state.need === "commercial"

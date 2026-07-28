@@ -98,7 +98,7 @@ export async function POST(request: Request) {
     metadata: {
       form: "christmas-contact",
       message,
-      conversion_page: "/#contact",
+      conversion_page: "/contact",
     },
   });
 

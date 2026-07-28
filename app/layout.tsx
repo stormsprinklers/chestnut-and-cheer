@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     template: `%s | ${COMPANY.name}`,
   },
   description:
-    "Professional Christmas light installation in Utah County & Salt Lake County. Temporary & permanent holiday lighting for homes and businesses. Free quotes — licensed S330 contractor.",
+    "Professional Christmas light installation in Utah County & Salt Lake County. Temporary & permanent holiday lighting for homes and businesses. Free quotes — licensed S330 #14211467-5501.",
   openGraph: {
     title: `${COMPANY.name} | Christmas Light Installation Utah`,
     description:

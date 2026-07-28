@@ -15,6 +15,7 @@ import { LINKS } from "@/lib/constants";
 import {
   captureAttributionFromUrl,
   getAttribution,
+  isDoorHangerAttribution,
   trackEstimateEvent,
 } from "@/lib/estimate/analytics";
 import {
@@ -74,6 +75,7 @@ export function EstimateWizard() {
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [turnstileReset, setTurnstileReset] = useState(0);
   const [honeypot, setHoneypot] = useState("");
+  const [doorHangerOffer, setDoorHangerOffer] = useState(false);
 
   useEffect(() => {
     captureAttributionFromUrl(
@@ -81,6 +83,7 @@ export function EstimateWizard() {
       document.referrer,
       window.location.pathname
     );
+    setDoorHangerOffer(isDoorHangerAttribution(getAttribution()));
   }, []);
 
   const steps = useMemo(() => {
@@ -268,6 +271,15 @@ export function EstimateWizard() {
       <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6 sm:py-14">
         <div className="text-center">
           <Mascot variant="phone" size={140} className="mx-auto mb-4" />
+          {doorHangerOffer ? (
+            <div className="mx-auto mb-5 max-w-md rounded-2xl border border-accent-gold/50 bg-accent-gold/15 px-4 py-3">
+              <p className="font-display text-2xl font-bold text-primary-red">$100 OFF</p>
+              <p className="mt-1 text-sm font-semibold text-chestnut">
+                Door hanger offer applied to your quote
+              </p>
+              <p className="mt-1 text-xs text-chestnut/60">Code DOORHANGER100 · Limited time</p>
+            </div>
+          ) : null}
           <h1 className="font-display text-3xl font-bold text-chestnut sm:text-4xl">
             Get Your Free Christmas Lighting Design &amp; Quote
           </h1>

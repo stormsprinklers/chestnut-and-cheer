@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Check } from "lucide-react";
 import { Mascot } from "@/components/ui/Mascot";
 import { SERVICES } from "@/lib/constants";
@@ -28,19 +29,23 @@ export function ServicesOverview() {
               key={service.id}
               className="overflow-hidden rounded-2xl border border-chestnut/10 bg-white shadow-sm transition-shadow hover:shadow-md"
             >
-              <div className="relative aspect-[16/10] bg-cream">
-                <Image
-                  src={service.image}
-                  alt={service.title}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  loading="lazy"
-                />
-              </div>
+              <Link href={service.href} className="block">
+                <div className="relative aspect-[16/10] bg-cream">
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    loading="lazy"
+                  />
+                </div>
+              </Link>
               <div className="p-6">
                 <h3 className="font-display text-xl font-bold text-chestnut">
-                  {service.title}
+                  <Link href={service.href} className="hover:text-primary-red">
+                    {service.title}
+                  </Link>
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-chestnut/70">
                   {service.description}
@@ -56,6 +61,12 @@ export function ServicesOverview() {
                     </li>
                   ))}
                 </ul>
+                <Link
+                  href={service.href}
+                  className="mt-4 inline-block text-sm font-semibold text-primary-red hover:underline"
+                >
+                  Learn more
+                </Link>
               </div>
             </article>
           ))}
