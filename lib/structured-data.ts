@@ -3,6 +3,7 @@ import {
   FAQS,
   SERVICES,
   ASSETS,
+  LINKS,
   UTAH_COUNTY_CITIES,
   SALT_LAKE_COUNTY_CITIES,
 } from "@/lib/constants";
@@ -16,10 +17,7 @@ const reviewCount = process.env.NEXT_PUBLIC_GOOGLE_REVIEW_COUNT
   : null;
 
 export function getGoogleReviewsUrl(): string {
-  return (
-    process.env.NEXT_PUBLIC_GOOGLE_REVIEWS_URL ??
-    "https://www.google.com/maps/search/?api=1&query=Chestnut+%26+Cheer+Orem+UT"
-  );
+  return process.env.NEXT_PUBLIC_GOOGLE_REVIEWS_URL?.trim() || LINKS.google;
 }
 
 export function hasVerifiedGoogleReviews(): boolean {
@@ -47,7 +45,7 @@ export function getLocalBusinessSchema() {
     logo: absoluteUrl(ASSETS.brand.logoPrimary),
     address: {
       "@type": "PostalAddress",
-      streetAddress: COMPANY.address.street,
+      ...(COMPANY.address.street ? { streetAddress: COMPANY.address.street } : {}),
       addressLocality: COMPANY.address.city,
       addressRegion: COMPANY.address.state,
       postalCode: COMPANY.address.zip,

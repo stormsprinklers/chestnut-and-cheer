@@ -1,0 +1,46 @@
+.bubble {
+  display: none;
+  position: fixed;
+  right: 12px;
+  bottom: max(12px, env(safe-area-inset-bottom, 0px));
+  z-index: 100;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0 1rem;
+  border-radius: 999px;
+  box-sizing: border-box;
+  background: var(--color-primary-red);
+  color: var(--color-warm-white);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-family: var(--font-body), system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  box-shadow: 0 4px 20px rgba(139, 30, 63, 0.45);
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+  touch-action: manipulation;
+}
+
+@media (max-width: 767px) {
+  .bubble {
+    display: inline-flex;
+  }
+}
+
+.bubble:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 24px rgba(94, 59, 40, 0.5);
+  background: var(--color-chestnut);
+  color: var(--color-warm-white);
+}
+
+.bubble:focus-visible {
+  outline: 2px solid var(--color-accent-gold);
+  outline-offset: 2px;
+}
+
+.label {
+  line-height: 1;
+}

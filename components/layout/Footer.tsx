@@ -32,6 +32,16 @@ export function Footer() {
                 {COMPANY.email}
               </a>
             </li>
+            <li>
+              <a
+                href={LINKS.google}
+                className="transition-colors hover:text-accent-gold"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Google
+              </a>
+            </li>
             <li>{COMPANY.address.full}</li>
             <li className="pt-1 text-warm-white/50">
               Licensed &amp; Insured · License {COMPANY.license}

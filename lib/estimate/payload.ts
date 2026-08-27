@@ -28,7 +28,9 @@ export function buildEstimateNotes(
     `Need: ${labelOf(NEED_OPTIONS, state.need)}`,
     `Address: ${[state.address, state.city, state.state, state.zip].filter(Boolean).join(", ")}`,
     `In service area: ${state.inServiceArea === null ? "unknown" : state.inServiceArea ? "yes" : "no"}`,
-    `Soft estimate range: ${soft.label} (${soft.basis})`,
+    `Soft estimate range: ${soft.label}`,
+    ...(soft.leaseLabel ? [`Lease option (customer-facing): ${soft.leaseLabel}`] : []),
+    soft.staffSummary,
   ];
 
   if (attribution && isDoorHangerAttribution(attribution)) {
@@ -81,6 +83,7 @@ export function buildEstimateMetadata(
   attribution: Record<string, unknown>
 ) {
   const soft = computeSoftEstimate(state);
+  const { staffSummary: _staffSummary, ...customerSoft } = soft;
   return {
     form: isDoorHangerAttribution(attribution) ? "christmas-door-hanger" : "christmas-estimate",
     need: state.need,
@@ -92,7 +95,7 @@ export function buildEstimateMetadata(
           : state.need === "service"
             ? "service"
             : "residential",
-    softEstimate: soft,
+    softEstimate: customerSoft,
     property: {
       address: state.address,
       city: state.city,

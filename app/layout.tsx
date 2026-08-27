@@ -3,6 +3,7 @@ import { Playfair_Display, Source_Sans_3 } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { FloatingBookButton } from "@/components/layout/FloatingBookButton";
+import { TextUsBubble } from "@/components/layout/TextUsBubble";
 import { COMPANY, ASSETS } from "@/lib/constants";
 import { SITE_URL, absoluteUrl } from "@/lib/site";
 import "./globals.css";
@@ -75,11 +76,12 @@ export default function RootLayout({
       lang="en"
       className={`${displayFont.variable} ${bodyFont.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans pb-[calc(4.5rem+env(safe-area-inset-bottom))] lg:pb-0">
+      <body className="min-h-full flex flex-col font-sans pb-[calc(7.5rem+env(safe-area-inset-bottom))] md:pb-[calc(4.5rem+env(safe-area-inset-bottom))] lg:pb-0">
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
         <FloatingBookButton />
+        <TextUsBubble />
       </body>
     </html>
   );

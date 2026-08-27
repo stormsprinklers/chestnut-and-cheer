@@ -7,6 +7,7 @@ const STATIC_PATHS = [
   "/pricing",
   "/visualize",
   "/estimate",
+  "/book",
   "/contact",
   "/about",
   "/blog",
@@ -26,7 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: path ? `${SITE_URL}${path}` : SITE_URL,
     lastModified: now,
     changeFrequency: "monthly" as const,
-    priority: path === "" ? 1 : path === "/estimate" ? 0.9 : 0.7,
+    priority: path === "" ? 1 : path === "/estimate" || path === "/book" ? 0.9 : 0.7,
   }));
 
   const blogEntries = getAllPosts().map((post) => ({

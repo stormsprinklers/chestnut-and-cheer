@@ -46,11 +46,11 @@ export const COMPANY = {
   phone: "385-999-NUTS",
   phoneDigits: "3859996887",
   address: {
-    street: "1372 W Center St",
-    city: "Orem",
+    street: "",
+    city: "Lehi",
     state: "UT",
-    zip: "84057",
-    full: "1372 W Center St, Orem UT 84057",
+    zip: "84048",
+    full: "Lehi, Utah 84048",
   },
   license: "S330 #14211467-5501",
   serviceAreas: ["Utah County", "Salt Lake County"],
@@ -103,11 +103,11 @@ export const SALT_LAKE_COUNTY_CITIES = [
 
 export const LINKS = {
   tel: `tel:${COMPANY.phoneDigits}`,
-  sms: `sms:${COMPANY.phoneDigits}`,
+  sms: `sms:+1${COMPANY.phoneDigits}`,
   mailto: `mailto:${COMPANY.email}`,
+  google: "https://g.page/r/CQXfzb_ziCg5EBM",
   estimate: "/estimate",
-  /** CRM public booking calendar for consultations (set NEXT_PUBLIC_CRM_BOOKING_URL) */
-  bookConsultation: process.env.NEXT_PUBLIC_CRM_BOOKING_URL?.trim() || "",
+  bookConsultation: "/book",
   /** @deprecated use estimate — kept for any deep links */
   booking: "/estimate",
   contact: "/contact",
@@ -143,6 +143,7 @@ export const FOOTER_COLUMNS = [
       { label: "About Us", href: LINKS.about },
       { label: "Blog", href: LINKS.blog },
       { label: "Contact", href: LINKS.contact },
+      { label: "Book Consultation", href: LINKS.bookConsultation },
       { label: "Get Instant Estimate", href: LINKS.estimate },
     ],
   },
@@ -160,6 +161,7 @@ export const NAV_LINKS = [
   { label: "Services", href: "/#services" },
   { label: "Pricing", href: "/pricing" },
   { label: "Get Estimate", href: "/estimate" },
+  { label: "Book Consult", href: "/book" },
   { label: "Visualize", href: "/visualize" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
@@ -388,4 +390,4 @@ export const TRUST_BADGES = [
 ] as const;
 
 export const MAP_EMBED_URL =
-  "https://maps.google.com/maps?q=1372+W+Center+St,+Orem,+UT+84057&output=embed";
+  "https://maps.google.com/maps?q=Lehi,+Utah+84048&output=embed";
