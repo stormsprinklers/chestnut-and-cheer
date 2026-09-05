@@ -37,6 +37,7 @@ type Body = {
   notes?: string;
   startAt?: string;
   endAt?: string;
+  smsConsent?: boolean;
   turnstileToken?: string;
   "cf-turnstile-response"?: string;
   websiteUrl?: string;
@@ -71,6 +72,12 @@ export async function POST(request: Request) {
   if (!name || !phone || !email.includes("@") || !startAt || !endAt) {
     return NextResponse.json(
       { error: "Name, phone, email, and a time slot are required." },
+      { status: 400 }
+    );
+  }
+  if (body.smsConsent !== true) {
+    return NextResponse.json(
+      { error: "Please check the box to agree to receive text messages." },
       { status: 400 }
     );
   }

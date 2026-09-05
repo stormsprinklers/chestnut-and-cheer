@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LegalDoc } from "@/components/pages/PageChrome";
-import { COMPANY, LINKS } from "@/lib/constants";
+import { COMPANY, LINKS, SMS_PROGRAM } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function TermsOfServicePage() {
   return (
-    <LegalDoc title="Terms of Service" effectiveDate="7/27/2026">
+    <LegalDoc title="Terms of Service" effectiveDate="9/5/2026">
       <h2>1. Introduction</h2>
       <p>
         These Terms of Service (&quot;Terms&quot;) govern your use of the website and
@@ -86,7 +86,42 @@ export default function TermsOfServicePage() {
         except where prohibited by Utah law.
       </p>
 
-      <h2>10. Contact</h2>
+      <h2>10. SMS / Text Messaging Program Terms</h2>
+      <p>
+        <strong>Program name:</strong> {COMPANY.name} SMS alerts.
+      </p>
+      <p>
+        <strong>Product description:</strong> If you opt in by providing your mobile
+        number and checking the SMS consent box on our website, you agree to receive
+        recurring text messages from {COMPANY.name} at the number you provide. Messages
+        include {SMS_PROGRAM.types}.
+      </p>
+      <p>
+        <strong>Message frequency:</strong> {SMS_PROGRAM.frequency}
+      </p>
+      <p>
+        <strong>Cost:</strong> Message and data rates may apply. {COMPANY.name} does not
+        charge a separate fee for the SMS program. Your wireless carrier may charge
+        standard messaging and data rates. Carriers are not liable for delayed or
+        undelivered messages.
+      </p>
+      <p>
+        <strong>Opt-out:</strong> Reply STOP, STOPALL, UNSUBSCRIBE, CANCEL, END, or QUIT
+        to any message to unsubscribe. You will receive a confirmation, and no further
+        messages will be sent unless you opt in again.
+      </p>
+      <p>
+        <strong>Help:</strong> Reply HELP for help, or contact customer care at{" "}
+        <a href={LINKS.tel}>{COMPANY.phone}</a> or{" "}
+        <a href={LINKS.mailto}>{COMPANY.email}</a>.
+      </p>
+      <p>
+        {SMS_PROGRAM.notRequired} See our{" "}
+        <Link href={LINKS.privacy}>Privacy Policy</Link> for how we collect, use, and
+        protect mobile numbers and SMS opt-in data.
+      </p>
+
+      <h2>11. Contact</h2>
       <p>
         Questions about these Terms:{" "}
         <a href={LINKS.mailto}>{COMPANY.email}</a> or{" "}

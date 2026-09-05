@@ -9,6 +9,7 @@ import {
 } from "@/components/estimate/AddressAutocomplete";
 import { EstimateProgress } from "@/components/estimate/EstimateProgress";
 import TurnstileWidget from "@/components/TurnstileWidget";
+import { SmsOptInCopy } from "@/components/forms/SmsOptInCopy";
 import { Button } from "@/components/ui/Button";
 import { Mascot } from "@/components/ui/Mascot";
 import { LINKS } from "@/lib/constants";
@@ -541,17 +542,15 @@ export function EstimateWizard() {
                 autoComplete="email"
               />
             </label>
-            <label className="flex items-start gap-3 text-sm text-chestnut/80">
+            <label className="flex items-start gap-3 text-sm leading-relaxed text-chestnut/80">
               <input
                 type="checkbox"
-                className="mt-1"
+                className="mt-1 h-4 w-4 shrink-0 rounded border-chestnut/30"
                 checked={form.quoteConsent}
                 onChange={(e) => patch({ quoteConsent: e.target.checked })}
               />
               <span>
-                I agree that Chestnut &amp; Cheer may contact me by phone, text, or
-                email about this Christmas lighting quote. Message/data rates may
-                apply. Reply STOP to opt out of texts.
+                <SmsOptInCopy />
               </span>
             </label>
             <label className="flex items-start gap-3 text-sm text-chestnut/80">

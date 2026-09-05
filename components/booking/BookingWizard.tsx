@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Loader2 } from "lucide-react";
 import TurnstileWidget from "@/components/TurnstileWidget";
+import { SmsOptInCopy } from "@/components/forms/SmsOptInCopy";
 import { Button } from "@/components/ui/Button";
 import { Mascot } from "@/components/ui/Mascot";
 import { COMPANY, LINKS } from "@/lib/constants";
@@ -34,6 +35,7 @@ export function BookingWizard() {
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [turnstileReset, setTurnstileReset] = useState(0);
   const [honeypot, setHoneypot] = useState("");
+  const [smsConsent, setSmsConsent] = useState(false);
   const [result, setResult] = useState<{
     startAt: string;
     meetingUrl: string | null;
@@ -79,6 +81,10 @@ export function BookingWizard() {
       setError("Name, phone, email, and a time are required.");
       return;
     }
+    if (!smsConsent) {
+      setError("Please check the box to agree to receive text messages.");
+      return;
+    }
     if (!turnstileToken) {
       setError("Please complete the human verification checkbox.");
       return;
@@ -95,6 +101,7 @@ export function BookingWizard() {
           notes: notes.trim() || undefined,
           startAt: slot.startAt,
           endAt: slot.endAt,
+          smsConsent: true,
           turnstileToken,
           websiteUrl: honeypot,
         }),
@@ -290,6 +297,18 @@ export function BookingWizard() {
               </div>
             )}
           </div>
+
+          <label className="flex items-start gap-3 text-sm leading-relaxed text-chestnut/80">
+            <input
+              type="checkbox"
+              className="mt-1 h-4 w-4 shrink-0 rounded border-chestnut/30"
+              checked={smsConsent}
+              onChange={(e) => setSmsConsent(e.target.checked)}
+            />
+            <span>
+              <SmsOptInCopy />
+            </span>
+          </label>
 
           <div>
             <TurnstileWidget

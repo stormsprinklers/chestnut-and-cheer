@@ -19,6 +19,7 @@ type Body = {
   email?: string;
   phone?: string;
   message?: string;
+  smsConsent?: boolean;
   turnstileToken?: string;
   "cf-turnstile-response"?: string;
   websiteUrl?: string;
@@ -56,9 +57,15 @@ export async function POST(request: Request) {
   if (!name) {
     return NextResponse.json({ ok: false, error: "Please enter your name." }, { status: 400 });
   }
-  if (!email && !phone) {
+  if (!phone) {
     return NextResponse.json(
-      { ok: false, error: "Please provide an email or phone number." },
+      { ok: false, error: "Please enter your mobile phone number." },
+      { status: 400 }
+    );
+  }
+  if (body.smsConsent !== true) {
+    return NextResponse.json(
+      { ok: false, error: "Please check the box to agree to receive text messages." },
       { status: 400 }
     );
   }
@@ -99,6 +106,7 @@ export async function POST(request: Request) {
       form: "christmas-contact",
       message,
       conversion_page: "/contact",
+      smsConsent: true,
     },
   });
 
