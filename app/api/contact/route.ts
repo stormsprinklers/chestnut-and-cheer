@@ -19,7 +19,8 @@ type Body = {
   email?: string;
   phone?: string;
   message?: string;
-  smsConsent?: boolean;
+  smsServiceConsent?: boolean;
+  smsMarketingConsent?: boolean;
   turnstileToken?: string;
   "cf-turnstile-response"?: string;
   websiteUrl?: string;
@@ -63,9 +64,9 @@ export async function POST(request: Request) {
       { status: 400 }
     );
   }
-  if (body.smsConsent !== true) {
+  if (body.smsServiceConsent !== true && body.smsMarketingConsent !== true) {
     return NextResponse.json(
-      { ok: false, error: "Please check the box to agree to receive text messages." },
+      { ok: false, error: "Please check at least one box to agree to receive text messages." },
       { status: 400 }
     );
   }
@@ -106,7 +107,8 @@ export async function POST(request: Request) {
       form: "christmas-contact",
       message,
       conversion_page: "/contact",
-      smsConsent: true,
+      smsServiceConsent: body.smsServiceConsent === true,
+      smsMarketingConsent: body.smsMarketingConsent === true,
     },
   });
 

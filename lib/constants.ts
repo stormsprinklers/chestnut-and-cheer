@@ -128,9 +128,12 @@ export const LINKS = {
 /** A2P / 10DLC SMS program copy used on opt-in forms and legal pages. */
 export const SMS_PROGRAM = {
   types:
+    "appointment reminders, quote follow-ups, scheduling updates, customer support, and (if you opt in separately) marketing offers related to Christmas lighting services",
+  serviceTypes:
     "appointment reminders, quote follow-ups, scheduling updates, and customer support related to Christmas lighting services",
-  frequency:
-    "Message frequency varies. You may receive up to 8 messages per month.",
+  marketingTypes:
+    "seasonal tips, promotions, and special offers related to Christmas lighting services",
+  frequency: "Message frequency varies.",
   rates: "Message and data rates may apply.",
   helpStop: "Reply STOP to unsubscribe and HELP for help.",
   notRequired: "Consent is not a condition of purchase.",

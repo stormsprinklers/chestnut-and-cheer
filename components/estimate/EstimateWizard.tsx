@@ -550,19 +550,18 @@ export function EstimateWizard() {
                 onChange={(e) => patch({ quoteConsent: e.target.checked })}
               />
               <span>
-                <SmsOptInCopy />
+                <SmsOptInCopy kind="service" />
               </span>
             </label>
-            <label className="flex items-start gap-3 text-sm text-chestnut/80">
+            <label className="flex items-start gap-3 text-sm leading-relaxed text-chestnut/80">
               <input
                 type="checkbox"
-                className="mt-1"
+                className="mt-1 h-4 w-4 shrink-0 rounded border-chestnut/30"
                 checked={form.marketingConsent}
                 onChange={(e) => patch({ marketingConsent: e.target.checked })}
               />
               <span>
-                Optional: send me seasonal tips and offers (separate from quote
-                messages).
+                <SmsOptInCopy kind="marketing" />
               </span>
             </label>
           </section>

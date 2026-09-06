@@ -15,7 +15,8 @@ export function Contact() {
   const [error, setError] = useState("");
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [turnstileReset, setTurnstileReset] = useState(0);
-  const [smsConsent, setSmsConsent] = useState(false);
+  const [smsServiceConsent, setSmsServiceConsent] = useState(false);
+  const [smsMarketingConsent, setSmsMarketingConsent] = useState(false);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -32,9 +33,9 @@ export function Contact() {
       setError("Please enter your name, mobile phone, and a message.");
       return;
     }
-    if (!smsConsent) {
+    if (!smsServiceConsent && !smsMarketingConsent) {
       setStatus("error");
-      setError("Please check the box to agree to receive text messages.");
+      setError("Please check at least one box to agree to receive text messages.");
       return;
     }
     if (!turnstileToken) {
@@ -55,7 +56,8 @@ export function Contact() {
           email,
           phone,
           message,
-          smsConsent: true,
+          smsServiceConsent,
+          smsMarketingConsent,
           websiteUrl: fd.get("websiteUrl"),
           turnstileToken,
         }),
@@ -70,7 +72,8 @@ export function Contact() {
       }
       setStatus("success");
       form.reset();
-      setSmsConsent(false);
+      setSmsServiceConsent(false);
+      setSmsMarketingConsent(false);
       setTurnstileToken(null);
       setTurnstileReset((n) => n + 1);
     } catch {
@@ -216,19 +219,36 @@ export function Contact() {
               </div>
 
               <label
-                htmlFor="contact-sms-consent"
+                htmlFor="contact-sms-service"
                 className="flex items-start gap-3 text-sm leading-relaxed text-chestnut/80"
               >
                 <input
-                  id="contact-sms-consent"
-                  name="smsConsent"
+                  id="contact-sms-service"
+                  name="smsServiceConsent"
                   type="checkbox"
-                  checked={smsConsent}
-                  onChange={(e) => setSmsConsent(e.target.checked)}
+                  checked={smsServiceConsent}
+                  onChange={(e) => setSmsServiceConsent(e.target.checked)}
                   className="mt-1 h-4 w-4 shrink-0 rounded border-chestnut/30"
                 />
                 <span>
-                  <SmsOptInCopy />
+                  <SmsOptInCopy kind="service" />
+                </span>
+              </label>
+
+              <label
+                htmlFor="contact-sms-marketing"
+                className="flex items-start gap-3 text-sm leading-relaxed text-chestnut/80"
+              >
+                <input
+                  id="contact-sms-marketing"
+                  name="smsMarketingConsent"
+                  type="checkbox"
+                  checked={smsMarketingConsent}
+                  onChange={(e) => setSmsMarketingConsent(e.target.checked)}
+                  className="mt-1 h-4 w-4 shrink-0 rounded border-chestnut/30"
+                />
+                <span>
+                  <SmsOptInCopy kind="marketing" />
                 </span>
               </label>
 
