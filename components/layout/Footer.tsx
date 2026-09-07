@@ -69,8 +69,13 @@ export function Footer() {
       </div>
 
       <div className="border-t border-warm-white/10 px-4 py-4 text-center text-sm text-warm-white/50">
-        &copy; {year} {COMPANY.name}. All rights reserved. Serving{" "}
-        {COMPANY.serviceAreas.join(" & ")}.
+        <p>
+          &copy; {year} {COMPANY.name}. All rights reserved. Serving{" "}
+          {COMPANY.serviceAreas.join(" & ")}.
+        </p>
+        <p className="mt-1">
+          {COMPANY.name} is a DBA of {COMPANY.legalEntity}.
+        </p>
       </div>
     </footer>
   );

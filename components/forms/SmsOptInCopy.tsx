@@ -25,7 +25,7 @@ export function SmsOptInCopy({ kind = "service" }: { kind?: SmsOptInKind }) {
   const purpose =
     kind === "marketing"
       ? "marketing SMS messages"
-      : "SMS messages about appointments and your lighting job";
+      : "SMS messages about appointments";
 
   return (
     <span>

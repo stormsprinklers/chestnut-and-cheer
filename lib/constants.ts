@@ -41,6 +41,7 @@ export const ASSETS = {
 
 export const COMPANY = {
   name: "Chestnut & Cheer",
+  legalEntity: "Storm Sprinklers, LLC",
   tagline: "we're nuts about christmas lights!",
   email: "hello@utah.christmas",
   phone: "385-999-NUTS",
@@ -263,7 +264,7 @@ export const SERVICES = [
       "Businesses & retail",
       "HOAs & property managers",
       "City & municipal displays",
-      "Off-season revenue programs",
+      "Year-round lighting options",
     ],
     image: ASSETS.photos.commercialTree,
     href: "/commercial-holiday-lighting",
@@ -403,5 +404,6 @@ export const TRUST_BADGES = [
   { label: "Locally Sourced", detail: "Utah permanent lights" },
 ] as const;
 
+/** Google Maps embed framed on Utah County + Salt Lake County (Point of the Mountain). */
 export const MAP_EMBED_URL =
-  "https://maps.google.com/maps?q=Lehi,+Utah+84048&output=embed";
+  "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d170000!2d-111.86!3d40.40!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus";
