@@ -298,17 +298,16 @@ export function BookingWizard() {
             )}
           </div>
 
-          <label className="flex items-start gap-3 text-sm leading-relaxed text-chestnut/80">
+          <div className="flex items-start gap-3 text-sm leading-relaxed text-chestnut/80">
             <input
+              id="book-sms-consent"
               type="checkbox"
               className="mt-1 h-4 w-4 shrink-0 rounded border-chestnut/30"
               checked={smsConsent}
               onChange={(e) => setSmsConsent(e.target.checked)}
             />
-            <span>
-              <SmsOptInCopy />
-            </span>
-          </label>
+            <SmsOptInCopy htmlFor="book-sms-consent" />
+          </div>
 
           <div>
             <TurnstileWidget

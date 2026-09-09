@@ -218,10 +218,7 @@ export function Contact() {
                 />
               </div>
 
-              <label
-                htmlFor="contact-sms-service"
-                className="flex items-start gap-3 text-sm leading-relaxed text-chestnut/80"
-              >
+              <div className="flex items-start gap-3 text-sm leading-relaxed text-chestnut/80">
                 <input
                   id="contact-sms-service"
                   name="smsServiceConsent"
@@ -230,15 +227,10 @@ export function Contact() {
                   onChange={(e) => setSmsServiceConsent(e.target.checked)}
                   className="mt-1 h-4 w-4 shrink-0 rounded border-chestnut/30"
                 />
-                <span>
-                  <SmsOptInCopy kind="service" />
-                </span>
-              </label>
+                <SmsOptInCopy kind="service" htmlFor="contact-sms-service" />
+              </div>
 
-              <label
-                htmlFor="contact-sms-marketing"
-                className="flex items-start gap-3 text-sm leading-relaxed text-chestnut/80"
-              >
+              <div className="flex items-start gap-3 text-sm leading-relaxed text-chestnut/80">
                 <input
                   id="contact-sms-marketing"
                   name="smsMarketingConsent"
@@ -247,10 +239,8 @@ export function Contact() {
                   onChange={(e) => setSmsMarketingConsent(e.target.checked)}
                   className="mt-1 h-4 w-4 shrink-0 rounded border-chestnut/30"
                 />
-                <span>
-                  <SmsOptInCopy kind="marketing" />
-                </span>
-              </label>
+                <SmsOptInCopy kind="marketing" htmlFor="contact-sms-marketing" />
+              </div>
 
               <TurnstileWidget onToken={setTurnstileToken} resetKey={turnstileReset} />
 

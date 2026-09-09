@@ -542,28 +542,26 @@ export function EstimateWizard() {
                 autoComplete="email"
               />
             </label>
-            <label className="flex items-start gap-3 text-sm leading-relaxed text-chestnut/80">
+            <div className="flex items-start gap-3 text-sm leading-relaxed text-chestnut/80">
               <input
+                id="estimate-sms-service"
                 type="checkbox"
                 className="mt-1 h-4 w-4 shrink-0 rounded border-chestnut/30"
                 checked={form.quoteConsent}
                 onChange={(e) => patch({ quoteConsent: e.target.checked })}
               />
-              <span>
-                <SmsOptInCopy kind="service" />
-              </span>
-            </label>
-            <label className="flex items-start gap-3 text-sm leading-relaxed text-chestnut/80">
+              <SmsOptInCopy kind="service" htmlFor="estimate-sms-service" />
+            </div>
+            <div className="flex items-start gap-3 text-sm leading-relaxed text-chestnut/80">
               <input
+                id="estimate-sms-marketing"
                 type="checkbox"
                 className="mt-1 h-4 w-4 shrink-0 rounded border-chestnut/30"
                 checked={form.marketingConsent}
                 onChange={(e) => patch({ marketingConsent: e.target.checked })}
               />
-              <span>
-                <SmsOptInCopy kind="marketing" />
-              </span>
-            </label>
+              <SmsOptInCopy kind="marketing" htmlFor="estimate-sms-marketing" />
+            </div>
           </section>
         )}
 
