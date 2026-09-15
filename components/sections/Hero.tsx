@@ -23,13 +23,12 @@ export function Hero() {
               Utah County & Salt Lake County
             </p>
             <h1 className="font-display text-3xl font-bold leading-tight text-warm-white sm:text-5xl lg:text-6xl">
-              Christmas Light Installation in Utah &amp; Salt Lake County
+              Professional Christmas Light Installation in Utah
             </h1>
             <p className="mt-4 text-base leading-relaxed text-warm-white/80 sm:mt-6 sm:text-lg">
-              Chestnut & Cheer installs high-quality temporary and permanent
-              Christmas lights on roofs, trees, and bushes — plus gutter cleaning
-              while we&apos;re on the roof. Free quotes via Google Meet or
-              in-person.
+              Chestnut &amp; Cheer designs, installs, maintains, removes, and stores
+              professional Christmas lights for homes and businesses across Utah
+              County and Salt Lake County.
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:gap-4">
               <Button href={LINKS.estimate} variant="gold" className="w-full sm:w-auto">
@@ -48,7 +47,7 @@ export function Hero() {
           <div className="relative order-1 aspect-[4/3] overflow-hidden rounded-2xl border border-warm-white/10 shadow-2xl lg:order-none">
             <Image
               src={ASSETS.photos.hero}
-              alt="Christmas light installation on a home in Utah County"
+              alt="Chestnut & Cheer Christmas light technician carrying a ladder to a Utah installation"
               fill
               className="object-cover"
               sizes="(max-width: 1024px) 100vw, 40vw"

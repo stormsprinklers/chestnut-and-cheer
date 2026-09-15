@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   description:
     "Schedule a free 30-minute Google Meet lighting consultation with Chestnut & Cheer. Pick a time and we send the invite automatically.",
   alternates: { canonical: "/book" },
+  robots: { index: false, follow: true },
   openGraph: {
     title: `Book a Virtual Consultation | ${COMPANY.name}`,
     description:
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
       {
         url: absoluteUrl(ASSETS.photos.hero),
         width: 1600,
-        height: 1200,
+        height: 1067,
         alt: "Virtual Christmas lighting consultation",
       },
     ],

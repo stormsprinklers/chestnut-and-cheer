@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ContentSection, PageHero } from "@/components/pages/PageChrome";
+import { Breadcrumbs, ContentSection, PageHero } from "@/components/pages/PageChrome";
 import { Button } from "@/components/ui/Button";
-import { COMPANY, LINKS } from "@/lib/constants";
+import { ProfessionalPhotoGallery } from "@/components/sections/ProfessionalPhotoGallery";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { ASSETS, COMPANY, LINKS } from "@/lib/constants";
+import { getBreadcrumbSchema, getOrganizationSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -13,10 +16,14 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <>
+      <JsonLd data={[getOrganizationSchema(), getBreadcrumbSchema([{ name: "Home", path: "/" }, { name: "About", path: "/about" }])]} />
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "About" }]} />
       <PageHero
         eyebrow={COMPANY.tagline}
         title={`About ${COMPANY.name}`}
         description="Premium holiday lighting for residential and commercial properties — custom design, professional install, and service you can trust."
+        image={ASSETS.professionalPhotos.travenHero}
+        imageAlt="Traven, a Chestnut & Cheer Christmas lighting technician, at a Utah home installation"
       />
       <ContentSection>
         <div className="space-y-6 text-chestnut/80 leading-relaxed">
@@ -81,6 +88,17 @@ export default function AboutPage() {
           .
         </p>
       </ContentSection>
+      <ProfessionalPhotoGallery
+        eyebrow="Local and recognizable"
+        title="The crew and trucks behind the lights"
+        description="Our branded service vehicles and trained technicians serve homeowners throughout Utah County and Salt Lake County."
+        photos={[
+          { src: ASSETS.professionalPhotos.serviceTruck, alt: "Chestnut & Cheer Christmas lighting technician standing beside the branded Utah service truck" },
+          { src: ASSETS.professionalPhotos.securingLadder, alt: "Chestnut & Cheer technician safely securing a ladder on the service truck rack" },
+          { src: ASSETS.professionalPhotos.loadingLadder, alt: "Christmas lighting technician loading installation ladders onto a Chestnut & Cheer truck" },
+          { src: ASSETS.professionalPhotos.truckTagline, alt: "Chestnut & Cheer service truck displaying the We're nuts about Christmas lights tagline" },
+        ]}
+      />
     </>
   );
 }

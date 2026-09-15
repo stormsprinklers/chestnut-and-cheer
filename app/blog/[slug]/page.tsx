@@ -3,10 +3,15 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ContentSection } from "@/components/pages/PageChrome";
 import { Button } from "@/components/ui/Button";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { BLOG_POSTS, getPostBySlug } from "@/lib/blog/posts";
-import { COMPANY, LINKS } from "@/lib/constants";
+import { ASSETS, COMPANY, LINKS } from "@/lib/constants";
+import { absoluteUrl, SITE_URL } from "@/lib/site";
+import { getBreadcrumbSchema } from "@/lib/structured-data";
 
 type Props = { params: Promise<{ slug: string }> };
+
+export const dynamicParams = false;
 
 export function generateStaticParams() {
   return BLOG_POSTS.map((post) => ({ slug: post.slug }));
@@ -30,6 +35,21 @@ export default async function BlogPostPage({ params }: Props) {
 
   return (
     <>
+      <JsonLd data={[
+        getBreadcrumbSchema([{ name: "Home", path: "/" }, { name: "Blog", path: "/blog" }, { name: post.title, path: `/blog/${post.slug}` }]),
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          headline: post.title,
+          description: post.description,
+          datePublished: post.date,
+          dateModified: post.date,
+          mainEntityOfPage: absoluteUrl(`/blog/${post.slug}`),
+          image: absoluteUrl(ASSETS.photos.hero),
+          author: { "@id": `${SITE_URL}/#organization` },
+          publisher: { "@id": `${SITE_URL}/#organization` },
+        },
+      ]} />
       <section className="bg-chestnut">
         <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16">
           <p className="text-sm text-accent-gold">
@@ -52,9 +72,14 @@ export default async function BlogPostPage({ params }: Props) {
         </div>
       </section>
       <ContentSection>
-        <article className="space-y-5 text-base leading-relaxed text-chestnut/80">
-          {post.content.map((paragraph) => (
-            <p key={paragraph.slice(0, 48)}>{paragraph}</p>
+        <article className="space-y-10 text-base leading-relaxed text-chestnut/80">
+          {post.sections.map((section) => (
+            <section key={section.heading}>
+              <h2 className="font-display text-2xl font-bold text-chestnut">{section.heading}</h2>
+              <div className="mt-4 space-y-5">
+                {section.paragraphs.map((paragraph) => <p key={paragraph.slice(0, 48)}>{paragraph}</p>)}
+              </div>
+            </section>
           ))}
         </article>
         <div className="mt-10 rounded-2xl border border-accent-gold/40 bg-accent-gold/10 px-5 py-6 text-center">

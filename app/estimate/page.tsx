@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   description:
     "Get a free Christmas lighting design and quote in a few minutes. Upload photos of your Utah home or business — no obligation.",
   alternates: { canonical: "/estimate" },
+  robots: { index: false, follow: true },
   openGraph: {
     title: `Get Instant Estimate | ${COMPANY.name}`,
     description:
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
       {
         url: absoluteUrl(ASSETS.photos.hero),
         width: 1600,
-        height: 1200,
+        height: 1067,
         alt: "Home with professional Christmas light installation",
       },
     ],

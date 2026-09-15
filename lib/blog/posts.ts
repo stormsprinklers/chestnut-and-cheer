@@ -5,55 +5,115 @@ export type BlogPost = {
   date: string;
   readingMinutes: number;
   tags: string[];
-  content: string[];
+  sections: { heading: string; paragraphs: string[] }[];
 };
 
 export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "temporary-vs-permanent-christmas-lights",
-    title: "Temporary vs Permanent Christmas Lights: Which Is Right for Your Home?",
-    description:
-      "Compare seasonal install-and-remove lighting with permanent LED systems — cost, look, maintenance, and when each option makes sense in Utah.",
+    title: "Temporary vs. Permanent Christmas Lights for Utah Homes",
+    description: "Compare seasonal installation and permanent roofline lighting by appearance, scope, maintenance, storage, controls, and long-term use.",
     date: "2026-07-01",
-    readingMinutes: 5,
+    readingMinutes: 7,
     tags: ["Permanent Lighting", "Seasonal Lighting"],
-    content: [
-      "Utah homeowners usually start with one question: do I want a magical display for the holidays only, or lighting I can enjoy all year?",
-      "Temporary (seasonal) Christmas lights are custom-fit each year, then taken down after the holidays and stored for you. They’re ideal if you love a classic holiday look without a long-term commitment.",
-      "Permanent holiday lighting is installed once along your roofline and programmed for Christmas, other holidays, and everyday accent lighting. It’s a higher upfront investment with a longer lifespan and typically a multi-year warranty.",
-      "If you want the full holiday treatment — trees, bushes, and complex accents — seasonal lighting is often the better fit. If you mainly care about a clean roofline you can control from your phone, permanent lighting shines.",
-      "Not sure yet? Start with a free estimate. We’ll walk your property (or meet on Google Meet) and recommend the option that matches your home and budget.",
+    sections: [
+      {
+        heading: "The practical difference",
+        paragraphs: [
+          "Temporary Christmas lights are installed for the season and removed afterward. A full-service program can include the commercial-grade lights, timer, custom design, installation, in-season maintenance, takedown, and off-season storage. This is the traditional choice for homeowners who want a strong Christmas-specific display without leaving equipment on the roof all year.",
+          "Permanent lighting is installed once in a discreet track along selected rooflines. The homeowner controls colors, brightness, scenes, and schedules from an app for Christmas, other holidays, game days, and everyday architectural accents. It trades annual installation for a larger upfront project and a system that remains with the home.",
+        ],
+      },
+      {
+        heading: "Which option creates the look you want?",
+        paragraphs: [
+          "Seasonal C9 lighting is usually the strongest fit for a classic bulb-by-bulb roofline. It also adapts easily to temporary trees, bushes, wreaths, columns, and other features that are not normally part of a permanent roofline system.",
+          "Permanent systems work best when the main goal is a clean architectural outline with fast color changes and scheduling. Ask to see the proposed track location and daylight appearance, because roof transitions, corners, additions, and trim color affect how discreet the system will look when it is off.",
+        ],
+      },
+      {
+        heading: "Cost, maintenance, and storage",
+        paragraphs: [
+          "Chestnut & Cheer seasonal installation starts at $699 in the first year because that scope includes parts and installation. Returning-customer installation starts at $299 when the established lighting package is already in storage. Roofline footage, height, pitch, trees, power, access, and design complexity determine the final quote.",
+          "Permanent lighting has a different cost structure because the system, track, controls, power components, and installation remain on the property. Review the written warranty, covered components, workmanship terms, app support, and service process before comparing a permanent proposal with several years of seasonal service.",
+        ],
+      },
+      {
+        heading: "A simple decision framework",
+        paragraphs: [
+          "Choose seasonal lighting when the traditional Christmas look, temporary landscape accents, annual design flexibility, and included removal/storage matter most. Choose permanent lighting when year-round control, multiple occasions, and avoiding annual roofline installation matter more than the larger initial project.",
+          "Some properties benefit from both: permanent roofline lighting for flexible year-round use and seasonal trees, wreaths, or landscape accents for December. A measured quote can separate those scopes so you can compare them without guessing.",
+        ],
+      },
     ],
   },
   {
     slug: "when-to-book-christmas-light-installation-utah",
     title: "When to Book Christmas Light Installation in Utah",
-    description:
-      "Peak season fills fast across Utah County and Salt Lake County. Here’s the best timeline for residential and commercial holiday lighting.",
+    description: "Plan residential, commercial, HOA, and permanent lighting around Utah’s installation season, approvals, weather, and desired display date.",
     date: "2026-06-15",
-    readingMinutes: 4,
+    readingMinutes: 6,
     tags: ["Planning", "Commercial"],
-    content: [
-      "Holiday lighting demand ramps up early in Utah — especially for commercial properties, HOAs, and larger homes.",
-      "For residential seasonal installs, late summer through early fall is the sweet spot. You’ll lock in preferred dates before the November rush.",
-      "Commercial and HOA projects should book even earlier. Storefronts, common areas, and municipal displays often need design approvals and coordinated install windows.",
-      "Permanent lighting can be installed outside peak Christmas season, which is one reason many homeowners schedule it in spring or summer.",
-      "Ready to reserve your spot? Get an instant estimate online or call Chestnut & Cheer — we’re nuts about Christmas lights, and we’re already booking the season.",
+    sections: [
+      {
+        heading: "Start before the first snow forecast",
+        paragraphs: [
+          "The best time to request a Christmas light quote is before you need the display turned on. A quote may require property measurements, photos, color and scope decisions, access planning, and time to prepare custom-cut strands. Waiting until the desired installation week reduces design and scheduling flexibility.",
+          "Late summer and early fall are useful planning windows for residential seasonal lighting. That does not mean the lights must turn on immediately; it means the design and route can be reserved while installation conditions and crew capacity are easier to manage.",
+        ],
+      },
+      {
+        heading: "Commercial and HOA projects need more lead time",
+        paragraphs: [
+          "Businesses, HOAs, multifamily properties, and public-facing spaces often involve more than one decision maker. Brand standards, board approval, certificates of insurance, power, pedestrian areas, tenant communication, operating hours, and multiple buildings can all affect the schedule.",
+          "Begin commercial planning early enough to identify the display date, approval path, install window, access contact, maintenance contact, and takedown expectation. A smaller storefront may move quickly; a coordinated property should not be treated like a last-minute residential roofline.",
+        ],
+      },
+      {
+        heading: "Utah weather changes safe access",
+        paragraphs: [
+          "Foothill properties, steep driveways, shaded roofs, and higher elevations can collect snow or ice before valley-floor homes. Wind also affects exposed lots around Utah Lake and the west side of both counties. Crews may need to move work when roof, ladder, or driveway conditions are unsafe.",
+          "Earlier installation gives the schedule room to respond to weather. No company can guarantee outdoor access during every storm, so ask how the installer communicates weather delays and prioritizes existing displays that need in-season service.",
+        ],
+      },
+      {
+        heading: "Permanent lighting has a broader season",
+        paragraphs: [
+          "Permanent roofline lighting can be installed outside the Christmas rush, subject to normal weather and product availability. Spring and summer appointments may offer more flexibility and give homeowners time to learn the controls before holiday programming begins.",
+          "When requesting any quote, share the address, property type, desired features, ideal activation date, photos, HOA or property standards, and any known access constraints. Better inputs produce a faster and more realistic proposal.",
+        ],
+      },
     ],
   },
   {
     slug: "gutter-cleaning-with-holiday-lights",
-    title: "Why Gutter Cleaning Pairs Perfectly With Holiday Light Installation",
-    description:
-      "We’re already on the roof for your Christmas lights — here’s why adding gutter cleaning before winter is a smart (and efficient) move.",
+    title: "Should You Schedule Gutter Cleaning With Holiday Light Installation?",
+    description: "Understand when bundling gutter cleaning with Christmas light installation is practical, what to ask, and why access and scope still matter.",
     date: "2026-05-20",
-    readingMinutes: 3,
+    readingMinutes: 5,
     tags: ["Gutter Cleaning", "Maintenance"],
-    content: [
-      "When our crew is already on your roof installing Christmas lights, gutter cleaning is one of the easiest add-ons to schedule.",
-      "Clear gutters help prevent ice dams, overflow damage, and foundation issues through Utah winters — and you avoid booking a second rooftop visit.",
-      "We clear debris from gutters and downspouts so meltwater can flow when the snow starts. It’s a practical upgrade alongside a beautiful holiday display.",
-      "Ask about gutter cleaning when you request your lighting estimate. Many homeowners bundle both for convenience and better winter readiness.",
+    sections: [
+      {
+        heading: "Why the services can fit together",
+        paragraphs: [
+          "Gutter cleaning and roofline Christmas light installation both require safe access to the roof edge. Scheduling them together can reduce the need to coordinate two separate appointments and lets the crew inspect the gutter edge before selecting light clips or routes.",
+          "The services are still different scopes. A lighting quote does not automatically include removal of leaves, sediment, roof debris, downspout obstructions, gutter guards, or repairs. Ask for the gutter work as a separate line item so the access, disposal, and limitations are clear.",
+        ],
+      },
+      {
+        heading: "Clean access before clips are installed",
+        paragraphs: [
+          "Leaves and debris along the roof edge can interfere with inspection and attachment. When cleaning is approved, it normally makes sense to complete it before the lighting is installed rather than work around a finished display.",
+          "Gutter guards, steep pitches, multiple stories, narrow side yards, fences, fragile landscaping, frozen debris, and unsafe weather can change whether the add-on is practical. A photo or site review helps the crew identify those conditions before the appointment.",
+        ],
+      },
+      {
+        heading: "Questions to ask before bundling",
+        paragraphs: [
+          "Confirm whether the quote includes gutters, downspout openings, debris bagging or haul-away, and any accessible roof-valley debris. Ask what is excluded, how the crew handles gutter guards, and whether the service includes inspection only or any repair. Cleaning should not be represented as a substitute for damaged-gutter or drainage work.",
+          "If gutter cleaning is a priority, mention it when requesting the lighting estimate. Chestnut & Cheer can determine whether it fits the same visit and price it separately from the lighting design.",
+        ],
+      },
     ],
   },
 ];

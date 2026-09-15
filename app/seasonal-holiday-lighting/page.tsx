@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ServicePage } from "@/components/pages/PageChrome";
-import { COMPANY } from "@/lib/constants";
+import { ProfessionalPhotoGallery } from "@/components/sections/ProfessionalPhotoGallery";
+import { ASSETS, COMPANY } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Seasonal Holiday Lighting",
@@ -11,10 +12,13 @@ export const metadata: Metadata = {
 
 export default function SeasonalHolidayLightingPage() {
   return (
-    <ServicePage
+    <>
+      <ServicePage
       eyebrow="Install · Enjoy · We store"
       title="Seasonal Holiday Lighting"
       description={`Classic Christmas magic without the ladder. ${COMPANY.name} designs and installs temporary holiday lighting on roofs, trees, and bushes — then removes and stores everything after the season.`}
+      heroImage={ASSETS.professionalPhotos.technicianHero}
+      heroImageAlt="Licensed Chestnut & Cheer Christmas lighting technician working from a ladder in Utah"
       highlights={[
         "Custom-fit commercial-grade lights",
         "Rooflines, trees & bushes",
@@ -37,6 +41,20 @@ export default function SeasonalHolidayLightingPage() {
           body: `From Orem and Provo to Draper and Sandy, our crews install seasonal lighting across ${COMPANY.serviceAreas.join(" and ")}. Get an instant estimate online or book a free Google Meet consultation.`,
         },
       ]}
-    />
+      />
+      <ProfessionalPhotoGallery
+        eyebrow="From prep to takedown"
+        title="A careful install from start to finish"
+        description="We prepare and test each strand, install it to fit your home, maintain it through the season, then return for takedown and storage."
+        photos={[
+          { src: ASSETS.professionalPhotos.closeInstall, alt: "Chestnut & Cheer technician fastening Christmas lights beneath a residential roofline" },
+          { src: ASSETS.professionalPhotos.closeLighting, alt: "Close-up of a professional installer placing a Christmas light on a roof edge" },
+          { src: ASSETS.professionalPhotos.unloadingLadder, alt: "Christmas light technician unloading installation equipment from a Chestnut & Cheer truck" },
+          { src: ASSETS.professionalPhotos.preparingLadder, alt: "Chestnut & Cheer technician preparing a ladder for a residential holiday light installation" },
+          { src: ASSETS.professionalPhotos.lightBundle, alt: "Bundle of commercial-grade C9 Christmas lights prepared for a custom Utah home installation" },
+          { src: ASSETS.professionalPhotos.roofInstall, alt: "Professional Christmas light installer securing a roofline strand on a two-story Utah home" },
+        ]}
+      />
+    </>
   );
 }

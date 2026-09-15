@@ -1,10 +1,10 @@
+import Link from "next/link";
 import {
   COMPANY,
   LINKS,
   MAP_EMBED_URL,
-  SALT_LAKE_COUNTY_CITIES,
-  UTAH_COUNTY_CITIES,
 } from "@/lib/constants";
+import { cityPagePath, getCountyCities } from "@/lib/cities";
 import { LazyMap } from "@/components/ui/LazyMap";
 import { Button } from "@/components/ui/Button";
 
@@ -29,9 +29,14 @@ export function ServiceAreaMap() {
                 Utah County
               </h3>
               <ul className="mt-3 text-sm leading-relaxed text-chestnut/80">
-                {UTAH_COUNTY_CITIES.map((city) => (
-                  <li key={city} className="py-0.5">
-                    {city}
+                {getCountyCities("Utah County").map((city) => (
+                  <li key={city.slug} className="py-0.5">
+                    <Link
+                      href={cityPagePath(city)}
+                      className="hover:text-primary-red hover:underline"
+                    >
+                      {city.name}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -41,9 +46,14 @@ export function ServiceAreaMap() {
                 Salt Lake County
               </h3>
               <ul className="mt-3 text-sm leading-relaxed text-chestnut/80">
-                {SALT_LAKE_COUNTY_CITIES.map((city) => (
-                  <li key={city} className="py-0.5">
-                    {city}
+                {getCountyCities("Salt Lake County").map((city) => (
+                  <li key={city.slug} className="py-0.5">
+                    <Link
+                      href={cityPagePath(city)}
+                      className="hover:text-primary-red hover:underline"
+                    >
+                      {city.name}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -59,9 +69,9 @@ export function ServiceAreaMap() {
         </div>
 
         <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-chestnut/60">
-          Proudly serving all cities in {COMPANY.serviceAreas.join(" and ")}.
+          Proudly serving priority routes in {COMPANY.serviceAreas.join(" and ")}.
           Not sure if we cover your neighborhood? Reach out — we&apos;re happy
-          to check.
+          to check. <Link href="/service-areas" className="font-semibold text-primary-red hover:underline">Browse all service areas</Link>.
         </p>
         <div className="mt-6 flex justify-center">
           <Button href={LINKS.estimate} variant="primary">

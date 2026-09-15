@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/visualize",
   },
+  robots: { index: false, follow: true },
   openGraph: {
     title: `Visualize Your Lights | ${COMPANY.name}`,
     description:
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
       {
         url: absoluteUrl(ASSETS.photos.hero),
         width: 1600,
-        height: 1200,
+        height: 1067,
         alt: "Home with professional Christmas light installation in Utah",
       },
     ],

@@ -83,7 +83,15 @@ export function buildEstimateMetadata(
   attribution: Record<string, unknown>
 ) {
   const soft = computeSoftEstimate(state);
-  const { staffSummary: _staffSummary, ...customerSoft } = soft;
+  const customerSoft = {
+    low: soft.low,
+    high: soft.high,
+    label: soft.label,
+    basis: soft.basis,
+    ...(soft.leaseLabel ? { leaseLabel: soft.leaseLabel } : {}),
+    ...(soft.leaseLow !== undefined ? { leaseLow: soft.leaseLow } : {}),
+    ...(soft.leaseHigh !== undefined ? { leaseHigh: soft.leaseHigh } : {}),
+  };
   return {
     form: isDoorHangerAttribution(attribution) ? "christmas-door-hanger" : "christmas-estimate",
     need: state.need,

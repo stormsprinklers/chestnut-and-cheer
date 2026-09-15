@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Sparkles } from "lucide-react";
-import { LINKS } from "@/lib/constants";
+import { MessageSquare, Phone, Sparkles } from "lucide-react";
+import { COMPANY, LINKS } from "@/lib/constants";
 
 export function FloatingBookButton() {
   const pathname = usePathname();
@@ -12,12 +12,18 @@ export function FloatingBookButton() {
   }
 
   return (
-    <Link
-      href={LINKS.estimate}
-      className="fixed right-4 z-40 flex min-h-11 items-center gap-2 rounded-full bg-primary-red px-5 py-3 text-sm font-semibold text-warm-white shadow-lg transition-transform active:scale-95 hover:bg-primary-red/90 lg:hidden touch-manipulation max-md:bottom-[calc(4.25rem+env(safe-area-inset-bottom,0px))] md:bottom-[calc(1rem+env(safe-area-inset-bottom,0px))]"
-    >
-      <Sparkles className="h-4 w-4" />
-      Get Instant Estimate
-    </Link>
+    <nav aria-label="Quick contact" className="fixed inset-x-0 bottom-0 z-40 border-t border-chestnut/10 bg-white/95 px-3 pb-[calc(.5rem+env(safe-area-inset-bottom,0px))] pt-2 backdrop-blur lg:hidden">
+      <div className="mx-auto grid max-w-md grid-cols-3 gap-2">
+        <a href={LINKS.tel} className="flex min-h-12 items-center justify-center gap-2 rounded-full border border-chestnut/15 text-sm font-semibold text-chestnut touch-manipulation" aria-label={`Call ${COMPANY.phone}`}>
+          <Phone className="h-4 w-4" aria-hidden /> Call
+        </a>
+        <a href={LINKS.sms} className="flex min-h-12 items-center justify-center gap-2 rounded-full border border-chestnut/15 text-sm font-semibold text-chestnut touch-manipulation" aria-label={`Text ${COMPANY.phone}`}>
+          <MessageSquare className="h-4 w-4" aria-hidden /> Text
+        </a>
+        <Link href={LINKS.estimate} className="flex min-h-12 items-center justify-center gap-2 rounded-full bg-primary-red text-sm font-semibold text-warm-white touch-manipulation">
+          <Sparkles className="h-4 w-4" aria-hidden /> Quote
+        </Link>
+      </div>
+    </nav>
   );
 }

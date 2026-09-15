@@ -9,6 +9,7 @@ import { Reviews } from "@/components/sections/Reviews";
 import { Contact } from "@/components/sections/Contact";
 import { ServiceAreaMap } from "@/components/sections/ServiceAreaMap";
 import { BookingPlaceholder } from "@/components/sections/BookingPlaceholder";
+import { ProfessionalPhotoGallery } from "@/components/sections/ProfessionalPhotoGallery";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { COMPANY, ASSETS } from "@/lib/constants";
 import { getHomePageSchemas } from "@/lib/structured-data";
@@ -37,7 +38,7 @@ const FAQs = dynamic(
 );
 
 export const metadata: Metadata = {
-  title: `Christmas Light Installation in Utah & Salt Lake County | ${COMPANY.name}`,
+  title: { absolute: `Christmas Light Installation in Utah | ${COMPANY.name}` },
   description:
     "Professional Christmas light installation in Utah County & Salt Lake County. Temporary & permanent holiday lighting for homes and businesses. Free quotes — licensed S330 contractor.",
   alternates: {
@@ -51,8 +52,8 @@ export const metadata: Metadata = {
       {
         url: absoluteUrl(ASSETS.photos.hero),
         width: 1600,
-        height: 1200,
-        alt: "Home with professional Christmas light installation in Utah",
+        height: 1067,
+        alt: "Chestnut & Cheer Christmas light technician carrying a ladder in Utah",
       },
     ],
   },
@@ -72,6 +73,18 @@ export default function Home() {
       <SocialProof />
       <ServicesOverview />
       <WhyChooseUs />
+      <ProfessionalPhotoGallery
+        eyebrow="Real local installs"
+        title="Professional Christmas light installation in action"
+        description="Our Utah crews use commercial-grade lights, purpose-built clips, and professional equipment for clean, reliable roofline displays."
+        photos={[
+          { src: ASSETS.professionalPhotos.bundlingLights, alt: "Chestnut & Cheer technician organizing commercial-grade Christmas light strands in Utah" },
+          { src: ASSETS.professionalPhotos.rooflineClip, alt: "Close-up of professional Christmas light clips secured beneath a Utah home roofline" },
+          { src: ASSETS.professionalPhotos.truckLadder, alt: "Chestnut & Cheer technician unloading a ladder from a branded Christmas lighting service truck" },
+          { src: ASSETS.professionalPhotos.rooflineInstall, alt: "Professional installer hanging Christmas lights along a two-story Utah home roofline" },
+          { src: ASSETS.professionalPhotos.checkingBulb, alt: "Lighting technician checking a commercial-grade Christmas light bulb before installation" },
+        ]}
+      />
       <BeforeAfter />
       <BookingProcess />
       <BookingPlaceholder />

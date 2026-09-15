@@ -64,12 +64,6 @@ export async function POST(request: Request) {
       { status: 400 }
     );
   }
-  if (body.smsServiceConsent !== true && body.smsMarketingConsent !== true) {
-    return NextResponse.json(
-      { ok: false, error: "Please check at least one box to agree to receive text messages." },
-      { status: 400 }
-    );
-  }
   if (email && !email.includes("@")) {
     return NextResponse.json(
       { ok: false, error: "Please enter a valid email address." },

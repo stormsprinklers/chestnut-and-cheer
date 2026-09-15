@@ -2,6 +2,10 @@ import Image from "next/image";
 import { TESTIMONIALS } from "@/lib/constants";
 
 export function Reviews() {
+  // Publish quoted testimonials only after their source and permission have
+  // been verified. The constants remain available for that future approval.
+  if (process.env.NEXT_PUBLIC_SHOW_FEATURED_TESTIMONIALS !== "true") return null;
+
   return (
     <section id="reviews" className="section-pad below-fold bg-cream">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">

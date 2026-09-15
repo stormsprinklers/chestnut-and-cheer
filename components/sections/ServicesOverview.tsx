@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Check } from "lucide-react";
-import { SERVICES } from "@/lib/constants";
+import { LINKS, SERVICES } from "@/lib/constants";
 
 export function ServicesOverview() {
   return (
@@ -13,9 +13,12 @@ export function ServicesOverview() {
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-chestnut/70">
             From one-season sparkle to year-round brilliance — we handle
-            residential and commercial holiday lighting across Utah and Salt Lake
+            residential and commercial holiday lighting across Utah County and Salt Lake
             County.
           </p>
+          <Link href={LINKS.christmasLightInstallation} className="mt-4 inline-block font-semibold text-primary-red hover:underline">
+            See how our complete Christmas light installation service works
+          </Link>
         </div>
 
         <div className="mt-12 grid gap-8 md:grid-cols-3">
@@ -60,7 +63,7 @@ export function ServicesOverview() {
                   href={service.href}
                   className="mt-4 inline-block text-sm font-semibold text-primary-red hover:underline"
                 >
-                  Learn more
+                  Explore {service.title.toLowerCase()}
                 </Link>
               </div>
             </article>

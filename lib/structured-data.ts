@@ -4,9 +4,13 @@ import {
   SERVICES,
   ASSETS,
   LINKS,
-  UTAH_COUNTY_CITIES,
-  SALT_LAKE_COUNTY_CITIES,
+  PRICING,
 } from "@/lib/constants";
+import {
+  cityPagePath,
+  countyPagePath,
+  type CityPageData,
+} from "@/lib/cities";
 import { absoluteUrl, SITE_URL } from "@/lib/site";
 
 const reviewRating = process.env.NEXT_PUBLIC_GOOGLE_REVIEW_RATING
@@ -30,12 +34,13 @@ export function hasVerifiedGoogleReviews(): boolean {
   );
 }
 
-export function getLocalBusinessSchema() {
-  const schema: Record<string, unknown> = {
+export function getOrganizationSchema() {
+  return {
     "@context": "https://schema.org",
-    "@type": "HomeAndConstructionBusiness",
-    "@id": `${SITE_URL}/#business`,
+    "@type": "Organization",
+    "@id": `${SITE_URL}/#organization`,
     name: COMPANY.name,
+    legalName: COMPANY.legalEntity,
     description:
       "Premium temporary and permanent Christmas light installation for residential and commercial properties in Utah County and Salt Lake County.",
     url: SITE_URL,
@@ -43,33 +48,19 @@ export function getLocalBusinessSchema() {
     email: COMPANY.email,
     image: absoluteUrl(ASSETS.photos.hero),
     logo: absoluteUrl(ASSETS.brand.logoPrimary),
-    address: {
-      "@type": "PostalAddress",
-      ...(COMPANY.address.street ? { streetAddress: COMPANY.address.street } : {}),
-      addressLocality: COMPANY.address.city,
-      addressRegion: COMPANY.address.state,
-      postalCode: COMPANY.address.zip,
-      addressCountry: "US",
+    sameAs: [LINKS.google],
+    areaServed: COMPANY.serviceAreas.map((area) => ({
+      "@type": "AdministrativeArea" as const,
+      name: area,
+    })),
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: `+1${COMPANY.phoneDigits}`,
+      email: COMPANY.email,
+      contactType: "sales and customer service",
+      areaServed: "US-UT",
+      availableLanguage: "English",
     },
-    areaServed: [
-      ...COMPANY.serviceAreas.map((area) => ({
-        "@type": "AdministrativeArea" as const,
-        name: area,
-      })),
-      ...UTAH_COUNTY_CITIES.map((city) => ({
-        "@type": "City" as const,
-        name: city,
-        containedInPlace: { "@type": "AdministrativeArea", name: "Utah County" },
-      })),
-      ...SALT_LAKE_COUNTY_CITIES.map((city) => ({
-        "@type": "City" as const,
-        name: city,
-        containedInPlace: {
-          "@type": "AdministrativeArea",
-          name: "Salt Lake County",
-        },
-      })),
-    ],
     priceRange: "$$",
     knowsAbout: [
       "Christmas light installation",
@@ -82,18 +73,65 @@ export function getLocalBusinessSchema() {
       name: COMPANY.license,
     },
   };
+}
 
-  if (hasVerifiedGoogleReviews()) {
-    schema.aggregateRating = {
-      "@type": "AggregateRating",
-      ratingValue: reviewRating,
-      reviewCount: reviewCount,
-      bestRating: 5,
-      worstRating: 1,
-    };
-  }
+/** Backwards-compatible name for callers while the site uses one Organization entity. */
+export const getLocalBusinessSchema = getOrganizationSchema;
 
-  return schema;
+export function getBreadcrumbSchema(
+  items: { name: string; path: string }[],
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: absoluteUrl(item.path),
+    })),
+  };
+}
+
+export function getServiceSchema({
+  path,
+  name,
+  description,
+  areaServed = COMPANY.serviceAreas,
+}: {
+  path: string;
+  name: string;
+  description: string;
+  areaServed?: string | readonly string[] | Record<string, unknown>;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${absoluteUrl(path)}#service`,
+    name,
+    description,
+    url: absoluteUrl(path),
+    serviceType: name,
+    provider: { "@id": `${SITE_URL}/#organization` },
+    areaServed,
+  };
+}
+
+export function getServicePageSchemas({
+  path,
+  name,
+  description,
+  breadcrumbs,
+}: {
+  path: string;
+  name: string;
+  description: string;
+  breadcrumbs: { name: string; path: string }[];
+}) {
+  return [
+    getServiceSchema({ path, name, description }),
+    getBreadcrumbSchema(breadcrumbs),
+  ];
 }
 
 export function getFaqSchema() {
@@ -122,20 +160,64 @@ export function getServicesSchema() {
         "@type": "Service",
         name: service.title,
         description: service.description,
-        provider: {
-          "@type": "LocalBusiness",
-          name: COMPANY.name,
-          "@id": `${SITE_URL}/#business`,
-        },
+        provider: { "@id": `${SITE_URL}/#organization` },
         areaServed: COMPANY.serviceAreas,
-        url: `${SITE_URL}/#services`,
+        url: absoluteUrl(service.href),
       },
     })),
   };
 }
 
 export function getHomePageSchemas() {
-  return [getLocalBusinessSchema(), getFaqSchema(), getServicesSchema()];
+  return [getOrganizationSchema(), getFaqSchema(), getServicesSchema()];
+}
+
+export function getCityPageSchemas(
+  city: CityPageData,
+  faqs: { question: string; answer: string }[],
+) {
+  const path = cityPagePath(city);
+  const countyPath = countyPagePath(city.county);
+  return [
+    getBreadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Service Areas", path: "/service-areas" },
+      { name: city.county, path: countyPath },
+      { name: city.name, path },
+    ]),
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "@id": `${SITE_URL}${path}#service`,
+      name: `Christmas Light Installation in ${city.name}, Utah`,
+      description: `Professional temporary and permanent Christmas light installation serving ${city.name}, Utah.`,
+      url: `${SITE_URL}${path}`,
+      serviceType: "Christmas light installation",
+      provider: { "@id": `${SITE_URL}/#organization` },
+      areaServed: {
+        "@type": "City",
+        name: city.name,
+        containedInPlace: { "@type": "AdministrativeArea", name: city.county },
+      },
+      offers: {
+        "@type": "Offer",
+        priceSpecification: {
+          "@type": "PriceSpecification",
+          minPrice: PRICING.yearOne.startsAt,
+          priceCurrency: "USD",
+        },
+      },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: { "@type": "Answer", text: faq.answer },
+      })),
+    },
+  ];
 }
 
 export function getGoogleReviewStats() {

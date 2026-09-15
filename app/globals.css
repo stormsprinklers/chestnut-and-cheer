@@ -62,3 +62,39 @@ h4 {
   content-visibility: auto;
   contain-intrinsic-size: auto 600px;
 }
+
+/* Short, one-time scroll entrances. JavaScript adds these classes only to
+   content below the initial viewport, so server-rendered content stays visible
+   by default and important paint elements are never held back. */
+.scroll-reveal {
+  --reveal-delay: 0ms;
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+  transition:
+    opacity 420ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay),
+    transform 480ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay);
+  will-change: opacity, transform;
+}
+
+.scroll-reveal[data-reveal-kind="object"] {
+  transform: translate3d(0, 10px, 0) scale(0.985);
+}
+
+.scroll-reveal.scroll-reveal-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  will-change: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .scroll-reveal,
+  .scroll-reveal[data-reveal-kind="object"] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

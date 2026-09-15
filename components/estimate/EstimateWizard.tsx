@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { Check, Camera, Loader2 } from "lucide-react";
 import {
   AddressAutocomplete,
@@ -76,7 +77,11 @@ export function EstimateWizard() {
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [turnstileReset, setTurnstileReset] = useState(0);
   const [honeypot, setHoneypot] = useState("");
-  const [doorHangerOffer, setDoorHangerOffer] = useState(false);
+  const [doorHangerOffer] = useState(() => {
+    if (typeof window === "undefined") return false;
+    const currentCampaign = Object.fromEntries(new URLSearchParams(window.location.search));
+    return isDoorHangerAttribution({ ...getAttribution(), ...currentCampaign });
+  });
 
   useEffect(() => {
     captureAttributionFromUrl(
@@ -84,7 +89,6 @@ export function EstimateWizard() {
       document.referrer,
       window.location.pathname
     );
-    setDoorHangerOffer(isDoorHangerAttribution(getAttribution()));
   }, []);
 
   const steps = useMemo(() => {
@@ -347,9 +351,9 @@ export function EstimateWizard() {
           </Button>
         </div>
         <p className="mt-6 text-sm text-chestnut/50">
-          <a href="/" className="underline-offset-2 hover:underline">
+          <Link href="/" className="underline-offset-2 hover:underline">
             Back to home
-          </a>
+          </Link>
         </p>
       </div>
     );

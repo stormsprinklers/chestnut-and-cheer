@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Contact } from "@/components/sections/Contact";
+import { Breadcrumbs } from "@/components/pages/PageChrome";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { COMPANY } from "@/lib/constants";
+import { getBreadcrumbSchema, getOrganizationSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -9,5 +12,5 @@ export const metadata: Metadata = {
 };
 
 export default function ContactPage() {
-  return <Contact />;
+  return <><JsonLd data={[getOrganizationSchema(), getBreadcrumbSchema([{ name: "Home", path: "/" }, { name: "Contact", path: "/contact" }])]} /><Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Contact" }]} /><Contact standalone /></>;
 }

@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import { PricingPage } from "@/components/sections/PricingPage";
 import { COMPANY, ASSETS } from "@/lib/constants";
 import { SITE_URL, absoluteUrl } from "@/lib/site";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { getBreadcrumbSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
-  title: "Christmas Light Pricing",
+  title: "Christmas Light Installation Cost & Pricing in Utah",
   description:
     "Year 1 Parts + Installation starts at $699. Year 2+ Installation Only starts at $299. Custom quotes based on your property — lights, install, maintenance, takedown & storage included.",
   alternates: {
@@ -19,8 +21,8 @@ export const metadata: Metadata = {
       {
         url: absoluteUrl(ASSETS.photos.hero),
         width: 1600,
-        height: 1200,
-        alt: "Home with professional Christmas light installation in Utah",
+        height: 1067,
+        alt: "Chestnut & Cheer Christmas light technician carrying a ladder in Utah",
       },
     ],
   },
@@ -34,5 +36,5 @@ export const metadata: Metadata = {
 };
 
 export default function Pricing() {
-  return <PricingPage />;
+  return <><JsonLd data={getBreadcrumbSchema([{ name: "Home", path: "/" }, { name: "Pricing", path: "/pricing" }])} /><PricingPage /></>;
 }

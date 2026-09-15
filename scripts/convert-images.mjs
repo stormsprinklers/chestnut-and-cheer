@@ -7,6 +7,28 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, "..");
 const imagesDir = join(root, "public", "images");
 const brandPngDir = join(imagesDir, "C&C Brand Assets", "PNG Assets");
+const professionalPhotoDir = join(imagesDir, "Professional Photos");
+
+const professionalPhotos = [
+  ["bundling-lights.jpg", "technician-bundling-commercial-christmas-lights"],
+  ["carrying-ladder.jpg", "christmas-light-technician-carrying-ladder-utah"],
+  ["close-up-3.jpg", "roofline-christmas-light-clip-installation"],
+  ["close-up-installing-christmas-lights.jpg", "technician-installing-roofline-christmas-lights"],
+  ["close-up-lighting-install.jpg", "close-up-christmas-light-installation"],
+  ["getting-ladder-2.jpg", "chestnut-cheer-service-truck-ladder"],
+  ["getting-ladder-3.jpg", "technician-unloading-ladder-from-truck"],
+  ["getting-ladder.jpg", "technician-preparing-ladder-for-installation"],
+  ["Holiday-Lighting-Bundle.jpg", "commercial-grade-holiday-light-bundle"],
+  ["installing-lights-on-roof-from-below.jpg", "professional-roofline-light-installation"],
+  ["installing-lights-roof-from-below-2.jpg", "professional-christmas-lights-roof-install"],
+  ["Lighting-Technician-In-front-of-truck.jpg", "chestnut-cheer-christmas-lighting-service-truck"],
+  ["Lighting-Technician-on-ladder.jpg", "licensed-christmas-lighting-technician-utah"],
+  ["putting-away-ladder-2.jpg", "technician-securing-ladder-on-service-truck"],
+  ["putting-away-ladder.jpg", "chestnut-cheer-technician-loading-ladder"],
+  ["screwing-in-bulbs.jpg", "technician-checking-christmas-light-bulb"],
+  ["tagline-on-company-truck.jpg", "chestnut-cheer-truck-christmas-lights-tagline"],
+  ["Traven-Lighting-Technician.jpg", "chestnut-cheer-lighting-technician-traven"],
+];
 
 /** @typedef {{ src: string; dest: string; width: number; knockOut?: "white" | "black" }} Conversion */
 
@@ -151,21 +173,47 @@ async function toAvif(srcPath, destPath, width, knockOut) {
 }
 
 async function main() {
+  const professionalOnly = process.argv.includes("--professional-only");
+  const selectedPhoto = process.argv.find((arg) => arg.startsWith("--photo="))?.slice(8);
   for (const dir of ["brand", "mascots", "reviews", "photos", "before-after"]) {
     await mkdir(join(imagesDir, dir), { recursive: true });
   }
 
-  for (const { src, dest, width, knockOut } of conversions) {
-    const srcPath = join(brandPngDir, src);
+  if (!professionalOnly) {
+    for (const { src, dest, width, knockOut } of conversions) {
+      const srcPath = join(brandPngDir, src);
+      if (!(await exists(srcPath))) {
+        console.warn(`Skipping missing source: ${src}`);
+        continue;
+      }
+      await toAvif(srcPath, join(imagesDir, dest), width, knockOut);
+    }
+  }
+
+  const professionalDest = join(imagesDir, "photos", "professional");
+  await mkdir(professionalDest, { recursive: true });
+  for (const [src, dest] of professionalPhotos) {
+    if (selectedPhoto && dest !== selectedPhoto) continue;
+    const srcPath = join(professionalPhotoDir, src);
     if (!(await exists(srcPath))) {
-      console.warn(`Skipping missing source: ${src}`);
+      console.warn(`Skipping missing professional photo: ${src}`);
       continue;
     }
-    await toAvif(srcPath, join(imagesDir, dest), width, knockOut);
+    await sharp(srcPath)
+      .rotate()
+      .resize({ width: 1600, withoutEnlargement: true })
+      .webp({ quality: 78, effort: 4 })
+      .toFile(join(professionalDest, `${dest}.webp`));
+    await sharp(srcPath)
+      .rotate()
+      .resize({ width: 1600, withoutEnlargement: true })
+      .avif({ quality: 62, effort: 2 })
+      .toFile(join(professionalDest, `${dest}.avif`));
+    console.log(`Converted professional photo: ${dest}.webp + ${dest}.avif`);
   }
 
   const iconSrc = join(brandPngDir, "Mascot-Icon.png");
-  if (await exists(iconSrc)) {
+  if (!professionalOnly && (await exists(iconSrc))) {
     await sharp(iconSrc)
       .resize(32, 32, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } })
       .png()

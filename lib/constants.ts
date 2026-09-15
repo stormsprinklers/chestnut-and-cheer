@@ -22,11 +22,31 @@ export const ASSETS = {
     holdingLights: "/images/mascots/holding-lights.avif",
   },
   photos: {
-    hero: "/images/photos/hero-home.avif",
-    temporaryInstall: "/images/photos/temporary-install.avif",
+    hero: "/images/photos/professional/christmas-light-technician-carrying-ladder-utah.avif",
+    temporaryInstall: "/images/photos/professional/professional-roofline-light-installation.webp",
     permanentLighting: "/images/photos/permanent-lighting.avif",
     commercialTree: "/images/photos/commercial-tree.avif",
     virtualQuote: "/images/photos/virtual-quote.avif",
+  },
+  professionalPhotos: {
+    bundlingLights: "/images/photos/professional/technician-bundling-commercial-christmas-lights.webp",
+    carryingLadderHero: "/images/photos/professional/christmas-light-technician-carrying-ladder-utah.avif",
+    rooflineClip: "/images/photos/professional/roofline-christmas-light-clip-installation.webp",
+    closeInstall: "/images/photos/professional/technician-installing-roofline-christmas-lights.webp",
+    closeLighting: "/images/photos/professional/close-up-christmas-light-installation.webp",
+    truckLadder: "/images/photos/professional/chestnut-cheer-service-truck-ladder.webp",
+    unloadingLadder: "/images/photos/professional/technician-unloading-ladder-from-truck.webp",
+    preparingLadder: "/images/photos/professional/technician-preparing-ladder-for-installation.webp",
+    lightBundle: "/images/photos/professional/commercial-grade-holiday-light-bundle.webp",
+    rooflineInstall: "/images/photos/professional/professional-roofline-light-installation.webp",
+    roofInstall: "/images/photos/professional/professional-christmas-lights-roof-install.webp",
+    serviceTruck: "/images/photos/professional/chestnut-cheer-christmas-lighting-service-truck.webp",
+    technicianHero: "/images/photos/professional/licensed-christmas-lighting-technician-utah.avif",
+    securingLadder: "/images/photos/professional/technician-securing-ladder-on-service-truck.webp",
+    loadingLadder: "/images/photos/professional/chestnut-cheer-technician-loading-ladder.webp",
+    checkingBulb: "/images/photos/professional/technician-checking-christmas-light-bulb.webp",
+    truckTagline: "/images/photos/professional/chestnut-cheer-truck-christmas-lights-tagline.webp",
+    travenHero: "/images/photos/professional/chestnut-cheer-lighting-technician-traven.avif",
   },
   beforeAfter: {
     before: "/images/before-after/before.avif",
@@ -116,14 +136,19 @@ export const LINKS = {
   visualize: "/visualize",
   about: "/about",
   blog: "/blog",
+  services: "/services",
+  christmasLightInstallation: "/christmas-light-installation",
+  residentialLighting: "/christmas-light-installation/residential",
+  commercialLighting: "/christmas-light-installation/commercial",
+  projects: "/projects",
   doorHanger: "/door-hanger",
   permanentLighting: "/permanent-lighting",
-  seasonalLighting: "/seasonal-holiday-lighting",
-  commercialLighting: "/commercial-holiday-lighting",
+  seasonalLighting: "/christmas-light-installation/residential",
   gutterCleaning: "/gutter-cleaning",
   privacy: "/privacy-policy",
   terms: "/terms-of-service",
   accessibility: "/accessibility",
+  serviceAreas: "/service-areas",
 } as const;
 
 /** A2P / 10DLC SMS program copy used on opt-in forms and legal pages. */
@@ -144,9 +169,10 @@ export const FOOTER_COLUMNS = [
   {
     title: "Services",
     links: [
-      { label: "Seasonal Holiday Lighting", href: LINKS.seasonalLighting },
+      { label: "Christmas Light Installation", href: LINKS.christmasLightInstallation },
+      { label: "Residential Christmas Lights", href: LINKS.residentialLighting },
       { label: "Permanent Lighting", href: LINKS.permanentLighting },
-      { label: "Commercial Holiday Lighting", href: LINKS.commercialLighting },
+      { label: "Commercial Christmas Lights", href: LINKS.commercialLighting },
       { label: "Gutter Cleaning", href: LINKS.gutterCleaning },
       { label: "Pricing", href: LINKS.pricing },
       { label: "Visualize Lights", href: LINKS.visualize },
@@ -156,6 +182,8 @@ export const FOOTER_COLUMNS = [
     title: "Company",
     links: [
       { label: "About Us", href: LINKS.about },
+      { label: "Service Areas", href: LINKS.serviceAreas },
+      { label: "Project Gallery", href: LINKS.projects },
       { label: "Blog", href: LINKS.blog },
       { label: "Contact", href: LINKS.contact },
       { label: "Book Consultation", href: LINKS.bookConsultation },
@@ -173,13 +201,12 @@ export const FOOTER_COLUMNS = [
 ] as const;
 
 export const NAV_LINKS = [
-  { label: "Services", href: "/#services" },
-  { label: "Pricing", href: "/pricing" },
-  { label: "Get Estimate", href: "/estimate" },
-  { label: "Book Consult", href: "/book" },
-  { label: "Visualize", href: "/visualize" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
+  { label: "Services", href: LINKS.services },
+  { label: "Service Areas", href: LINKS.serviceAreas },
+  { label: "Projects", href: LINKS.projects },
+  { label: "Pricing", href: LINKS.pricing },
+  { label: "About", href: LINKS.about },
+  { label: "Contact", href: LINKS.contact },
 ] as const;
 
 export const PRICING = {
@@ -239,13 +266,13 @@ export const SERVICES = [
       "No customer-owned light installs",
     ],
     image: ASSETS.photos.temporaryInstall,
-    href: "/seasonal-holiday-lighting",
+    href: LINKS.residentialLighting,
   },
   {
     id: "permanent",
     title: "Permanent Holiday Lighting",
     description:
-      "Locally sourced in Utah with a durable, higher-end product built to last — and a year-round upsell opportunity.",
+      "A discreet, durable roofline system with app-controlled colors and schedules for holidays, game days, and year-round accent lighting.",
     features: [
       "Locally sourced in Utah",
       "5-year warranty",
@@ -259,7 +286,7 @@ export const SERVICES = [
     id: "commercial",
     title: "Commercial Lighting",
     description:
-      "From storefronts to HOAs and city displays — commercial clients book earlier and invest more.",
+      "Planned lighting for storefronts, HOAs, property managers, campuses, and municipal displays, with coordinated installation and in-season service.",
     features: [
       "Businesses & retail",
       "HOAs & property managers",
@@ -267,7 +294,7 @@ export const SERVICES = [
       "Year-round lighting options",
     ],
     image: ASSETS.photos.commercialTree,
-    href: "/commercial-holiday-lighting",
+    href: LINKS.commercialLighting,
   },
 ] as const;
 

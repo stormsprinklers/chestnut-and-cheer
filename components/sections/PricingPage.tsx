@@ -3,6 +3,7 @@ import { Check, Home, TreePine, Mountain, Ruler, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Mascot } from "@/components/ui/Mascot";
 import { ASSETS, LINKS, PRICING } from "@/lib/constants";
+import Link from "next/link";
 
 const FACTOR_ICONS = [TreePine, Mountain, Home, Ruler, Sparkles];
 
@@ -31,7 +32,7 @@ export function PricingPage() {
               Transparent holiday lighting pricing
             </p>
             <h1 className="font-display text-3xl font-bold leading-tight text-warm-white sm:text-5xl">
-              How Our Pricing Works
+              Christmas Light Installation Cost in Utah
             </h1>
             <p className="mt-4 text-base leading-relaxed text-warm-white/80 sm:mt-5 sm:text-lg">
               Year 1 costs more because it includes your lights, timer, and custom
@@ -142,6 +143,28 @@ export function PricingPage() {
 
       <section className="section-pad bg-cream">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <div className="mx-auto max-w-3xl text-center">
+            <h2 className="font-display text-3xl font-bold text-chestnut sm:text-4xl">Examples of what changes the quote</h2>
+            <p className="mt-4 text-chestnut/70">These are scope examples, not flat packages. We measure the selected design before confirming a price.</p>
+          </div>
+          <div className="mt-10 grid gap-5 md:grid-cols-3">
+            {[
+              { title: "Focused single-story outline", body: "A front eave or garage line with straightforward ladder access can stay close to the starting scope when no trees or upper peaks are added." },
+              { title: "Multi-peak two-story home", body: "Upper peaks, long garage runs, roof transitions, and taller working heights add footage, setup, equipment, and installation time." },
+              { title: "Trees or commercial property", body: "Tree size and canopy density, multiple buildings, operating-hour coordination, pedestrian areas, approvals, and service access can materially change the project." },
+            ].map((example) => (
+              <article key={example.title} className="rounded-2xl border border-chestnut/10 bg-white p-6">
+                <h3 className="font-display text-xl font-bold text-chestnut">{example.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-chestnut/70">{example.body}</p>
+              </article>
+            ))}
+          </div>
+          <p className="mx-auto mt-8 max-w-3xl text-center text-sm leading-relaxed text-chestnut/65">Starting prices apply to qualifying scopes. Your written quote should identify the planned coverage and what is included. Ask before approving if you want a feature priced as an optional line item.</p>
+        </div>
+      </section>
+
+      <section className="section-pad bg-cream">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="flex flex-col items-center gap-8 lg:flex-row lg:items-start lg:justify-between">
             <div className="max-w-2xl flex-1 text-center lg:text-left">
               <h2 className="font-display text-3xl font-bold text-chestnut sm:text-4xl">
@@ -226,6 +249,22 @@ export function PricingPage() {
               Call Us
             </Button>
           </div>
+        </div>
+      </section>
+      <section className="section-pad bg-cream">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6">
+          <h2 className="font-display text-3xl font-bold text-chestnut">Christmas light pricing FAQs</h2>
+          <div className="mt-7 space-y-3">
+            {[
+              { q: "Why does the first year cost more?", a: "The first-season quote includes the commercial-grade lights, timer, custom design, preparation, and installation. Returning-customer pricing can be lower because the established lighting package is already in storage." },
+              { q: "Does the price include maintenance and takedown?", a: "Seasonal pricing includes in-season service for normal bulb failures on the display we installed, takedown in January or early February, and organized off-season storage." },
+              { q: "Can I reduce the scope to fit a budget?", a: "Yes. Ask us to separate the main roofline from optional peaks, garages, trees, bushes, wreaths, or other accents. Prioritizing the most visible lines is often better than spreading a budget across every feature." },
+              { q: "Do commercial projects use the same starting price?", a: "Commercial work is quoted for its actual scope, access, scheduling, approvals, buildings, public areas, and maintenance needs. Contact us for a property-specific proposal rather than relying on a residential starting price." },
+            ].map((faq) => (
+              <details key={faq.q} className="rounded-xl border border-chestnut/10 bg-white px-5 py-4"><summary className="cursor-pointer font-semibold text-chestnut">{faq.q}</summary><p className="mt-3 leading-relaxed text-chestnut/70">{faq.a}</p></details>
+            ))}
+          </div>
+          <p className="mt-6 text-center text-sm text-chestnut/65">Compare <Link href={LINKS.residentialLighting} className="font-semibold text-primary-red hover:underline">residential installation</Link>, <Link href={LINKS.commercialLighting} className="font-semibold text-primary-red hover:underline">commercial lighting</Link>, or <Link href={LINKS.serviceAreas} className="font-semibold text-primary-red hover:underline">local service areas</Link>.</p>
         </div>
       </section>
     </>

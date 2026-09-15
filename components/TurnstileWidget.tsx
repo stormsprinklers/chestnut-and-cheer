@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { TURNSTILE_SITE_KEY } from "@/lib/turnstile-sitekey";
 
 declare global {
@@ -58,22 +58,41 @@ type TurnstileWidgetProps = {
   className?: string;
   /** Bump to force a reset after a failed submit (tokens are single-use). */
   resetKey?: number;
+  /** Delay the third-party script until the widget approaches the viewport. */
+  deferUntilVisible?: boolean;
 };
 
-export default function TurnstileWidget({ onToken, className, resetKey = 0 }: TurnstileWidgetProps) {
+export default function TurnstileWidget({ onToken, className, resetKey = 0, deferUntilVisible = false }: TurnstileWidgetProps) {
   const siteKey =
     process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim() || TURNSTILE_SITE_KEY;
   const containerRef = useRef<HTMLDivElement>(null);
+  const hostRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string | null>(null);
   const onTokenRef = useRef(onToken);
   const reactId = useId();
+  const [ready, setReady] = useState(!deferUntilVisible);
+
+  useEffect(() => {
+    if (!deferUntilVisible || ready || !hostRef.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setReady(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "600px 0px" },
+    );
+    observer.observe(hostRef.current);
+    return () => observer.disconnect();
+  }, [deferUntilVisible, ready]);
 
   useEffect(() => {
     onTokenRef.current = onToken;
   }, [onToken]);
 
   useEffect(() => {
-    if (!siteKey || !containerRef.current) return;
+    if (!ready || !siteKey || !containerRef.current) return;
 
     let cancelled = false;
 
@@ -118,10 +137,11 @@ export default function TurnstileWidget({ onToken, className, resetKey = 0 }: Tu
         widgetIdRef.current = null;
       }
     };
-  }, [siteKey, resetKey, reactId]);
+  }, [ready, siteKey, resetKey, reactId]);
 
   return (
     <div
+      ref={hostRef}
       className={`cf-turnstile${className ? ` ${className}` : ""}`}
       data-sitekey={siteKey}
       data-action={TURNSTILE_ACTION}

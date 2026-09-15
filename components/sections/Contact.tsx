@@ -10,7 +10,7 @@ import { COMPANY, LINKS } from "@/lib/constants";
 
 type Status = "idle" | "sending" | "success" | "error";
 
-export function Contact() {
+export function Contact({ standalone = false }: { standalone?: boolean }) {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
@@ -31,11 +31,6 @@ export function Contact() {
     if (!name || !phone || !message) {
       setStatus("error");
       setError("Please enter your name, mobile phone, and a message.");
-      return;
-    }
-    if (!smsServiceConsent && !smsMarketingConsent) {
-      setStatus("error");
-      setError("Please check at least one box to agree to receive text messages.");
       return;
     }
     if (!turnstileToken) {
@@ -89,9 +84,11 @@ export function Contact() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="grid gap-10 lg:grid-cols-[1fr_auto_1fr] lg:items-start lg:gap-12">
           <div>
-            <h2 className="font-display text-3xl font-bold text-chestnut sm:text-4xl">
-              Get in Touch
-            </h2>
+            {standalone ? (
+              <h1 className="font-display text-3xl font-bold text-chestnut sm:text-4xl">Request a Christmas Lighting Quote</h1>
+            ) : (
+              <h2 className="font-display text-3xl font-bold text-chestnut sm:text-4xl">Request a Christmas Lighting Quote</h2>
+            )}
             <p className="mt-4 text-chestnut/70 leading-relaxed">
               Ready to light up your property? Call, text, or send a message for a
               free quote — available via Google Meet or in-person consultation.
@@ -138,12 +135,10 @@ export function Contact() {
             onSubmit={onSubmit}
             className="rounded-2xl border border-chestnut/10 bg-white p-5 shadow-sm sm:p-6"
           >
-            <h3 className="font-display text-xl font-semibold text-chestnut">
-              Sign up for texts
-            </h3>
+            <h2 className="font-display text-xl font-semibold text-chestnut">Tell us about your property</h2>
             <p className="mt-1 text-sm text-chestnut/60">
-              Get quote follow-ups, appointment reminders, and scheduling updates
-              from Chestnut &amp; Cheer.
+              We can respond by phone or email. Text-message consent is optional
+              and only applies to the boxes you select below.
             </p>
 
             <label
@@ -178,7 +173,7 @@ export function Contact() {
               </div>
               <div>
                 <label htmlFor="contact-phone" className="block text-sm font-medium text-chestnut">
-                  Mobile phone
+                  Phone
                 </label>
                 <input
                   id="contact-phone"
@@ -242,11 +237,11 @@ export function Contact() {
                 <SmsOptInCopy kind="marketing" htmlFor="contact-sms-marketing" />
               </div>
 
-              <TurnstileWidget onToken={setTurnstileToken} resetKey={turnstileReset} />
+              <TurnstileWidget onToken={setTurnstileToken} resetKey={turnstileReset} deferUntilVisible />
 
               {status === "success" && (
                 <p className="rounded-xl border border-accent-gold/40 bg-accent-gold/10 px-4 py-3 text-sm text-chestnut">
-                  You&apos;re signed up. We&apos;ll text you about your request shortly.
+                  Thanks—your request was received. We&apos;ll follow up using the contact method you provided.
                 </p>
               )}
               {status === "error" && (
@@ -263,7 +258,7 @@ export function Contact() {
                 disabled={status === "sending"}
                 className="w-full rounded-full bg-primary-red px-5 py-3 text-sm font-semibold text-warm-white disabled:opacity-50 touch-manipulation"
               >
-                {status === "sending" ? "Signing you up…" : "Yes, sign me up!"}
+                {status === "sending" ? "Sending request…" : "Request My Free Quote"}
               </button>
             </div>
           </form>
