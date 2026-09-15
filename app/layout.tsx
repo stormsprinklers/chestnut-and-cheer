@@ -4,6 +4,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { FloatingBookButton } from "@/components/layout/FloatingBookButton";
 import { ScrollAnimations } from "@/components/motion/ScrollAnimations";
+import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { COMPANY, ASSETS } from "@/lib/constants";
 import { SITE_URL, absoluteUrl } from "@/lib/site";
 import "./globals.css";
@@ -82,6 +83,7 @@ export default function RootLayout({
         <Footer />
         <FloatingBookButton />
         <ScrollAnimations />
+        <AnalyticsTracker />
       </body>
     </html>
   );

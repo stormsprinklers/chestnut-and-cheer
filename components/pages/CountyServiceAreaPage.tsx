@@ -5,10 +5,12 @@ import { Button } from "@/components/ui/Button";
 import {
   cityPagePath,
   countyPagePath,
+  getCountyCityNames,
   getCountyCities,
+  LAUNCH_CITY_BY_NAME,
   type CityPageData,
 } from "@/lib/cities";
-import { ASSETS, COMPANY, LINKS } from "@/lib/constants";
+import { ASSETS, LINKS } from "@/lib/constants";
 import { absoluteUrl } from "@/lib/site";
 import { getBreadcrumbSchema } from "@/lib/structured-data";
 
@@ -22,6 +24,7 @@ type CountyContent = {
 
 export function CountyServiceAreaPage({ content }: { content: CountyContent }) {
   const cities = getCountyCities(content.county);
+  const countyCityNames = getCountyCityNames(content.county);
   const path = countyPagePath(content.county);
   const schema = [
     getBreadcrumbSchema([
@@ -59,7 +62,6 @@ export function CountyServiceAreaPage({ content }: { content: CountyContent }) {
             <h2 className="font-display text-3xl font-bold text-chestnut">Professional holiday lighting across {content.county}</h2>
             <p className="mt-4 text-lg leading-relaxed text-chestnut/75">{content.context}</p>
             <p className="mt-4 text-lg leading-relaxed text-chestnut/75">{content.planning}</p>
-            <p className="mt-4 text-sm leading-relaxed text-chestnut/60">{COMPANY.name} operates from Lehi as a service-area business. The city pages below describe places our crews serve; they do not represent separate offices.</p>
           </div>
           <aside className="rounded-2xl border border-chestnut/10 bg-white p-6">
             <h2 className="font-display text-2xl font-bold text-chestnut">What seasonal service includes</h2>
@@ -76,16 +78,28 @@ export function CountyServiceAreaPage({ content }: { content: CountyContent }) {
       </section>
       <section className="section-pad below-fold bg-white">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <h2 className="font-display text-3xl font-bold text-chestnut">Priority cities in {content.county}</h2>
-          <p className="mt-3 max-w-3xl text-chestnut/70">Each page explains property types, access and weather considerations, pricing variables, nearby coverage, and the lighting services available in that community.</p>
+          <h2 className="font-display text-3xl font-bold text-chestnut">Cities we serve in {content.county}</h2>
+          <p className="mt-3 max-w-3xl text-chestnut/70">We serve every city below. Linked cities include detailed local service information, property considerations, and pricing context.</p>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {cities.map((city) => (
-              <Link key={city.slug} href={cityPagePath(city)} className="rounded-2xl border border-chestnut/10 bg-cream p-5 transition-colors hover:border-primary-red">
-                <h3 className="font-display text-xl font-bold text-chestnut">{city.name}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-chestnut/65">Professional seasonal and permanent Christmas lighting in {city.name}, Utah.</p>
-                <span className="mt-4 inline-block text-sm font-semibold text-primary-red">View {city.name} service details</span>
-              </Link>
-            ))}
+            {countyCityNames.map((cityName) => {
+              const city = LAUNCH_CITY_BY_NAME.get(cityName);
+              const className = "rounded-2xl border border-chestnut/10 bg-cream p-5";
+              const cityContent = (
+                <>
+                  <h3 className="font-display text-xl font-bold text-chestnut">{cityName}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-chestnut/65">Professional seasonal and permanent Christmas lighting in {cityName}, Utah.</p>
+                  {city ? <span className="mt-4 inline-block text-sm font-semibold text-primary-red">View {cityName} service details</span> : null}
+                </>
+              );
+
+              return city ? (
+                <Link key={cityName} href={cityPagePath(city)} className={`${className} transition-colors hover:border-primary-red`}>
+                  {cityContent}
+                </Link>
+              ) : (
+                <div key={cityName} className={className}>{cityContent}</div>
+              );
+            })}
           </div>
         </div>
       </section>

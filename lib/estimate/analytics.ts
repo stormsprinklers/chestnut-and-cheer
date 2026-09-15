@@ -1,3 +1,6 @@
+import { track } from "@/lib/analytics/track";
+import type { AnalyticsEventName } from "@/lib/analytics/events";
+
 const ATTRIBUTION_KEY = "cc_estimate_attribution";
 
 export type Attribution = {
@@ -109,6 +112,19 @@ export function trackEstimateEvent(
 ) {
   if (typeof window === "undefined") return;
   try {
+    const eventType = ({
+      form_started: "FORM_START",
+      form_submitted: "FORM_SUBMIT",
+      address_entered: "ADDRESS_ENTERED",
+      contact_completed: "CONTACT_COMPLETED",
+      door_hanger_landing_view: "LANDING_VIEW",
+    } as const)[event] ?? "ESTIMATE_EVENT" as AnalyticsEventName;
+    const safePayload = Object.fromEntries(
+      Object.entries(payload ?? {}).filter(([, value]) =>
+        typeof value === "string" || typeof value === "number" || typeof value === "boolean",
+      ),
+    );
+    track(eventType, { funnel_event: event, ...safePayload });
     const detail = { event, ...payload, ts: Date.now() };
     window.dispatchEvent(new CustomEvent("cc-estimate-event", { detail }));
     const w = window as Window & { gtag?: (...args: unknown[]) => void };

@@ -51,6 +51,23 @@ export function buildLeadExternalId(prefix: string, id: string) {
   return `${prefix}:${id}`;
 }
 
+export type CrmMarketingEventPayload = {
+  externalId: string;
+  eventType: string;
+  sessionId?: string | null;
+  pagePath?: string | null;
+  metadata?: Record<string, unknown>;
+  occurredAt?: string;
+};
+
+/** Forward anonymous first-party website activity to the CRM SEO dashboard. */
+export function forwardMarketingEventToCrm(payload: CrmMarketingEventPayload) {
+  return crmFetch("/website/events", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
 export type CrmBookingSlot = {
   startAt: string;
   endAt: string;

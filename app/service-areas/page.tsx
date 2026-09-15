@@ -5,14 +5,15 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import {
   cityPagePath,
   countyPagePath,
-  getCountyCities,
+  getCountyCityNames,
+  LAUNCH_CITY_BY_NAME,
 } from "@/lib/cities";
 import { ASSETS, COMPANY, LINKS } from "@/lib/constants";
 import { getBreadcrumbSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "Christmas Light Installation Service Areas in Utah",
-  description: `Browse ${COMPANY.name} Christmas light installation service areas in Utah County and Salt Lake County. View local service details for 14 priority cities.`,
+  description: `Browse ${COMPANY.name} Christmas light installation service areas in Utah County and Salt Lake County, including detailed local service pages for select cities.`,
   alternates: { canonical: "/service-areas" },
 };
 
@@ -24,7 +25,7 @@ export default function ServiceAreasPage() {
       <PageHero
         eyebrow="Utah County & Salt Lake County"
         title="Christmas Light Installation Service Areas"
-        description="Explore the Utah communities currently included in our local service-page launch. Chestnut & Cheer operates from Lehi and serves every listed city as a service-area business—not as separate offices."
+        description="Chestnut & Cheer provides professional Christmas light installation throughout Utah County and Salt Lake County. Explore the cities we serve below."
         image={ASSETS.professionalPhotos.serviceTruck}
         imageAlt="Chestnut & Cheer Christmas lighting service truck serving Utah County and Salt Lake County"
       />
@@ -38,19 +39,25 @@ export default function ServiceAreasPage() {
           </p>
           <div className="mt-10 grid gap-8 lg:grid-cols-2">
             {(["Utah County", "Salt Lake County"] as const).map((county) => {
-              const cities = getCountyCities(county);
+              const cities = getCountyCityNames(county);
               return (
                 <section key={county} className="rounded-2xl border border-chestnut/10 bg-white p-6 sm:p-8">
                   <h2 className="font-display text-2xl font-bold text-chestnut">
                     <Link href={countyPagePath(county)} className="hover:text-primary-red">{county}</Link>
                   </h2>
-                  <p className="mt-2 text-sm leading-relaxed text-chestnut/65">Local coverage, planning context, and links to {cities.length} priority city pages.</p>
+                  <p className="mt-2 text-sm leading-relaxed text-chestnut/65">We serve every city listed below. Linked cities include detailed local service information.</p>
                   <div className="mt-5 grid gap-2 sm:grid-cols-2">
-                    {cities.map((city) => (
-                      <Link key={city.slug} href={cityPagePath(city)} className="rounded-lg border border-chestnut/10 bg-cream px-4 py-3 font-semibold text-chestnut transition-colors hover:border-primary-red hover:text-primary-red">
-                        Christmas lights in {city.name}
-                      </Link>
-                    ))}
+                    {cities.map((cityName) => {
+                      const city = LAUNCH_CITY_BY_NAME.get(cityName);
+                      const className = "rounded-lg border border-chestnut/10 bg-cream px-4 py-3 font-semibold text-chestnut";
+                      return city ? (
+                        <Link key={cityName} href={cityPagePath(city)} className={`${className} transition-colors hover:border-primary-red hover:text-primary-red`}>
+                          Christmas lights in {cityName}
+                        </Link>
+                      ) : (
+                        <span key={cityName} className={className}>Christmas lights in {cityName}</span>
+                      );
+                    })}
                   </div>
                   <Link href={countyPagePath(county)} className="mt-6 inline-block font-semibold text-primary-red hover:underline">View the complete {county} hub</Link>
                 </section>
@@ -58,8 +65,7 @@ export default function ServiceAreasPage() {
             })}
           </div>
           <div className="mt-10 text-center">
-            <p className="text-chestnut/70">Outside a listed city but within Utah County or Salt Lake County?</p>
-            <Link href={LINKS.contact} className="mt-2 inline-block font-semibold text-primary-red hover:underline">Contact us to confirm current route availability</Link>
+            <Link href={LINKS.contact} className="inline-block font-semibold text-primary-red hover:underline">Questions about your property? Contact our team</Link>
           </div>
         </div>
       </section>

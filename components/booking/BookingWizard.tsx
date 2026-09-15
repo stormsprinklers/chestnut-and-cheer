@@ -7,6 +7,7 @@ import { SmsOptInCopy } from "@/components/forms/SmsOptInCopy";
 import { Button } from "@/components/ui/Button";
 import { Mascot } from "@/components/ui/Mascot";
 import { COMPANY, LINKS } from "@/lib/constants";
+import { track } from "@/lib/analytics/track";
 import type { CrmBookingOffer, CrmBookingSlot } from "@/lib/integrations/crm";
 
 function formatInZone(
@@ -43,6 +44,7 @@ export function BookingWizard() {
   } | null>(null);
 
   useEffect(() => {
+    track("BOOKING_STARTED", { form_name: "virtual_consultation" });
     let cancelled = false;
     fetch("/api/book")
       .then(async (res) => {
@@ -113,6 +115,7 @@ export function BookingWizard() {
         meetingUrl: data.meetingUrl ?? null,
         calendarWarning: data.calendarWarning ?? null,
       });
+      track("BOOKING_COMPLETED", { form_name: "virtual_consultation" });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Booking failed");
       setTurnstileReset((n) => n + 1);
@@ -277,7 +280,10 @@ export function BookingWizard() {
                           <button
                             key={item.startAt}
                             type="button"
-                            onClick={() => setSlot(item)}
+                            onClick={() => {
+                              setSlot(item);
+                              track("SLOT_SELECTED", { form_name: "virtual_consultation" });
+                            }}
                             className={`min-h-11 rounded-xl border px-3 py-2 text-sm font-medium transition-colors ${
                               selected
                                 ? "border-primary-red bg-primary-red/5 text-primary-red ring-1 ring-primary-red/30"

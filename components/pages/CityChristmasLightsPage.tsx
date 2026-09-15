@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { ProfessionalPhotoGallery } from "@/components/sections/ProfessionalPhotoGallery";
 import { Button } from "@/components/ui/Button";
 import { ASSETS, COMPANY, LINKS, PRICING } from "@/lib/constants";
 import {
@@ -47,7 +48,7 @@ export function CityChristmasLightsPage({ city }: { city: CityPageData }) {
         <div className="absolute inset-0 bg-gradient-to-br from-chestnut via-chestnut to-primary-red/40" />
         <div className="relative mx-auto grid max-w-6xl items-center gap-8 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[1.05fr_0.95fr] lg:py-20">
           <div>
-            <p className="text-sm font-semibold text-accent-gold">Serving {city.county} from Lehi</p>
+            <p className="text-sm font-semibold text-accent-gold">Professional holiday lighting</p>
             <h1 className="mt-3 font-display text-3xl font-bold leading-tight text-warm-white sm:text-5xl">
               Christmas Light Installation in {city.name}, Utah
             </h1>
@@ -87,17 +88,25 @@ export function CityChristmasLightsPage({ city }: { city: CityPageData }) {
             <h2 className="font-display text-2xl font-bold text-chestnut">Areas we serve in {city.name}</h2>
             <p className="mt-3 leading-relaxed text-chestnut/70">
               We quote properties throughout the city, including homes and businesses
-              around {city.areas.slice(0, -1).join(", ")} and {city.areas.at(-1)}.
-              These examples describe familiar parts of {city.name}; they are not
-              separate offices or limits on service.
-            </p>
-            <p className="mt-4 text-sm leading-relaxed text-chestnut/60">
-              Chestnut &amp; Cheer is a Lehi-based service-area business. We do not
-              represent a staffed location in {city.name}.
+              around {city.areas.slice(0, -1).join(", ")}, and {city.areas.at(-1)}.
             </p>
           </aside>
         </div>
       </section>
+
+      <ProfessionalPhotoGallery
+        eyebrow="Professional installation work"
+        title="The details behind a polished holiday display"
+        description="A look at the commercial-grade lighting, careful preparation, and installation work Chestnut & Cheer brings to every project."
+        photos={[
+          { src: ASSETS.professionalPhotos.bundlingLights, alt: "Technician organizing commercial-grade Christmas light strands before installation" },
+          { src: ASSETS.professionalPhotos.rooflineClip, alt: "Professional Christmas light clip secured beneath a roof edge" },
+          { src: ASSETS.professionalPhotos.closeInstall, alt: "Technician fastening Christmas lights along a residential roofline" },
+          { src: ASSETS.professionalPhotos.truckLadder, alt: "Chestnut & Cheer technician unloading a ladder from the service truck" },
+          { src: ASSETS.professionalPhotos.preparingLadder, alt: "Technician preparing a ladder for professional Christmas light installation" },
+          { src: ASSETS.professionalPhotos.checkingBulb, alt: "Technician checking a commercial-grade Christmas light bulb" },
+        ]}
+      />
 
       <section className="section-pad below-fold bg-white">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -206,7 +215,6 @@ export function CityChristmasLightsPage({ city }: { city: CityPageData }) {
             <Button href={estimateHref} variant="gold">Get a {city.name} Estimate</Button>
             <Button href={LINKS.tel} variant="outline" className="border-warm-white/30 text-warm-white hover:bg-warm-white/10">Call {COMPANY.phone}</Button>
           </div>
-          <p className="mt-5 text-xs text-warm-white/60">Serving {city.name} from our Lehi service-area base.</p>
         </div>
       </section>
     </>

@@ -105,6 +105,10 @@ export const CITY_BY_SLUG = new Map(
   LAUNCH_CITY_PAGES.map((entry) => [entry.slug, entry]),
 );
 
+export const LAUNCH_CITY_BY_NAME = new Map(
+  LAUNCH_CITY_PAGES.map((entry) => [entry.name, entry]),
+);
+
 export function cityPagePath(entry: Pick<CityPageData, "slug">) {
   return `/christmas-light-installation/${entry.slug}`;
 }
@@ -113,8 +117,12 @@ export function countyPagePath(county: CityPageData["county"]) {
   return `/service-areas/${county === "Utah County" ? "utah-county" : "salt-lake-county"}`;
 }
 
+export function getCountyCityNames(county: CityPageData["county"]) {
+  return county === "Utah County" ? UTAH_COUNTY_CITIES : SALT_LAKE_COUNTY_CITIES;
+}
+
 export function getCountyCities(county: CityPageData["county"]) {
-  const names = county === "Utah County" ? UTAH_COUNTY_CITIES : SALT_LAKE_COUNTY_CITIES;
+  const names = getCountyCityNames(county);
   return names
     .map((name) => LAUNCH_CITY_PAGES.find((entry) => entry.name === name))
     .filter(Boolean) as CityPageData[];

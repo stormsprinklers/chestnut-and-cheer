@@ -6,6 +6,7 @@ import TurnstileWidget from "@/components/TurnstileWidget";
 import { SmsOptInCopy } from "@/components/forms/SmsOptInCopy";
 import { Button } from "@/components/ui/Button";
 import { Mascot } from "@/components/ui/Mascot";
+import { track } from "@/lib/analytics/track";
 import { COMPANY, LINKS } from "@/lib/constants";
 
 type Status = "idle" | "sending" | "success" | "error";
@@ -66,6 +67,7 @@ export function Contact({ standalone = false }: { standalone?: boolean }) {
         return;
       }
       setStatus("success");
+      track("FORM_SUBMIT", { form_name: "contact_quote" });
       form.reset();
       setSmsServiceConsent(false);
       setSmsMarketingConsent(false);
