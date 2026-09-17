@@ -36,7 +36,33 @@ export default function AnalyticsTracker() {
       ticking = true;
       window.requestAnimationFrame(checkScroll);
     };
-    const dwellTimer = window.setTimeout(() => track("TIME_ON_PAGE", { seconds: 10 }), 10_000);
+    const pageViewId = crypto.randomUUID();
+    let visibleSince: number | null = document.visibilityState === "visible" ? Date.now() : null;
+    let visibleMs = 0;
+    let lastSentSeconds = 0;
+    const pauseDwell = () => {
+      if (visibleSince !== null) {
+        visibleMs += Date.now() - visibleSince;
+        visibleSince = null;
+      }
+    };
+    const sendDwell = () => {
+      const seconds = Math.floor((visibleMs + (visibleSince === null ? 0 : Date.now() - visibleSince)) / 1000);
+      if (seconds < 1 || seconds <= lastSentSeconds) return;
+      lastSentSeconds = seconds;
+      track("TIME_ON_PAGE", { seconds, page_view_id: pageViewId }, true, pathname);
+    };
+    const onDwellVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        pauseDwell();
+        sendDwell();
+      } else if (visibleSince === null) {
+        visibleSince = Date.now();
+      }
+    };
+    const onDwellExit = () => { pauseDwell(); sendDwell(); };
+    const firstDwellSample = window.setTimeout(sendDwell, 10_000);
+    const dwellInterval = window.setInterval(sendDwell, 30_000);
     const heartbeat = () => {
       if (document.visibilityState === "visible") track("VISITOR_HEARTBEAT");
     };
@@ -45,12 +71,18 @@ export default function AnalyticsTracker() {
 
     window.addEventListener("scroll", onScroll, { passive: true });
     document.addEventListener("visibilitychange", heartbeat);
+    document.addEventListener("visibilitychange", onDwellVisibilityChange);
+    window.addEventListener("pagehide", onDwellExit);
     return () => {
-      window.clearTimeout(dwellTimer);
+      window.clearTimeout(firstDwellSample);
+      window.clearInterval(dwellInterval);
       window.clearTimeout(initialHeartbeat);
       window.clearInterval(heartbeatTimer);
       window.removeEventListener("scroll", onScroll);
       document.removeEventListener("visibilitychange", heartbeat);
+      document.removeEventListener("visibilitychange", onDwellVisibilityChange);
+      window.removeEventListener("pagehide", onDwellExit);
+      onDwellExit();
     };
   }, [pathname]);
 

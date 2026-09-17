@@ -37,10 +37,10 @@ function send(payload: unknown, immediate = false) {
   }
 }
 
-export function track(eventType: AnalyticsEventName, metadata: EventMetadata = {}, immediate = false) {
+export function track(eventType: AnalyticsEventName, metadata: EventMetadata = {}, immediate = false, pagePath?: string) {
   if (typeof window === "undefined") return;
   const session = getAnalyticsSession();
-  const path = window.location.pathname || "/";
+  const path = pagePath ?? window.location.pathname ?? "/";
 
   send(
     {
