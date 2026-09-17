@@ -36,7 +36,7 @@ export function Header() {
             href={LINKS.shareTheCheer}
             className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-accent-gold px-4 text-sm font-semibold text-chestnut transition-colors hover:bg-accent-gold/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-red touch-manipulation"
           >
-            <Heart className="h-4 w-4" aria-hidden="true" />
+            <Heart className="h-4 w-4 fill-current" aria-hidden="true" />
             Help a Family
           </Link>
           <MobileMenu />

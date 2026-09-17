@@ -42,14 +42,8 @@ const ANIMATIONS: Record<MascotVariant, { name: string; loop: boolean }> = {
   holdingLights: { name: "lights", loop: true },
 };
 
-const WEBP_DURATION_MS = 7000;
-
-function needsWebpFallback() {
-  if (typeof navigator === "undefined") return false;
-  const ua = navigator.userAgent;
-  // WebKit can decode VP9 WebM while ignoring its alpha channel.
-  return /iP(ad|hone|od)/.test(ua) || (/Safari/.test(ua) && !/Chrome|Chromium|CriOS|FxiOS|Edg|OPR/.test(ua));
-}
+// The single-play WebPs end on their final frame after 6.6 seconds.
+const SINGLE_PLAY_DURATION_MS = 6600;
 
 type MascotProps = {
   variant: MascotVariant;
@@ -70,16 +64,15 @@ export function Mascot({
   priority = false,
 }: MascotProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const [inView, setInView] = useState(false);
-  const [hasEntered, setHasEntered] = useState(false);
+  const [pageVisible, setPageVisible] = useState(true);
   const [reducedMotion, setReducedMotion] = useState(true);
-  const [useWebp] = useState(needsWebpFallback);
   const [ready, setReady] = useState(false);
   const [ended, setEnded] = useState(false);
   const { name, loop } = ANIMATIONS[variant];
   const assetBase = `/animations/mascots/${name}`;
   const shouldFlip = flip ?? (variant === "pointing" && side === "right");
+  const active = inView && pageVisible && !reducedMotion && !ended;
 
   useEffect(() => {
     const query = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -90,40 +83,34 @@ export function Mascot({
   }, []);
 
   useEffect(() => {
+    const update = () => {
+      setPageVisible(!document.hidden);
+      if (document.hidden && !ended) setReady(false);
+    };
+    update();
+    document.addEventListener("visibilitychange", update);
+    return () => document.removeEventListener("visibilitychange", update);
+  }, [ended]);
+
+  useEffect(() => {
     const element = containerRef.current;
     if (!element) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
         setInView(entry.isIntersecting);
-        if (entry.isIntersecting) setHasEntered(true);
-        if (!entry.isIntersecting && useWebp && !ended) setReady(false);
+        if (!entry.isIntersecting && !ended) setReady(false);
       },
       { threshold: 0.25 },
     );
     observer.observe(element);
     return () => observer.disconnect();
-  }, [useWebp, ended]);
+  }, [ended]);
 
   useEffect(() => {
-    if (!useWebp || loop || !inView || !ready || ended || reducedMotion) return;
-    const timer = window.setTimeout(() => setEnded(true), WEBP_DURATION_MS);
+    if (loop || !active || !ready) return;
+    const timer = window.setTimeout(() => setEnded(true), SINGLE_PLAY_DURATION_MS);
     return () => window.clearTimeout(timer);
-  }, [useWebp, loop, inView, ready, ended, reducedMotion]);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    const syncPlayback = () => {
-      if (inView && !reducedMotion && !document.hidden && !ended) {
-        void video.play().catch(() => { /* The still image remains visible. */ });
-      } else {
-        video.pause();
-      }
-    };
-    syncPlayback();
-    document.addEventListener("visibilitychange", syncPlayback);
-    return () => document.removeEventListener("visibilitychange", syncPlayback);
-  }, [inView, reducedMotion, hasEntered, ended, useWebp]);
+  }, [loop, active, ready]);
 
   return (
     <div
@@ -134,9 +121,9 @@ export function Mascot({
       aria-label={MASCOT_ALTS[variant]}
     >
       <div className={`absolute inset-0 ${shouldFlip ? "-scale-x-100" : ""}`}>
-        {(!ready || reducedMotion || (useWebp && (!inView || ended))) && (
+        {(!ready || !active) && (
           <Image
-            src={useWebp && ended && !loop ? `${assetBase}-final.png` : ASSETS.mascots[variant]}
+            src={ended && !loop ? `${assetBase}-final.png` : ASSETS.mascots[variant]}
             alt=""
             fill
             className="object-contain object-bottom"
@@ -144,30 +131,18 @@ export function Mascot({
             {...(priority ? { priority: true } : { loading: "lazy" as const })}
           />
         )}
-        {useWebp && inView && !reducedMotion && !ended && (
-          <Image
-            src={`${assetBase}.webp?v=2`}
+        {active && (
+          // Native img preserves animated WebP frames; Next/Image's decode gate can hide playback.
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={`${assetBase}.webp?v=3`}
             alt=""
-            fill
-            unoptimized
-            className={`object-cover ${ready ? "opacity-100" : "opacity-0"}`}
+            width={size}
+            height={size}
+            decoding="async"
+            className={`absolute inset-0 h-full w-full object-cover ${ready ? "opacity-100" : "opacity-0"}`}
             onLoad={() => setReady(true)}
             onError={() => setReady(false)}
-          />
-        )}
-        {!useWebp && hasEntered && !reducedMotion && (
-          <video
-            ref={videoRef}
-            src={`${assetBase}.webm`}
-            muted
-            playsInline
-            loop={loop}
-            preload="none"
-            aria-hidden="true"
-            onLoadedData={() => setReady(true)}
-            onError={() => setReady(false)}
-            onEnded={() => setEnded(true)}
-            className={`absolute inset-0 h-full w-full object-cover ${ready ? "opacity-100" : "opacity-0"}`}
           />
         )}
       </div>
