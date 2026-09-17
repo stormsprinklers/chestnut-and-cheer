@@ -41,10 +41,15 @@ function writeCookie(name: string, value: string) {
 function sourceBucket(params: URLSearchParams, referrer: string) {
   const source = (params.get("utm_source") ?? "").toLowerCase();
   const medium = (params.get("utm_medium") ?? "").toLowerCase();
+  const isMetaSource = /facebook|instagram|meta/.test(source);
+  const isPaidMedium = /cpc|ppc|paid/.test(medium);
 
   if (params.get("gclid") || (source === "google" && /cpc|ppc|paid/.test(medium))) return "google_ads";
   if (params.get("msclkid") || source === "bing") return "microsoft_ads";
-  if (params.get("fbclid") || /facebook|instagram|meta/.test(source)) return "meta_ads";
+  if (isMetaSource && isPaidMedium) return "meta_ads";
+  // Facebook and Instagram add fbclid to more than paid-ad clicks. Keep that
+  // useful source signal without treating it as proof of ad spend.
+  if (params.get("fbclid") || isMetaSource) return "meta";
   if (medium === "email") return "email";
   if (medium === "social" || /linkedin|nextdoor|yelp|thumbtack/.test(source)) return "social";
   if (source || medium) return "campaign";
