@@ -50,7 +50,7 @@ export default function ShareTheCheerPage() {
       </div>
     </section>
 
-    <section className="section-pad bg-cream"><div className="mx-auto max-w-6xl px-4 sm:px-6"><SectionHeading eyebrow="The hope behind the holiday" title="A Christmas they can feel at home">We hope to create a warm, memorable experience for each selected family, shaped by the generosity of local partners.</SectionHeading>
+    <section className="section-pad bg-cream"><div className="mx-auto max-w-6xl px-4 sm:px-6"><SectionHeading eyebrow="The hope behind the holiday" title="A Christmas They'll Never Forget">We hope to create a warm, memorable experience for each selected family, shaped by the generosity of local partners.</SectionHeading>
       <div className="mt-9 grid gap-4 md:grid-cols-3">{[
         { icon: UtensilsCrossed, title: "Christmas dinner", text: "A holiday meal, ideally catered or provided by a local restaurant." },
         { icon: TreePine, title: "A real Christmas tree", text: "A fresh tree from a local farm or lot to make their home feel festive." },
