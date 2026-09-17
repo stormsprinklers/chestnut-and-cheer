@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Phone, Sparkles } from "lucide-react";
+import { Heart, Phone, Sparkles } from "lucide-react";
 import { ASSETS, COMPANY, LINKS, NAV_LINKS } from "@/lib/constants";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 
@@ -20,7 +20,7 @@ export function Header() {
         </Link>
 
         <nav className="hidden items-center gap-5 xl:flex" aria-label="Main navigation">
-          {NAV_LINKS.map((link) => (
+          {NAV_LINKS.filter((link) => link.href !== LINKS.shareTheCheer).map((link) => (
             <Link
               key={link.href + link.label}
               href={link.href}
@@ -34,8 +34,9 @@ export function Header() {
         <div className="flex items-center gap-2">
           <Link
             href={LINKS.shareTheCheer}
-            className="inline-flex min-h-11 items-center justify-center rounded-full bg-accent-gold px-4 text-sm font-semibold text-chestnut transition-colors hover:bg-accent-gold/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-red xl:hidden touch-manipulation"
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-accent-gold px-4 text-sm font-semibold text-chestnut transition-colors hover:bg-accent-gold/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-red touch-manipulation"
           >
+            <Heart className="h-4 w-4" aria-hidden="true" />
             Help a Family
           </Link>
           <MobileMenu />
