@@ -149,6 +149,7 @@ export const LINKS = {
   terms: "/terms-of-service",
   accessibility: "/accessibility",
   serviceAreas: "/service-areas",
+  shareTheCheer: "/share-the-cheer",
 } as const;
 
 /** A2P / 10DLC SMS program copy used on opt-in forms and legal pages. */
@@ -182,6 +183,7 @@ export const FOOTER_COLUMNS = [
     title: "Company",
     links: [
       { label: "About Us", href: LINKS.about },
+      { label: "Share the Cheer", href: LINKS.shareTheCheer },
       { label: "Service Areas", href: LINKS.serviceAreas },
       { label: "Project Gallery", href: LINKS.projects },
       { label: "Blog", href: LINKS.blog },
@@ -206,6 +208,7 @@ export const NAV_LINKS = [
   { label: "Projects", href: LINKS.projects },
   { label: "Pricing", href: LINKS.pricing },
   { label: "About", href: LINKS.about },
+  { label: "Share the Cheer", href: LINKS.shareTheCheer },
   { label: "Contact", href: LINKS.contact },
 ] as const;
 

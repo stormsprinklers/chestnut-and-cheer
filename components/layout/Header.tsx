@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Phone, Sparkles } from "lucide-react";
 import { ASSETS, COMPANY, LINKS, NAV_LINKS } from "@/lib/constants";
+import { MobileMenu } from "@/components/layout/MobileMenu";
 
 export function Header() {
   return (
@@ -32,37 +33,29 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           <Link
-            href={LINKS.estimate}
-            className="inline-flex min-h-11 items-center justify-center rounded-full bg-accent-gold px-4 text-sm font-semibold text-chestnut transition-colors hover:bg-accent-gold/90 active:scale-95 lg:hidden touch-manipulation"
+            href={LINKS.shareTheCheer}
+            className="inline-flex min-h-11 items-center justify-center rounded-full bg-accent-gold px-4 text-sm font-semibold text-chestnut transition-colors hover:bg-accent-gold/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-red xl:hidden touch-manipulation"
           >
-            Estimate
+            Help a Family
           </Link>
+          <MobileMenu />
 
           <a
             href={LINKS.tel}
-            className="hidden items-center gap-2 rounded-full bg-primary-red px-4 py-2 text-sm font-semibold text-warm-white transition-colors hover:bg-primary-red/90 lg:inline-flex"
+            className="hidden items-center gap-2 rounded-full bg-primary-red px-4 py-2 text-sm font-semibold text-warm-white transition-colors hover:bg-primary-red/90 xl:inline-flex"
           >
             <Phone className="h-4 w-4" />
             {COMPANY.phone}
           </a>
           <Link
             href={LINKS.estimate}
-            className="hidden items-center gap-2 rounded-full bg-accent-gold px-4 py-2 text-sm font-semibold text-chestnut transition-colors hover:bg-accent-gold/90 lg:inline-flex"
+            className="hidden items-center gap-2 rounded-full bg-accent-gold px-4 py-2 text-sm font-semibold text-chestnut transition-colors hover:bg-accent-gold/90 xl:inline-flex"
           >
             <Sparkles className="h-4 w-4" />
             Get Instant Estimate
           </Link>
         </div>
       </div>
-      <nav className="overflow-x-auto border-t border-chestnut/10 px-4 xl:hidden" aria-label="Mobile navigation">
-        <div className="mx-auto flex min-w-max max-w-6xl gap-5 py-2.5">
-          {NAV_LINKS.map((link) => (
-            <Link key={link.href} href={link.href} className="text-sm font-medium text-chestnut/80 hover:text-primary-red">
-              {link.label}
-            </Link>
-          ))}
-        </div>
-      </nav>
     </header>
   );
 }

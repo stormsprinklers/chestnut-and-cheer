@@ -4,7 +4,7 @@ import {
   LINKS,
   MAP_EMBED_URL,
 } from "@/lib/constants";
-import { cityPagePath, getCountyCities } from "@/lib/cities";
+import { cityPagePath, getCountyCityNames, LAUNCH_CITY_BY_NAME } from "@/lib/cities";
 import { LazyMap } from "@/components/ui/LazyMap";
 import { Button } from "@/components/ui/Button";
 
@@ -29,16 +29,18 @@ export function ServiceAreaMap() {
                 Utah County
               </h3>
               <ul className="mt-3 text-sm leading-relaxed text-chestnut/80">
-                {getCountyCities("Utah County").map((city) => (
-                  <li key={city.slug} className="py-0.5">
-                    <Link
-                      href={cityPagePath(city)}
-                      className="hover:text-primary-red hover:underline"
-                    >
-                      {city.name}
-                    </Link>
-                  </li>
-                ))}
+                {getCountyCityNames("Utah County").map((cityName) => {
+                  const city = LAUNCH_CITY_BY_NAME.get(cityName);
+                  return (
+                    <li key={cityName} className="py-0.5">
+                      {city ? (
+                        <Link href={cityPagePath(city)} className="hover:text-primary-red hover:underline">
+                          {cityName}
+                        </Link>
+                      ) : cityName}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
             <div>
@@ -46,16 +48,18 @@ export function ServiceAreaMap() {
                 Salt Lake County
               </h3>
               <ul className="mt-3 text-sm leading-relaxed text-chestnut/80">
-                {getCountyCities("Salt Lake County").map((city) => (
-                  <li key={city.slug} className="py-0.5">
-                    <Link
-                      href={cityPagePath(city)}
-                      className="hover:text-primary-red hover:underline"
-                    >
-                      {city.name}
-                    </Link>
-                  </li>
-                ))}
+                {getCountyCityNames("Salt Lake County").map((cityName) => {
+                  const city = LAUNCH_CITY_BY_NAME.get(cityName);
+                  return (
+                    <li key={cityName} className="py-0.5">
+                      {city ? (
+                        <Link href={cityPagePath(city)} className="hover:text-primary-red hover:underline">
+                          {cityName}
+                        </Link>
+                      ) : cityName}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </div>

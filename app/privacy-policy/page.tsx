@@ -51,6 +51,13 @@ export default function PrivacyPolicyPage() {
         <li>Improving our website and services</li>
         <li>Sending marketing messages only when you have opted in</li>
       </ul>
+      <p>
+        For Share the Cheer, we collect nomination and partner-offer information only to
+        review submissions and coordinate the program. We do not require families to
+        participate in publicity. We share photos or stories only with their clear
+        permission, and participating businesses do not receive sensitive nomination
+        details.
+      </p>
 
       <h2>3. Sharing of Information</h2>
       <p>

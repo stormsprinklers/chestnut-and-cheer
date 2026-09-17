@@ -10,11 +10,16 @@ export type CrmLeadPayload = {
   city?: string | null;
 };
 
-const CRM_BASE = process.env.CRM_INTEGRATION_URL?.replace(/\/$/, "") ?? "";
-const CRM_KEY = process.env.CRM_INTEGRATION_KEY ?? "";
+function crmCredentials() {
+  return {
+    base: process.env.CRM_INTEGRATION_URL?.replace(/\/$/, "") ?? "",
+    key: process.env.CRM_INTEGRATION_KEY ?? "",
+  };
+}
 
 export function isCrmConfigured() {
-  return Boolean(CRM_BASE && CRM_KEY);
+  const { base, key } = crmCredentials();
+  return Boolean(base && key);
 }
 
 export async function forwardLeadToCrm(payload: CrmLeadPayload) {
@@ -25,13 +30,14 @@ export async function forwardLeadToCrm(payload: CrmLeadPayload) {
     return { ok: false as const, skipped: true as const };
   }
 
-  const url = `${CRM_BASE}/website/leads`;
+  const { base, key } = crmCredentials();
+  const url = `${base}/website/leads`;
   try {
     const res = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${CRM_KEY}`,
+        Authorization: `Bearer ${key}`,
       },
       body: JSON.stringify(payload),
     });
@@ -101,13 +107,14 @@ async function crmFetch(path: string, init?: RequestInit) {
   if (!isCrmConfigured()) {
     return { ok: false as const, skipped: true as const, status: 503 };
   }
-  const url = `${CRM_BASE}${path}`;
+  const { base, key } = crmCredentials();
+  const url = `${base}${path}`;
   try {
     const res = await fetch(url, {
       ...init,
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${CRM_KEY}`,
+        Authorization: `Bearer ${key}`,
         ...(init?.headers ?? {}),
       },
     });

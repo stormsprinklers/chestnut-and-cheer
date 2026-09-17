@@ -65,19 +65,30 @@ export default function AnalyticsTracker() {
 
       if (/^tel:/i.test(href)) trackTelClick(href, label);
       else if (/^sms:/i.test(href)) trackSmsClick(href, label);
-      else if (/^\/(estimate|book|contact)(?:[/?#]|$)/.test(href)) {
+      else if (/^\/(estimate|book|contact|share-the-cheer)(?:[/?#]|$)/.test(href) || (pathname === "/share-the-cheer" && /^#(nominate|partner)$/.test(href))) {
         track("CTA_CLICK", { button_label: label, cta_destination: href });
       }
     };
 
+    const startedForms = new WeakSet<HTMLFormElement>();
+    const onFocus = (event: FocusEvent) => {
+      if (!(event.target instanceof Element)) return;
+      const form = event.target.closest<HTMLFormElement>("form[data-analytics-form]");
+      if (!form || startedForms.has(form)) return;
+      startedForms.add(form);
+      track("FORM_START", { form_name: form.dataset.analyticsForm });
+    };
+
     const onExit = () => track("PAGE_EXIT", {}, true);
     document.addEventListener("click", onClick, true);
+    document.addEventListener("focusin", onFocus);
     window.addEventListener("pagehide", onExit);
     return () => {
       document.removeEventListener("click", onClick, true);
+      document.removeEventListener("focusin", onFocus);
       window.removeEventListener("pagehide", onExit);
     };
-  }, []);
+  }, [pathname]);
 
   return null;
 }
