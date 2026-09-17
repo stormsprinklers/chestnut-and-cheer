@@ -42,6 +42,8 @@ const ANIMATIONS: Record<MascotVariant, { name: string; loop: boolean }> = {
   holdingLights: { name: "lights", loop: true },
 };
 
+const WEBP_DURATION_MS = 7000;
+
 function needsWebpFallback() {
   if (typeof navigator === "undefined") return false;
   const ua = navigator.userAgent;
@@ -104,7 +106,7 @@ export function Mascot({
 
   useEffect(() => {
     if (!useWebp || loop || !inView || !ready || ended || reducedMotion) return;
-    const timer = window.setTimeout(() => setEnded(true), 8200);
+    const timer = window.setTimeout(() => setEnded(true), WEBP_DURATION_MS);
     return () => window.clearTimeout(timer);
   }, [useWebp, loop, inView, ready, ended, reducedMotion]);
 
@@ -144,7 +146,7 @@ export function Mascot({
         )}
         {useWebp && inView && !reducedMotion && !ended && (
           <Image
-            src={`${assetBase}.webp`}
+            src={`${assetBase}.webp?v=2`}
             alt=""
             fill
             unoptimized
