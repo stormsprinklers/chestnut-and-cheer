@@ -30,17 +30,24 @@ const MASCOT_ALTS: Record<MascotVariant, string> = {
 };
 
 // The same clip is shared wherever the pose has the same meaning.
-const ANIMATIONS: Record<MascotVariant, { src: string; loop: boolean }> = {
-  worker: { src: "/animations/mascots/worker.webm", loop: true },
-  gift: { src: "/animations/mascots/gift.webm", loop: false },
-  cheer: { src: "/animations/mascots/cheer.webm", loop: false },
-  jump: { src: "/animations/mascots/cheer.webm", loop: false },
-  fullBody: { src: "/animations/mascots/idle.webm", loop: true },
-  phone: { src: "/animations/mascots/phone.webm", loop: true },
-  csr: { src: "/animations/mascots/csr.webm", loop: true },
-  pointing: { src: "/animations/mascots/pointing.webm", loop: false },
-  holdingLights: { src: "/animations/mascots/lights.webm", loop: true },
+const ANIMATIONS: Record<MascotVariant, { name: string; loop: boolean }> = {
+  worker: { name: "worker", loop: true },
+  gift: { name: "gift", loop: false },
+  cheer: { name: "cheer", loop: false },
+  jump: { name: "cheer", loop: false },
+  fullBody: { name: "idle", loop: true },
+  phone: { name: "phone", loop: true },
+  csr: { name: "csr", loop: true },
+  pointing: { name: "pointing", loop: false },
+  holdingLights: { name: "lights", loop: true },
 };
+
+function needsWebpFallback() {
+  if (typeof navigator === "undefined") return false;
+  const ua = navigator.userAgent;
+  // WebKit can decode VP9 WebM while ignoring its alpha channel.
+  return /iP(ad|hone|od)/.test(ua) || (/Safari/.test(ua) && !/Chrome|Chromium|CriOS|FxiOS|Edg|OPR/.test(ua));
+}
 
 type MascotProps = {
   variant: MascotVariant;
@@ -65,9 +72,11 @@ export function Mascot({
   const [inView, setInView] = useState(false);
   const [hasEntered, setHasEntered] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(true);
+  const [useWebp] = useState(needsWebpFallback);
   const [ready, setReady] = useState(false);
   const [ended, setEnded] = useState(false);
-  const { src, loop } = ANIMATIONS[variant];
+  const { name, loop } = ANIMATIONS[variant];
+  const assetBase = `/animations/mascots/${name}`;
   const shouldFlip = flip ?? (variant === "pointing" && side === "right");
 
   useEffect(() => {
@@ -85,12 +94,19 @@ export function Mascot({
       ([entry]) => {
         setInView(entry.isIntersecting);
         if (entry.isIntersecting) setHasEntered(true);
+        if (!entry.isIntersecting && useWebp && !ended) setReady(false);
       },
       { threshold: 0.25 },
     );
     observer.observe(element);
     return () => observer.disconnect();
-  }, []);
+  }, [useWebp, ended]);
+
+  useEffect(() => {
+    if (!useWebp || loop || !inView || !ready || ended || reducedMotion) return;
+    const timer = window.setTimeout(() => setEnded(true), 8200);
+    return () => window.clearTimeout(timer);
+  }, [useWebp, loop, inView, ready, ended, reducedMotion]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -105,7 +121,7 @@ export function Mascot({
     syncPlayback();
     document.addEventListener("visibilitychange", syncPlayback);
     return () => document.removeEventListener("visibilitychange", syncPlayback);
-  }, [inView, reducedMotion, hasEntered, ended]);
+  }, [inView, reducedMotion, hasEntered, ended, useWebp]);
 
   return (
     <div
@@ -116,9 +132,9 @@ export function Mascot({
       aria-label={MASCOT_ALTS[variant]}
     >
       <div className={`absolute inset-0 ${shouldFlip ? "-scale-x-100" : ""}`}>
-        {(!ready || reducedMotion) && (
+        {(!ready || reducedMotion || (useWebp && (!inView || ended))) && (
           <Image
-            src={ASSETS.mascots[variant]}
+            src={useWebp && ended && !loop ? `${assetBase}-final.png` : ASSETS.mascots[variant]}
             alt=""
             fill
             className="object-contain object-bottom"
@@ -126,10 +142,21 @@ export function Mascot({
             {...(priority ? { priority: true } : { loading: "lazy" as const })}
           />
         )}
-        {hasEntered && !reducedMotion && (
+        {useWebp && inView && !reducedMotion && !ended && (
+          <Image
+            src={`${assetBase}.webp`}
+            alt=""
+            fill
+            unoptimized
+            className={`object-cover ${ready ? "opacity-100" : "opacity-0"}`}
+            onLoad={() => setReady(true)}
+            onError={() => setReady(false)}
+          />
+        )}
+        {!useWebp && hasEntered && !reducedMotion && (
           <video
             ref={videoRef}
-            src={src}
+            src={`${assetBase}.webm`}
             muted
             playsInline
             loop={loop}
