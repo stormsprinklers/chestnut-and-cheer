@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
-import { Mascot } from "@/components/ui/Mascot";
 import { ASSETS, COMPANY, LINKS } from "@/lib/constants";
 
 export function Hero() {
@@ -9,16 +8,8 @@ export function Hero() {
       <div className="absolute inset-0 bg-gradient-to-br from-chestnut via-chestnut to-primary-red/40" />
 
       <div className="relative mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-16 lg:py-24">
-        <div className="grid items-center gap-8 lg:grid-cols-[auto_1fr_1fr] lg:gap-10">
-          <Mascot
-            variant="holdingLights"
-            side="left"
-            size={200}
-            className="hidden self-end lg:block"
-            priority
-          />
-
-          <div className="order-2 lg:order-none">
+        <div className="grid min-w-0 grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-10">
+          <div className="order-2 min-w-0 lg:order-none">
             <p className="mb-3 inline-block rounded-full bg-accent-gold/20 px-3 py-1 text-xs font-semibold text-accent-gold sm:mb-4 sm:px-4 sm:text-sm">
               Utah County & Salt Lake County
             </p>
@@ -44,7 +35,7 @@ export function Hero() {
             </div>
           </div>
 
-          <div className="relative order-1 aspect-[4/3] overflow-hidden rounded-2xl border border-warm-white/10 shadow-2xl lg:order-none">
+          <div className="relative order-1 aspect-[4/3] w-full min-w-0 overflow-hidden rounded-2xl border border-warm-white/10 shadow-2xl lg:order-none">
             <Image
               src={ASSETS.photos.hero}
               alt="Chestnut & Cheer Christmas light technician carrying a ladder to a Utah installation"

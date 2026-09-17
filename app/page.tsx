@@ -71,6 +71,7 @@ export default function Home() {
       <JsonLd data={getHomePageSchemas()} />
       <Hero />
       <SocialProof />
+      <BookingProcess />
       <ServicesOverview />
       <WhyChooseUs />
       <ProfessionalPhotoGallery
@@ -86,7 +87,6 @@ export default function Home() {
         ]}
       />
       <BeforeAfter />
-      <BookingProcess />
       <BookingPlaceholder />
       <Countdown />
       <Reviews />

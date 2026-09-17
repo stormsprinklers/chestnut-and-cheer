@@ -58,7 +58,7 @@ export function PricingPage() {
       <section className="section-pad">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="flex flex-col items-center gap-6 lg:flex-row lg:justify-center lg:gap-8">
-            <Mascot variant="pointing" side="left" size={160} className="hidden lg:block" />
+            <Mascot variant="pointing" side="left" size={160} className="mx-auto lg:mx-0" />
             <div className="text-center">
               <h2 className="font-display text-3xl font-bold text-chestnut sm:text-4xl">
                 Year 1 vs. Year 2+
