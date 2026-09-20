@@ -32,7 +32,7 @@ const MASCOT_ALTS: Record<MascotVariant, string> = {
 // The same clip is shared wherever the pose has the same meaning.
 const ANIMATIONS: Record<MascotVariant, { name: string; loop: boolean }> = {
   worker: { name: "worker", loop: true },
-  gift: { name: "gift", loop: false },
+  gift: { name: "gift", loop: true },
   cheer: { name: "cheer", loop: false },
   jump: { name: "cheer", loop: false },
   fullBody: { name: "idle", loop: true },
@@ -135,7 +135,7 @@ export function Mascot({
           // Native img preserves animated WebP frames; Next/Image's decode gate can hide playback.
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={`${assetBase}.webp?v=3`}
+            src={`${assetBase}.webp?v=${name === "gift" ? 4 : 3}`}
             alt=""
             width={size}
             height={size}

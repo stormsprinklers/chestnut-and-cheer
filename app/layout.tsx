@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Source_Sans_3 } from "next/font/google";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import { FloatingBookButton } from "@/components/layout/FloatingBookButton";
+import { SiteFooterChrome, SiteHeaderChrome } from "@/components/layout/SiteChrome";
 import { ScrollAnimations } from "@/components/motion/ScrollAnimations";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { COMPANY, ASSETS } from "@/lib/constants";
@@ -78,10 +76,9 @@ export default function RootLayout({
       className={`${displayFont.variable} ${bodyFont.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans pb-[calc(4.75rem+env(safe-area-inset-bottom))] lg:pb-0">
-        <Header />
+        <SiteHeaderChrome />
         <main className="flex-1">{children}</main>
-        <Footer />
-        <FloatingBookButton />
+        <SiteFooterChrome />
         <ScrollAnimations />
         <AnalyticsTracker />
       </body>

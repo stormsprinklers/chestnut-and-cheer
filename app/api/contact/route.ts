@@ -24,6 +24,10 @@ type Body = {
   turnstileToken?: string;
   "cf-turnstile-response"?: string;
   websiteUrl?: string;
+  leadSource?: string;
+  conversionPage?: string;
+  service?: string;
+  zip?: string;
 };
 
 export async function POST(request: Request) {
@@ -54,6 +58,13 @@ export async function POST(request: Request) {
   const email = String(body.email ?? "").trim();
   const phone = String(body.phone ?? "").trim();
   const message = String(body.message ?? "").trim();
+  const allowedLeadSources = new Set(["ppc_temporary_lights", "ppc_permanent_lights"]);
+  const leadSource = allowedLeadSources.has(String(body.leadSource))
+    ? String(body.leadSource)
+    : "christmas-contact";
+  const conversionPage = /^\/ppc\/(christmas-light-installation|permanent-christmas-light-installation)$/.test(String(body.conversionPage))
+    ? String(body.conversionPage)
+    : "/contact";
 
   if (!name) {
     return NextResponse.json({ ok: false, error: "Please enter your name." }, { status: 400 });
@@ -89,18 +100,20 @@ export async function POST(request: Request) {
     );
   }
 
-  const externalId = buildLeadExternalId("christmas-contact", randomUUID());
+  const externalId = buildLeadExternalId(leadSource, randomUUID());
   const crmResult = await forwardLeadToCrm({
     externalId,
     name,
     phone: phone || null,
     email: email || null,
-    source: "christmas-contact",
+    source: leadSource,
     notes: message,
     metadata: {
-      form: "christmas-contact",
+      form: leadSource,
       message,
-      conversion_page: "/contact",
+      conversion_page: conversionPage,
+      service: String(body.service ?? "").slice(0, 30),
+      zip: String(body.zip ?? "").slice(0, 10),
       smsServiceConsent: body.smsServiceConsent === true,
       smsMarketingConsent: body.smsMarketingConsent === true,
     },
