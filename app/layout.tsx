@@ -1,11 +1,14 @@
 import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Source_Sans_3 } from "next/font/google";
+import Script from "next/script";
 import { SiteFooterChrome, SiteHeaderChrome } from "@/components/layout/SiteChrome";
 import { ScrollAnimations } from "@/components/motion/ScrollAnimations";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { COMPANY, ASSETS } from "@/lib/constants";
 import { SITE_URL, absoluteUrl } from "@/lib/site";
 import "./globals.css";
+
+const GOOGLE_ADS_TAG_ID = "AW-18477697547";
 
 const displayFont = Playfair_Display({
   variable: "--font-display",
@@ -76,6 +79,19 @@ export default function RootLayout({
       className={`${displayFont.variable} ${bodyFont.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans pb-[calc(4.75rem+env(safe-area-inset-bottom))] lg:pb-0">
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_TAG_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-ads-tag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            window.gtag = gtag;
+            gtag('js', new Date());
+            gtag('config', '${GOOGLE_ADS_TAG_ID}');
+          `}
+        </Script>
         <SiteHeaderChrome />
         <main className="flex-1">{children}</main>
         <SiteFooterChrome />
