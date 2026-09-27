@@ -18,6 +18,7 @@ type AddressAutocompleteProps = {
   onChange: (value: string) => void;
   onPlaceSelected: (place: ParsedPlace) => void;
   placeholder?: string;
+  required?: boolean;
 };
 
 type AddressComponent = {
@@ -140,6 +141,7 @@ export function AddressAutocomplete({
   onChange,
   onPlaceSelected,
   placeholder = "123 Main St, Orem UT 84057",
+  required = false,
 }: AddressAutocompleteProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<{
@@ -211,6 +213,7 @@ export function AddressAutocomplete({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         autoComplete={MAPS_KEY ? "off" : "street-address"}
+        required={required}
       />
       {MAPS_KEY && mapsReady ? (
         <p className="mt-1 text-xs text-chestnut/50">

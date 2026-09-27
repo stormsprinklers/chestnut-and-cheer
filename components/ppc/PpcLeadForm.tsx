@@ -1,6 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import {
+  AddressAutocomplete,
+  type ParsedPlace,
+} from "@/components/estimate/AddressAutocomplete";
 import TurnstileWidget from "@/components/TurnstileWidget";
 import { track } from "@/lib/analytics/track";
 import { COMPANY } from "@/lib/constants";
@@ -29,6 +33,8 @@ export function PpcLeadForm({ service }: { service: Service }) {
   const [error, setError] = useState("");
   const [token, setToken] = useState<string | null>(null);
   const [resetKey, setResetKey] = useState(0);
+  const [address, setAddress] = useState("");
+  const [selectedPlace, setSelectedPlace] = useState<ParsedPlace | null>(null);
   const formName = `ppc_${service}_lights`;
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
@@ -38,11 +44,11 @@ export function PpcLeadForm({ service }: { service: Service }) {
     const name = String(data.get("name") ?? "").trim();
     const phone = String(data.get("phone") ?? "").trim();
     const email = String(data.get("email") ?? "").trim();
-    const zip = String(data.get("zip") ?? "").trim();
+    const fullAddress = address.trim();
 
-    if (!name || !phone || !zip) {
+    if (!name || !phone || !fullAddress) {
       setStatus("error");
-      setError("Please enter your name, phone number, and ZIP code.");
+      setError("Please enter your name, phone number, and property address.");
       return;
     }
     if (!token) {
@@ -59,13 +65,19 @@ export function PpcLeadForm({ service }: { service: Service }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name, phone, email,
-          message: `${service === "temporary" ? "Temporary Christmas lights" : "Permanent Christmas lights"} PPC quote request. ZIP code: ${zip}.`,
+          message: `${service === "temporary" ? "Temporary Christmas lights" : "Permanent Christmas lights"} PPC quote request. Property: ${fullAddress}.`,
           websiteUrl: data.get("websiteUrl"),
           turnstileToken: token,
           leadSource: formName,
           conversionPage: window.location.pathname,
           service,
-          zip,
+          address: selectedPlace?.address || fullAddress,
+          formattedAddress: fullAddress,
+          city: selectedPlace?.city || null,
+          state: selectedPlace?.state || null,
+          zip: selectedPlace?.zip || null,
+          lat: selectedPlace?.lat ?? null,
+          lng: selectedPlace?.lng ?? null,
         }),
       });
       const result = (await response.json()) as { ok?: boolean; error?: string; externalId?: string };
@@ -113,7 +125,22 @@ export function PpcLeadForm({ service }: { service: Service }) {
         <label className="block text-sm font-semibold text-chestnut">Name<input name="name" required autoComplete="name" className={fieldClass} /></label>
         <label className="block text-sm font-semibold text-chestnut">Phone<input name="phone" type="tel" required inputMode="tel" autoComplete="tel" className={fieldClass} /></label>
         <label className="block text-sm font-semibold text-chestnut">Email <span className="font-normal text-chestnut/50">(optional)</span><input name="email" type="email" autoComplete="email" className={fieldClass} /></label>
-        <label className="block text-sm font-semibold text-chestnut">ZIP code<input name="zip" required inputMode="numeric" autoComplete="postal-code" maxLength={10} className={fieldClass} /></label>
+        <label className="block text-sm font-semibold text-chestnut">
+          Property address
+          <AddressAutocomplete
+            value={address}
+            onChange={(value) => {
+              setAddress(value);
+              setSelectedPlace(null);
+            }}
+            onPlaceSelected={(place) => {
+              setAddress(place.formattedAddress);
+              setSelectedPlace(place);
+            }}
+            placeholder="Start typing your full address"
+            required
+          />
+        </label>
         <TurnstileWidget onToken={setToken} resetKey={resetKey} />
         {status === "error" && <p className="rounded-xl bg-primary-red/5 p-3 text-sm text-primary-red" role="alert">{error}</p>}
         <button type="submit" disabled={status === "sending"} className="min-h-12 w-full rounded-full bg-primary-red px-5 font-semibold text-white transition hover:bg-primary-red/90 disabled:opacity-60">{status === "sending" ? "Sending…" : "Request My Free Quote"}</button>

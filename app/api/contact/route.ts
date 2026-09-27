@@ -27,7 +27,13 @@ type Body = {
   leadSource?: string;
   conversionPage?: string;
   service?: string;
+  address?: string;
+  formattedAddress?: string;
+  city?: string | null;
+  state?: string | null;
   zip?: string;
+  lat?: number | null;
+  lng?: number | null;
 };
 
 export async function POST(request: Request) {
@@ -58,10 +64,12 @@ export async function POST(request: Request) {
   const email = String(body.email ?? "").trim();
   const phone = String(body.phone ?? "").trim();
   const message = String(body.message ?? "").trim();
+  const address = String(body.address ?? "").trim();
+  const formattedAddress = String(body.formattedAddress ?? body.address ?? "").trim();
+  const city = String(body.city ?? "").trim();
   const allowedLeadSources = new Set(["ppc_temporary_lights", "ppc_permanent_lights"]);
-  const leadSource = allowedLeadSources.has(String(body.leadSource))
-    ? String(body.leadSource)
-    : "christmas-contact";
+  const isPpcLead = allowedLeadSources.has(String(body.leadSource));
+  const leadSource = isPpcLead ? String(body.leadSource) : "christmas-contact";
   const conversionPage = /^\/ppc\/(christmas-light-installation|permanent-christmas-light-installation)$/.test(String(body.conversionPage))
     ? String(body.conversionPage)
     : "/contact";
@@ -72,6 +80,12 @@ export async function POST(request: Request) {
   if (!phone) {
     return NextResponse.json(
       { ok: false, error: "Please enter your mobile phone number." },
+      { status: 400 }
+    );
+  }
+  if (isPpcLead && !formattedAddress) {
+    return NextResponse.json(
+      { ok: false, error: "Please enter the property address." },
       { status: 400 }
     );
   }
@@ -108,12 +122,26 @@ export async function POST(request: Request) {
     email: email || null,
     source: leadSource,
     notes: message,
+    address: address || formattedAddress || null,
+    city: city || null,
     metadata: {
       form: leadSource,
       message,
       conversion_page: conversionPage,
       service: String(body.service ?? "").slice(0, 30),
-      zip: String(body.zip ?? "").slice(0, 10),
+      ...(isPpcLead
+        ? {
+            property: {
+              formattedAddress,
+              address: address || formattedAddress,
+              city: city || null,
+              state: String(body.state ?? "").trim() || null,
+              zip: String(body.zip ?? "").trim().slice(0, 10) || null,
+              lat: typeof body.lat === "number" ? body.lat : null,
+              lng: typeof body.lng === "number" ? body.lng : null,
+            },
+          }
+        : {}),
       smsServiceConsent: body.smsServiceConsent === true,
       smsMarketingConsent: body.smsMarketingConsent === true,
     },
