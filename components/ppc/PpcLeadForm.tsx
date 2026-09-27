@@ -8,6 +8,15 @@ import { COMPANY } from "@/lib/constants";
 type Service = "temporary" | "permanent";
 type Status = "idle" | "sending" | "success" | "error";
 
+const GOOGLE_ADS_LEAD_CONVERSION = "AW-18477697547/h1GjCKi_yIcdEIuU7epE";
+
+function normalizeUsPhone(value: string) {
+  const digits = value.replace(/\D/g, "");
+  if (digits.length === 10) return `+1${digits}`;
+  if (digits.length === 11 && digits.startsWith("1")) return `+${digits}`;
+  return null;
+}
+
 declare global {
   interface Window {
     dataLayer?: Record<string, unknown>[];
@@ -65,6 +74,17 @@ export function PpcLeadForm({ service }: { service: Service }) {
       const conversion = { event: "ppc_lead_submit", lead_type: service, form_name: formName, transaction_id: result.externalId };
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push(conversion);
+      const normalizedPhone = normalizeUsPhone(phone);
+      window.gtag?.("set", "user_data", {
+        ...(email ? { email: email.toLowerCase() } : {}),
+        ...(normalizedPhone ? { phone_number: normalizedPhone } : {}),
+      });
+      window.gtag?.("event", "conversion", {
+        send_to: GOOGLE_ADS_LEAD_CONVERSION,
+        value: 500,
+        currency: "USD",
+        transaction_id: result.externalId,
+      });
       window.gtag?.("event", "generate_lead", { lead_type: service, form_name: formName, transaction_id: result.externalId });
       track("FORM_SUBMIT", { form_name: formName, lead_type: service });
       form.reset();
