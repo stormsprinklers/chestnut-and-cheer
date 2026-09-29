@@ -3,7 +3,7 @@ import { getAllPosts } from "@/lib/blog/posts";
 import { LAUNCH_CITY_PAGES, cityPagePath } from "@/lib/cities";
 import { SITE_URL } from "@/lib/site";
 
-const SITE_CONTENT_UPDATED = "2026-09-15";
+const SITE_CONTENT_UPDATED = "2026-09-29";
 
 const STATIC_PAGES = [
   { path: "", priority: 1, changeFrequency: "weekly" as const },
@@ -43,7 +43,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${SITE_URL}/blog/${post.slug}`,
     lastModified: post.date,
     changeFrequency: "monthly",
-    priority: 0.5,
+    priority: post.hub ? 0.75 : 0.6,
   }));
 
   return [...staticEntries, ...cityEntries, ...blogEntries];

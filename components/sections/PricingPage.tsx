@@ -264,7 +264,7 @@ export function PricingPage() {
               <details key={faq.q} className="rounded-xl border border-chestnut/10 bg-white px-5 py-4"><summary className="cursor-pointer font-semibold text-chestnut">{faq.q}</summary><p className="mt-3 leading-relaxed text-chestnut/70">{faq.a}</p></details>
             ))}
           </div>
-          <p className="mt-6 text-center text-sm text-chestnut/65">Compare <Link href={LINKS.residentialLighting} className="font-semibold text-primary-red hover:underline">residential installation</Link>, <Link href={LINKS.commercialLighting} className="font-semibold text-primary-red hover:underline">commercial lighting</Link>, or <Link href={LINKS.serviceAreas} className="font-semibold text-primary-red hover:underline">local service areas</Link>.</p>
+          <p className="mt-6 text-center text-sm text-chestnut/65">Compare <Link href={LINKS.residentialLighting} className="font-semibold text-primary-red hover:underline">residential installation</Link>, <Link href={LINKS.commercialLighting} className="font-semibold text-primary-red hover:underline">commercial lighting</Link>, or <Link href={LINKS.serviceAreas} className="font-semibold text-primary-red hover:underline">local service areas</Link>. Before comparing proposals, use our team&apos;s <Link href="/blog/how-to-choose-christmas-light-installer" className="font-semibold text-primary-red hover:underline">12-question installer checklist</Link>.</p>
         </div>
       </section>
     </>

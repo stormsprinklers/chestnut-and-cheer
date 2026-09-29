@@ -24,6 +24,21 @@ const nextConfig: NextConfig = {
         destination: "/christmas-light-installation/commercial",
         permanent: true,
       },
+      {
+        source: "/blog/temporary-vs-permanent-christmas-lights",
+        destination: "/christmas-light-installation",
+        permanent: true,
+      },
+      {
+        source: "/blog/when-to-book-christmas-light-installation-utah",
+        destination: "/blog/best-time-to-install-christmas-lights",
+        permanent: true,
+      },
+      {
+        source: "/blog/gutter-cleaning-with-holiday-lights",
+        destination: "/gutter-cleaning",
+        permanent: true,
+      },
     ];
   },
   async headers() {
