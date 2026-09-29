@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { Playfair_Display, Source_Sans_3 } from "next/font/google";
 import Script from "next/script";
 import { SiteFooterChrome, SiteHeaderChrome } from "@/components/layout/SiteChrome";
 import { ScrollAnimations } from "@/components/motion/ScrollAnimations";
@@ -9,20 +8,6 @@ import { SITE_URL, absoluteUrl } from "@/lib/site";
 import "./globals.css";
 
 const GOOGLE_ADS_TAG_ID = "AW-18477697547";
-
-const displayFont = Playfair_Display({
-  variable: "--font-display",
-  subsets: ["latin"],
-  weight: ["400", "600", "700"],
-  display: "swap",
-});
-
-const bodyFont = Source_Sans_3({
-  variable: "--font-body",
-  subsets: ["latin"],
-  weight: ["400", "600"],
-  display: "swap",
-});
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -74,10 +59,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${displayFont.variable} ${bodyFont.variable} h-full antialiased`}
-    >
+    <html lang="en" className="h-full antialiased">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap"
+        />
+      </head>
       <body className="min-h-full flex flex-col font-sans pb-[calc(4.75rem+env(safe-area-inset-bottom))] lg:pb-0">
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_TAG_ID}`}

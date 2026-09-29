@@ -8,6 +8,8 @@
   --color-accent-gold: #e6c27a;
   --background: #f9f5ef;
   --foreground: #5e3b28;
+  --font-body: "Source Sans 3";
+  --font-display: "Playfair Display";
 }
 
 /* PPC pages use a focused layout without the mobile site action bar. */
