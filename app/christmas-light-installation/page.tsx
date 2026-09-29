@@ -6,7 +6,7 @@ import { getServicePageSchemas } from "@/lib/structured-data";
 
 const path = "/christmas-light-installation";
 const title = "Professional Christmas Light Installation in Utah";
-const description = "Full-service Christmas light installation for homes and commercial properties across Utah County and Salt Lake County, including design, maintenance, takedown, and storage.";
+const description = `Full-service Christmas light installation across ${COMPANY.serviceAreaSummary}, including design, maintenance, takedown, and storage.`;
 
 export const metadata: Metadata = {
   title,
@@ -22,7 +22,7 @@ export default function ChristmasLightInstallationPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Services", href: LINKS.services }, { label: "Christmas Light Installation" }]}
         eyebrow="Design · Install · Maintain · Remove · Store"
         title={title}
-        description={`${COMPANY.name} provides professional Christmas light installation from the first design conversation through January takedown. We serve residential, commercial, and community properties across Utah County and Salt Lake County.`}
+        description={`${COMPANY.name} provides professional Christmas light installation from the first design conversation through January takedown across ${COMPANY.serviceAreaSummary}.`}
         heroImage={ASSETS.professionalPhotos.carryingLadderHero}
         heroImageAlt="Chestnut & Cheer Christmas light technician carrying a ladder to an installation"
         highlights={["Commercial-grade custom-fit strands", "Residential and commercial properties", "Rooflines, peaks, trees, bushes, and entries", "In-season maintenance", "January and early-February takedown", "Off-season storage for seasonal displays"]}

@@ -320,7 +320,7 @@ export default async function BlogPostPage({ params }: Props) {
           <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
             <h2 className="font-display text-3xl font-bold sm:text-4xl">Ready to skip the ladder?</h2>
             <p className="mx-auto mt-4 max-w-2xl text-warm-white/80">
-              {COMPANY.name} serves {COMPANY.serviceAreas.join(" and ")} with custom seasonal lighting, in-season maintenance, takedown, and storage.
+              {COMPANY.name} serves {COMPANY.serviceAreaSummary} with custom seasonal lighting, in-season maintenance, takedown, and storage.
             </p>
             <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
               <Button href={LINKS.estimate} variant="gold" className="w-full sm:w-auto">

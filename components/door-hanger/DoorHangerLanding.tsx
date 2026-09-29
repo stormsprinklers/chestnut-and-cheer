@@ -83,7 +83,7 @@ export function DoorHangerLanding() {
           </p>
           <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-warm-white/80 sm:text-base">
             Scan brought you to the right place — redeem your door hanger savings
-            before seasonal spots fill up across {COMPANY.serviceAreas.join(" & ")}.
+            before seasonal spots fill up across {COMPANY.serviceAreaSummary}.
           </p>
           <div className="mt-8 w-full max-w-md">
             <Button href={ESTIMATE_HREF} variant="gold" className="w-full text-base sm:text-lg">

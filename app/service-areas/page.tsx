@@ -4,30 +4,53 @@ import { Breadcrumbs, PageHero } from "@/components/pages/PageChrome";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
   cityPagePath,
+  cityServesCounty,
   countyPagePath,
   getCountyCityNames,
   LAUNCH_CITY_BY_NAME,
+  SERVICE_COUNTIES,
 } from "@/lib/cities";
 import { ASSETS, COMPANY, LINKS } from "@/lib/constants";
+import { absoluteUrl, SITE_URL } from "@/lib/site";
 import { getBreadcrumbSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "Christmas Light Installation Service Areas in Utah",
-  description: `Browse ${COMPANY.name} Christmas light installation service areas in Utah County and Salt Lake County, including detailed local service pages for select cities.`,
+  description: `Browse ${COMPANY.name} Christmas light installation coverage across ${COMPANY.serviceAreaSummary}.`,
   alternates: { canonical: "/service-areas" },
 };
 
 export default function ServiceAreasPage() {
   return (
     <>
-      <JsonLd data={getBreadcrumbSchema([{ name: "Home", path: "/" }, { name: "Service Areas", path: LINKS.serviceAreas }])} />
+      <JsonLd data={[
+        getBreadcrumbSchema([{ name: "Home", path: "/" }, { name: "Service Areas", path: LINKS.serviceAreas }]),
+        {
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          "@id": `${absoluteUrl(LINKS.serviceAreas)}#service-areas`,
+          name: "Christmas Light Installation Service Areas",
+          description: `Christmas light installation coverage across ${COMPANY.serviceAreaSummary}.`,
+          url: absoluteUrl(LINKS.serviceAreas),
+          publisher: { "@id": `${SITE_URL}/#organization` },
+          mainEntity: {
+            "@type": "ItemList",
+            itemListElement: SERVICE_COUNTIES.map((county, index) => ({
+              "@type": "ListItem",
+              position: index + 1,
+              name: county,
+              url: absoluteUrl(countyPagePath(county)),
+            })),
+          },
+        },
+      ]} />
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Service Areas" }]} />
       <PageHero
-        eyebrow="Utah County & Salt Lake County"
+        eyebrow="Northern Utah & the Wasatch Back"
         title="Christmas Light Installation Service Areas"
-        description="Chestnut & Cheer provides professional Christmas light installation throughout Utah County and Salt Lake County. Explore the cities we serve below."
+        description={`Chestnut & Cheer provides professional Christmas light installation across ${COMPANY.serviceAreaSummary}. Explore coverage by county below.`}
         image={ASSETS.professionalPhotos.serviceTruck}
-        imageAlt="Chestnut & Cheer Christmas lighting service truck serving Utah County and Salt Lake County"
+        imageAlt="Chestnut & Cheer Christmas lighting service truck serving northern Utah"
       />
       <section className="section-pad bg-cream">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -38,7 +61,7 @@ export default function ServiceAreasPage() {
             available. Start with a county hub or choose your city below.
           </p>
           <div className="mt-10 grid gap-8 lg:grid-cols-2">
-            {(["Utah County", "Salt Lake County"] as const).map((county) => {
+            {SERVICE_COUNTIES.map((county) => {
               const cities = getCountyCityNames(county);
               return (
                 <section key={county} className="rounded-2xl border border-chestnut/10 bg-white p-6 sm:p-8">
@@ -49,9 +72,10 @@ export default function ServiceAreasPage() {
                   <div className="mt-5 grid gap-2 sm:grid-cols-2">
                     {cities.map((cityName) => {
                       const city = LAUNCH_CITY_BY_NAME.get(cityName);
+                      const localPage = city && cityServesCounty(city, county) ? city : undefined;
                       const className = "rounded-lg border border-chestnut/10 bg-cream px-4 py-3 font-semibold text-chestnut";
-                      return city ? (
-                        <Link key={cityName} href={cityPagePath(city)} className={`${className} transition-colors hover:border-primary-red hover:text-primary-red`}>
+                      return localPage ? (
+                        <Link key={cityName} href={cityPagePath(localPage)} className={`${className} transition-colors hover:border-primary-red hover:text-primary-red`}>
                           Christmas lights in {cityName}
                         </Link>
                       ) : (

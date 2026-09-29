@@ -18,7 +18,7 @@ export default function CommercialChristmasLightsPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Services", href: LINKS.services }, { label: "Christmas Light Installation", href: LINKS.christmasLightInstallation }, { label: "Commercial" }]}
         eyebrow="Businesses · HOAs · Property managers · Communities"
         title={title}
-        description={`${COMPANY.name} plans and installs commercial holiday lighting across Utah County and Salt Lake County, with coordinated access, installation windows, in-season support, takedown, and storage.`}
+        description={`${COMPANY.name} plans and installs commercial holiday lighting across ${COMPANY.serviceAreaSummary}, with coordinated access, installation windows, in-season support, takedown, and storage.`}
         heroImage={ASSETS.professionalPhotos.serviceTruck}
         heroImageAlt="Chestnut & Cheer commercial Christmas lighting service truck and technician in Utah"
         highlights={["Retail and restaurant storefronts", "Offices and professional buildings", "HOAs and multifamily common areas", "Property managers and campuses", "Municipal and event displays", "Seasonal and permanent lighting options"]}

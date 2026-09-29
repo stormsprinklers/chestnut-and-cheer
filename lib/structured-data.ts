@@ -42,17 +42,24 @@ export function getOrganizationSchema() {
     name: COMPANY.name,
     legalName: COMPANY.legalEntity,
     description:
-      "Premium temporary and permanent Christmas light installation for residential and commercial properties in Utah County and Salt Lake County.",
+      `Premium temporary and permanent Christmas light installation across ${COMPANY.serviceAreaSummary}.`,
     url: SITE_URL,
     telephone: `+1${COMPANY.phoneDigits}`,
     email: COMPANY.email,
     image: absoluteUrl(ASSETS.photos.hero),
     logo: absoluteUrl(ASSETS.brand.logoPrimary),
     sameAs: [LINKS.google],
-    areaServed: COMPANY.serviceAreas.map((area) => ({
-      "@type": "AdministrativeArea" as const,
-      name: area,
-    })),
+    areaServed: [
+      ...COMPANY.serviceAreas.map((area) => ({
+        "@type": "AdministrativeArea" as const,
+        name: area,
+      })),
+      ...COMPANY.limitedServiceCities.map((city) => ({
+        "@type": "City" as const,
+        name: city,
+        containedInPlace: { "@type": "AdministrativeArea" as const, name: "Juab County" },
+      })),
+    ],
     contactPoint: {
       "@type": "ContactPoint",
       telephone: `+1${COMPANY.phoneDigits}`,
@@ -195,9 +202,12 @@ export function getCityPageSchemas(
       serviceType: "Christmas light installation",
       provider: { "@id": `${SITE_URL}/#organization` },
       areaServed: {
-        "@type": "City",
+        "@type": city.schemaType,
         name: city.name,
-        containedInPlace: { "@type": "AdministrativeArea", name: city.county },
+        containedInPlace: city.servedCounties.map((county) => ({
+          "@type": "AdministrativeArea",
+          name: county,
+        })),
       },
       offers: {
         "@type": "Offer",

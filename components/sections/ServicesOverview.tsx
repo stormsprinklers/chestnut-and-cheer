@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Check } from "lucide-react";
-import { LINKS, SERVICES } from "@/lib/constants";
+import { COMPANY, LINKS, SERVICES } from "@/lib/constants";
 
 export function ServicesOverview() {
   return (
@@ -13,8 +13,7 @@ export function ServicesOverview() {
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-chestnut/70">
             From one-season sparkle to year-round brilliance — we handle
-            residential and commercial holiday lighting across Utah County and Salt Lake
-            County.
+            residential and commercial holiday lighting across {COMPANY.serviceAreaSummary}.
           </p>
           <Link href={LINKS.christmasLightInstallation} className="mt-4 inline-block font-semibold text-primary-red hover:underline">
             See how our complete Christmas light installation service works

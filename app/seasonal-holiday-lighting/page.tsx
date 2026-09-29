@@ -6,7 +6,7 @@ import { ASSETS, COMPANY } from "@/lib/constants";
 export const metadata: Metadata = {
   title: "Seasonal Holiday Lighting",
   description:
-    "Temporary Christmas light installation in Utah County & Salt Lake County. Custom-fit lights, professional install, takedown, and summer storage included.",
+    "Temporary Christmas light installation across northern Utah and the Wasatch Back, with custom-fit lights, installation, takedown, and storage.",
   alternates: { canonical: "/seasonal-holiday-lighting" },
 };
 
@@ -37,8 +37,8 @@ export default function SeasonalHolidayLightingPage() {
           body: "Year 1 covers parts + installation (starts at $699). Stay with us and Year 2+ drops to installation only (starts at $299) because we already own the lights. Every quote is customized to your property.",
         },
         {
-          heading: "Serving Utah County & Salt Lake County",
-          body: `From Orem and Provo to Draper and Sandy, our crews install seasonal lighting across ${COMPANY.serviceAreas.join(" and ")}. Get an instant estimate online or book a free Google Meet consultation.`,
+          heading: "Serving northern Utah & the Wasatch Back",
+          body: `Our crews install seasonal lighting across ${COMPANY.serviceAreaSummary}. Get an instant estimate online or book a free Google Meet consultation.`,
         },
       ]}
       />

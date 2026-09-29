@@ -13,7 +13,7 @@ import TurnstileWidget from "@/components/TurnstileWidget";
 import { SmsOptInCopy } from "@/components/forms/SmsOptInCopy";
 import { Button } from "@/components/ui/Button";
 import { Mascot } from "@/components/ui/Mascot";
-import { LINKS } from "@/lib/constants";
+import { COMPANY, LINKS } from "@/lib/constants";
 import {
   captureAttributionFromUrl,
   getAttribution,
@@ -448,7 +448,7 @@ export function EstimateWizard() {
                 }`}
               >
                 {checkServiceArea(form.zip, form.city)
-                  ? "Great — you're in our Utah County / Salt Lake County service area."
+                  ? `Great — you're in our ${COMPANY.name} service area.`
                   : "This ZIP may be outside our usual area. Submit anyway and we'll confirm coverage."}
               </p>
             )}

@@ -3,7 +3,7 @@ import { CountyServiceAreaPage } from "@/components/pages/CountyServiceAreaPage"
 
 export const metadata: Metadata = {
   title: "Christmas Light Installation in Utah County",
-  description: "Professional residential and commercial Christmas light installation across priority Utah County cities, with seasonal maintenance, takedown, and storage.",
+  description: "Professional residential and commercial Christmas light installation throughout Utah County, with seasonal maintenance, takedown, and storage.",
   alternates: { canonical: "/service-areas/utah-county" },
 };
 

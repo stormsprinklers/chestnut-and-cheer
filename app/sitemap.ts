@@ -1,6 +1,11 @@
 import type { MetadataRoute } from "next";
 import { getAllPosts } from "@/lib/blog/posts";
-import { LAUNCH_CITY_PAGES, cityPagePath } from "@/lib/cities";
+import {
+  LAUNCH_CITY_PAGES,
+  SERVICE_COUNTIES,
+  cityPagePath,
+  countyPagePath,
+} from "@/lib/cities";
 import { SITE_URL } from "@/lib/site";
 
 const SITE_CONTENT_UPDATED = "2026-09-29";
@@ -14,8 +19,6 @@ const STATIC_PAGES = [
   { path: "/permanent-lighting", priority: 0.85, changeFrequency: "monthly" as const },
   { path: "/pricing", priority: 0.85, changeFrequency: "monthly" as const },
   { path: "/service-areas", priority: 0.9, changeFrequency: "monthly" as const },
-  { path: "/service-areas/utah-county", priority: 0.85, changeFrequency: "monthly" as const },
-  { path: "/service-areas/salt-lake-county", priority: 0.85, changeFrequency: "monthly" as const },
   { path: "/projects", priority: 0.75, changeFrequency: "monthly" as const },
   { path: "/about", priority: 0.6, changeFrequency: "yearly" as const },
   { path: "/share-the-cheer", priority: 0.9, changeFrequency: "weekly" as const },
@@ -39,6 +42,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
+  const countyEntries: MetadataRoute.Sitemap = SERVICE_COUNTIES.map((county) => ({
+    url: `${SITE_URL}${countyPagePath(county)}`,
+    lastModified: SITE_CONTENT_UPDATED,
+    changeFrequency: "monthly",
+    priority: 0.85,
+  }));
+
   const blogEntries: MetadataRoute.Sitemap = getAllPosts().map((post) => ({
     url: `${SITE_URL}/blog/${post.slug}`,
     lastModified: post.date,
@@ -46,5 +56,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: post.hub ? 0.75 : 0.6,
   }));
 
-  return [...staticEntries, ...cityEntries, ...blogEntries];
+  return [...staticEntries, ...countyEntries, ...cityEntries, ...blogEntries];
 }

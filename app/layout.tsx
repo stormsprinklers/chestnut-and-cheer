@@ -23,11 +23,11 @@ export const metadata: Metadata = {
     template: `%s | ${COMPANY.name}`,
   },
   description:
-    "Professional Christmas light installation in Utah County & Salt Lake County. Temporary & permanent holiday lighting for homes and businesses. Free quotes — licensed S330 #14211467-5501.",
+    `Professional Christmas light installation across ${COMPANY.serviceAreaSummary}. Temporary and permanent holiday lighting for homes and businesses.`,
   openGraph: {
     title: `${COMPANY.name} | Christmas Light Installation Utah`,
     description:
-      `${COMPANY.tagline} Custom-fit Christmas lights for roofs, trees, and bushes. Serving Utah County & Salt Lake County.`,
+      `${COMPANY.tagline} Custom-fit Christmas lights for roofs, trees, and bushes across northern Utah and the Wasatch Back.`,
     type: "website",
     locale: "en_US",
     siteName: COMPANY.name,

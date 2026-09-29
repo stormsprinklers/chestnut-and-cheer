@@ -41,13 +41,13 @@ const FAQs = dynamic(
 export const metadata: Metadata = {
   title: { absolute: `Christmas Light Installation in Utah | ${COMPANY.name}` },
   description:
-    "Professional Christmas light installation in Utah County & Salt Lake County. Temporary & permanent holiday lighting for homes and businesses. Free quotes — licensed S330 contractor.",
+    `Professional Christmas light installation across ${COMPANY.serviceAreaSummary}. Temporary and permanent holiday lighting for homes and businesses.`,
   alternates: {
     canonical: "/",
   },
   openGraph: {
     title: `Christmas Light Installation | ${COMPANY.name}`,
-    description: `${COMPANY.tagline} Serving Utah County & Salt Lake County — Provo, Orem, Lehi, Sandy, Draper, and more.`,
+    description: `${COMPANY.tagline} Serving northern Utah and the Wasatch Back with seasonal and permanent Christmas lighting.`,
     url: SITE_URL,
     images: [
       {

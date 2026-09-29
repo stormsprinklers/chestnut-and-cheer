@@ -5,7 +5,14 @@ import {
   LINKS,
   MAP_EMBED_URL,
 } from "@/lib/constants";
-import { cityPagePath, getCountyCityNames, LAUNCH_CITY_BY_NAME } from "@/lib/cities";
+import {
+  cityPagePath,
+  cityServesCounty,
+  countyPagePath,
+  getCountyCityNames,
+  LAUNCH_CITY_BY_NAME,
+  type ServiceCounty,
+} from "@/lib/cities";
 import { LazyMap } from "@/components/ui/LazyMap";
 import { Button } from "@/components/ui/Button";
 
@@ -18,17 +25,38 @@ const COUNTIES = [
     name: "Salt Lake County" as const,
     preview: "Salt Lake City, Sandy, Draper, West Jordan, Murray…",
   },
+  {
+    name: "Davis County" as const,
+    preview: "Layton, Bountiful, Clearfield, Farmington, Kaysville…",
+  },
+  {
+    name: "Weber County" as const,
+    preview: "Ogden, Roy, West Haven, North Ogden, Riverdale…",
+  },
+  {
+    name: "Summit County" as const,
+    preview: "Park City, Summit Park, Kamas, Coalville, Oakley…",
+  },
+  {
+    name: "Wasatch County" as const,
+    preview: "Heber City, Midway, Daniel, Charleston, Wallsburg…",
+  },
+  {
+    name: "Juab County" as const,
+    preview: "Mona and Nephi only",
+  },
 ];
 
-function CountyCities({ county }: { county: (typeof COUNTIES)[number]["name"] }) {
+function CountyCities({ county }: { county: ServiceCounty }) {
   return (
     <ul className="grid grid-cols-2 gap-x-3 text-sm leading-relaxed text-chestnut/80 sm:mt-3 sm:block">
       {getCountyCityNames(county).map((cityName) => {
         const city = LAUNCH_CITY_BY_NAME.get(cityName);
+        const localPage = city && cityServesCounty(city, county) ? city : undefined;
         return (
           <li key={cityName} className="py-1 sm:py-0.5">
-            {city ? (
-              <Link href={cityPagePath(city)} className="hover:text-primary-red hover:underline">
+            {localPage ? (
+              <Link href={cityPagePath(localPage)} className="hover:text-primary-red hover:underline">
                 {cityName}
               </Link>
             ) : cityName}
@@ -48,16 +76,14 @@ export function ServiceAreaMap() {
             Service Area
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-chestnut/70">
-            We install Christmas lights throughout Utah County and Salt Lake
-            County.
+            We install Christmas lights across {COMPANY.serviceAreaSummary}.
           </p>
         </div>
 
         <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_1.1fr] lg:items-start lg:gap-12">
-          <div className="grid gap-3 sm:grid-cols-2 sm:gap-8">
+          <div className="grid gap-3 sm:grid-cols-2">
             {COUNTIES.map(({ name, preview }) => (
-              <div key={name}>
-                <details className="group rounded-2xl border border-chestnut/10 bg-cream/60 px-4 py-4 sm:hidden">
+              <details key={name} className="group rounded-2xl border border-chestnut/10 bg-cream/60 px-4 py-4">
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-red [&::-webkit-details-marker]:hidden">
                     <span>
                       <span className="font-display text-lg font-semibold text-primary-red">{name}</span>
@@ -67,13 +93,11 @@ export function ServiceAreaMap() {
                   </summary>
                   <div className="mt-4 border-t border-chestnut/10 pt-3">
                     <CountyCities county={name} />
+                    <Link href={countyPagePath(name)} className="mt-3 inline-block text-sm font-semibold text-primary-red hover:underline">
+                      View {name} details
+                    </Link>
                   </div>
-                </details>
-                <div className="hidden sm:block">
-                  <h3 className="font-display text-lg font-semibold text-primary-red">{name}</h3>
-                  <CountyCities county={name} />
-                </div>
-              </div>
+              </details>
             ))}
           </div>
 
@@ -86,7 +110,7 @@ export function ServiceAreaMap() {
         </div>
 
         <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-chestnut/60">
-          Proudly serving priority routes in {COMPANY.serviceAreas.join(" and ")}.
+          Serving {COMPANY.serviceAreaSummary}.
           Not sure if we cover your neighborhood? Reach out — we&apos;re happy
           to check. <Link href="/service-areas" className="font-semibold text-primary-red hover:underline">Browse all service areas</Link>.
         </p>

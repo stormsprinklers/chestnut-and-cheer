@@ -4,7 +4,7 @@ import { COMPANY, LINKS } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Accessibility Statement",
-  description: `${COMPANY.name} accessibility commitment for utah.christmas — WCAG-minded design for customers across Utah County and Salt Lake County.`,
+  description: `${COMPANY.name} accessibility commitment for utah.christmas — WCAG-minded design for customers across our northern Utah service area.`,
   alternates: { canonical: "/accessibility" },
 };
 

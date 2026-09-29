@@ -18,7 +18,7 @@ export default function PrivacyPolicyPage() {
         protecting your privacy. This Privacy Policy explains how we collect, use, and
         protect personal information when you visit our website, request estimates,
         communicate with us, or opt in to receive text messages. This policy applies to
-        customers and website visitors in {COMPANY.serviceAreas.join(" and ")}, Utah, and
+        customers and website visitors across {COMPANY.serviceAreaSummary}, and
         other areas we service.
       </p>
 

@@ -183,7 +183,7 @@ export default function BlogIndexPage() {
             Get a custom lighting plan for your property
           </h2>
           <p className="mt-4 max-w-2xl text-warm-white/75">
-            We design, install, maintain, remove, and store seasonal displays across Utah County and Salt Lake County.
+            We design, install, maintain, remove, and store seasonal displays across {COMPANY.serviceAreaSummary}.
           </p>
           <div className="mt-7 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row">
             <Button href={LINKS.estimate} variant="gold" className="w-full sm:w-auto">

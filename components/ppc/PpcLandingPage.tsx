@@ -36,7 +36,7 @@ export function PpcLandingPage({ service }: { service: Service }) {
       </header>
       <main className="mx-auto grid max-w-6xl gap-8 px-4 py-8 sm:px-6 sm:py-12 lg:grid-cols-[1.15fr_.85fr] lg:items-center lg:gap-14 lg:py-16">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[.16em] text-primary-red">Utah County &amp; Salt Lake County</p>
+          <p className="text-sm font-semibold uppercase tracking-[.16em] text-primary-red">Northern Utah &amp; the Wasatch Back</p>
           <h1 className="mt-3 max-w-3xl font-display text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl">{content.title}</h1>
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-chestnut/70">{content.description}</p>
           <p className="mt-6 font-display text-3xl font-semibold text-primary-red">Starting at {content.price}</p>

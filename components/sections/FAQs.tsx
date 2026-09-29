@@ -4,7 +4,7 @@ import { FAQS } from "@/lib/constants";
 
 export function FAQs() {
   return (
-    <section id="faq" className="section-pad below-fold">
+    <section id="faq" className="section-pad below-fold" data-no-scroll-reveal>
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <div className="text-center">
           <h2 className="font-display text-3xl font-bold text-chestnut sm:text-4xl">

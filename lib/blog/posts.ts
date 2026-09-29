@@ -132,7 +132,7 @@ export const BLOG_POSTS: BlogPost[] = [
         heading: "Know when the project should stop being DIY",
         paragraphs: [
           "Falls and electrical shock are the two risks our team worries about most. A homeowner should avoid the project if they are uncomfortable with heights or electricity, lack stable access, or do not trust their balance and coordination on ladders and roofs.",
-          "Snow, frost, wind, a steep pitch, a second-story edge, or awkward landscaping can turn a familiar task into a bad bet. Hiring a professional is not a failure of DIY ambition; sometimes it is simply the right risk decision. Chestnut & Cheer provides [residential Christmas light installation](/christmas-light-installation/residential) across Utah County and Salt Lake County.",
+          "Snow, frost, wind, a steep pitch, a second-story edge, or awkward landscaping can turn a familiar task into a bad bet. Hiring a professional is not a failure of DIY ambition; sometimes it is simply the right risk decision. Chestnut & Cheer provides [residential Christmas light installation](/christmas-light-installation/residential) across its northern Utah and Wasatch Back service area.",
         ],
       },
       {
@@ -687,7 +687,7 @@ export const BLOG_POSTS: BlogPost[] = [
     relatedSlugs: ["christmas-light-design-tips", "how-to-choose-christmas-light-installer", "how-long-do-christmas-lights-last"],
     serviceLinks: [
       { label: "Get an instant estimate", href: "/estimate", description: "Start planning before the seasonal calendar tightens." },
-      { label: "Service areas", href: "/service-areas", description: "Check Chestnut & Cheer’s Utah County and Salt Lake County coverage." },
+      { label: "Service areas", href: "/service-areas", description: "Check Chestnut & Cheer’s northern Utah and Wasatch Back coverage." },
     ],
   },
 ];

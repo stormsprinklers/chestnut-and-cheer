@@ -3,7 +3,7 @@ import { CountdownTimer } from "@/components/ui/CountdownTimer";
 
 export function Countdown() {
   return (
-    <section className="section-pad below-fold">
+    <section className="section-pad below-fold" data-no-scroll-reveal>
       <div className="mx-auto max-w-4xl px-4 sm:px-6">
         <div className="flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:justify-center">
           <Mascot variant="gift" side="left" size={180} className="mx-auto lg:mx-0" />

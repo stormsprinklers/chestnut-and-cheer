@@ -7,7 +7,7 @@ import { getServicePageSchemas } from "@/lib/structured-data";
 
 const path = "/christmas-light-installation/residential";
 const title = "Residential Christmas Light Installation in Utah";
-const description = "Professional residential Christmas light installation in Utah County and Salt Lake County with custom-fit lights, maintenance, takedown, and storage.";
+const description = `Professional residential Christmas light installation across ${COMPANY.serviceAreaSummary}, with custom-fit lights, maintenance, takedown, and storage.`;
 
 export const metadata: Metadata = { title, description, alternates: { canonical: path } };
 
@@ -19,7 +19,7 @@ export default function ResidentialChristmasLightsPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Services", href: LINKS.services }, { label: "Christmas Light Installation", href: LINKS.christmasLightInstallation }, { label: "Residential" }]}
         eyebrow="Custom-fit for your home"
         title={title}
-        description={`Skip the ladder, tangled strands, and January storage bins. ${COMPANY.name} designs, installs, maintains, removes, and stores professional seasonal lighting for homes across Utah County and Salt Lake County.`}
+        description={`Skip the ladder, tangled strands, and January storage bins. ${COMPANY.name} designs, installs, maintains, removes, and stores seasonal lighting across ${COMPANY.serviceAreaSummary}.`}
         heroImage={ASSETS.professionalPhotos.technicianHero}
         heroImageAlt="Licensed Chestnut & Cheer technician installing residential Christmas lights in Utah"
         highlights={["Custom-cut commercial-grade roofline lights", "Peaks, garages, porches, trees, and bushes", "Warm white, color, and coordinated designs", "Compatible clips selected for the roof edge", "In-season maintenance and normal bulb replacement", "Takedown and labeled off-season storage"]}

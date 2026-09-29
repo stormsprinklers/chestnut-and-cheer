@@ -5,7 +5,7 @@ import { absoluteUrl, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "$100 Off Christmas Lights Installation",
-  description: `Redeem your Chestnut & Cheer door hanger offer — $100 off Christmas lights installation in Utah County & Salt Lake County. Limited spots. Licensed ${COMPANY.license}.`,
+  description: `Redeem your Chestnut & Cheer door hanger offer — $100 off Christmas light installation across ${COMPANY.serviceAreaSummary}. Limited spots. Licensed ${COMPANY.license}.`,
   alternates: { canonical: "/door-hanger" },
   robots: { index: false, follow: true },
   openGraph: {

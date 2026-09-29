@@ -5,7 +5,7 @@ import { COMPANY } from "@/lib/constants";
 export const metadata: Metadata = {
   title: "Commercial Holiday Lighting",
   description:
-    "Commercial Christmas light installation for businesses, HOAs, property managers, and municipal displays across Utah County and Salt Lake County.",
+    "Commercial Christmas light installation for businesses, HOAs, property managers, and community displays across northern Utah and the Wasatch Back.",
   alternates: { canonical: "/commercial-holiday-lighting" },
 };
 
@@ -34,7 +34,7 @@ export default function CommercialHolidayLightingPage() {
         },
         {
           heading: "Request a commercial quote",
-          body: `Tell us about your property and timeline. Serving ${COMPANY.serviceAreas.join(" and ")}. Licensed & insured — ${COMPANY.license}.`,
+          body: `Tell us about your property and timeline. Serving ${COMPANY.serviceAreaSummary}. Licensed & insured — ${COMPANY.license}.`,
         },
       ]}
     />

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: `Book a Virtual Consultation | ${COMPANY.name}`,
     description:
-      "Free 30-minute Google Meet consult for Christmas lighting in Utah County and Salt Lake County.",
+      `Free 30-minute Google Meet consultation for Christmas lighting across ${COMPANY.serviceAreaSummary}.`,
     url: `${SITE_URL}/book`,
     images: [
       {

@@ -5,7 +5,7 @@ import { COMPANY } from "@/lib/constants";
 export const metadata: Metadata = {
   title: "Gutter Cleaning",
   description:
-    "Professional gutter cleaning in Utah County & Salt Lake County. Bundle with Christmas light installation while our crew is already on your roof.",
+    `Professional gutter cleaning across ${COMPANY.serviceAreaSummary}. Bundle it with Christmas light installation while our crew is already on your roof.`,
   alternates: { canonical: "/gutter-cleaning" },
 };
 
@@ -14,7 +14,7 @@ export default function GutterCleaningPage() {
     <ServicePage
       eyebrow="Smart add-on"
       title="Gutter Cleaning"
-      description={`Clear gutters before winter while we’re already on the roof for your holiday lights. ${COMPANY.name} offers gutter cleaning as a convenient add-on across Utah County and Salt Lake County.`}
+      description={`Clear gutters before winter while we’re already on the roof for your holiday lights. ${COMPANY.name} offers gutter cleaning as a convenient add-on across ${COMPANY.serviceAreaSummary}.`}
       highlights={[
         "Clears leaves, debris & buildup",
         "Helps prevent ice dams & overflow",

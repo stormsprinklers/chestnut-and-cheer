@@ -1,9 +1,31 @@
-import { SALT_LAKE_COUNTY_CITIES, UTAH_COUNTY_CITIES } from "@/lib/constants";
+import {
+  DAVIS_COUNTY_CITIES,
+  JUAB_COUNTY_CITIES,
+  SALT_LAKE_COUNTY_CITIES,
+  SUMMIT_COUNTY_CITIES,
+  UTAH_COUNTY_CITIES,
+  WASATCH_COUNTY_CITIES,
+  WEBER_COUNTY_CITIES,
+} from "@/lib/constants";
+
+export const SERVICE_COUNTIES = [
+  "Utah County",
+  "Salt Lake County",
+  "Davis County",
+  "Weber County",
+  "Summit County",
+  "Wasatch County",
+  "Juab County",
+] as const;
+
+export type ServiceCounty = (typeof SERVICE_COUNTIES)[number];
 
 export type CityPageData = {
   name: string;
   slug: string;
-  county: "Utah County" | "Salt Lake County";
+  county: ServiceCounty;
+  servedCounties: ServiceCounty[];
+  schemaType: "City" | "Place";
   setting: string;
   design: string;
   areas: string[];
@@ -21,10 +43,13 @@ const city = (
   pricing: string,
   nearby: string[],
   faqFocus: CityPageData["faqFocus"],
+  options: { slug?: string; schemaType?: CityPageData["schemaType"]; servedCounties?: ServiceCounty[] } = {},
 ): CityPageData => ({
   name,
-  slug: `${name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}-ut`,
+  slug: options.slug ?? `${name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}-ut`,
   county,
+  servedCounties: options.servedCounties ?? [county],
+  schemaType: options.schemaType ?? "City",
   setting,
   design,
   areas,
@@ -72,6 +97,16 @@ export const CITY_PAGES: CityPageData[] = [
   city("Magna", "Salt Lake County", "Magna pairs an established historic grid and modest residential rooflines with newer growth toward the west. Open valley exposure can bring wind, while older properties may have mature trees, varied additions, and practical access constraints.", "We create clean front-facing outlines that suit the home’s scale, then add a porch, garage, or tree accent where it improves the view. Attachment and power routing are planned for exposed conditions and existing architecture.", ["Historic Magna Main Street", "Pleasant Green", "the 8000 West growth area"], "Magna quotes are based on roofline footage, height, additions, trees, and selected accents. Straightforward single-story projects can remain focused and efficient.", ["west-valley-city-ut", "kearns-ut", "west-jordan-ut"], "wind"),
   city("Kearns", "Salt Lake County", "Kearns has many compact, established neighborhoods with ramblers, split-level homes, mature yards, and highly visible street-facing rooflines. Those proportions often support classic displays that feel complete without excessive footage.", "A continuous eave or garage line, paired with an entry or small tree accent, can create strong curb appeal. We account for additions, fencing, landscaping, and safe side-yard access during the quote.", ["Oquirrh Park", "the Kearns Oquirrh Park Fitness Center area", "neighborhoods along 5400 South"], "Kearns pricing typically follows accessible front roofline footage, split-level transitions, story height, and optional tree work. Homeowners can prioritize a simple outline or add focused accents.", ["west-valley-city-ut", "taylorsville-ut", "west-jordan-ut", "magna-ut"], "historic"),
   city("South Salt Lake", "Salt Lake County", "South Salt Lake’s compact footprint includes older homes, small lots, apartments, creative businesses, and commercial or industrial frontage. Limited staging space, shared buildings, mature street trees, and traffic can shape how installations are scheduled.", "We keep residential designs proportionate, using roof edges, porches, and entries that remain visible on compact streets. Business displays are planned around operating hours, public access, signs, and available power.", ["Central Pointe", "the Creative Industries Zone", "the State Street corridor"], "South Salt Lake estimates account for roofline footage, tight access, shared-building approvals, parking, and commercial scheduling. Smaller buildings can still need detailed logistics.", ["salt-lake-city-ut", "millcreek-ut", "murray-ut", "west-valley-city-ut"], "commercial"),
+  city("Ogden", "Weber County", "Ogden combines historic homes and storefronts near the city center with established valley neighborhoods, east-bench properties, mature trees, and prominent commercial corridors. Roof height, parking, older materials, and rapidly changing foothill weather can make two nearby projects very different.", "We keep older homes proportionate with crisp eave, porch, and entry lines, while bench properties may call for selected upper peaks and earlier scheduling. Commercial work is planned around pedestrian access, operating hours, signage, and the viewing distance along busy streets.", ["Historic 25th Street", "the East Bench", "Shadow Valley"], "Ogden quotes reflect measured roofline coverage, story height, mature-tree work, grade, parking, and any commercial scheduling requirements. Historic homes and foothill properties may require more access planning than similar footage on an open lot.", ["roy-ut", "west-haven-ut", "layton-ut"], "historic"),
+  city("Park City", "Summit County", "Park City’s steep streets, resort properties, historic buildings, heavy snow, and mix of primary homes and vacation properties make holiday-lighting logistics unusually important. Roof access, property-management approval, guest schedules, and narrow installation windows often matter as much as the design itself.", "We design around visible rooflines, entries, balconies, and trees without competing with detailed mountain architecture. Earlier installation is strongly recommended, and multi-unit or managed properties need a clear approval contact before crews arrive.", ["Old Town", "Park Meadows", "Prospector"], "Park City projects often involve steep grade, upper-story access, snow-sensitive scheduling, resort or HOA coordination, and custom architecture. Quotes are based on the approved elevations, access plan, and service expectations rather than a standard package.", ["summit-park-ut", "heber-ut", "midway-ut"], "snow", { servedCounties: ["Summit County", "Wasatch County"] }),
+  city("Heber City", "Wasatch County", "Heber City sits in a high mountain valley with fast-growing neighborhoods, established homes, open wind exposure, and winter conditions that can arrive earlier than along the Wasatch Front. Properties range from straightforward single-story rooflines to large custom homes and public-facing businesses along US-40.", "A strong roofline, central peak, or entry feature often provides the clearest view across wider streets and setbacks. We plan attachment, power, ladder access, and installation timing around wind, cold, and the property’s elevation.", ["downtown Heber", "the east bench", "the US-40 corridor"], "Heber City pricing reflects roofline footage, story height, working grade, wind exposure, selected landscape features, and commercial access when applicable. Larger custom homes are quoted by the visible features selected, not by lot size.", ["midway-ut", "park-city-ut", "summit-park-ut"], "snow", { slug: "heber-ut" }),
+  city("Midway", "Wasatch County", "Midway’s village center, resort communities, larger residential lots, and mountain backdrop create a mix of traditional homes, custom construction, and HOA-managed properties. Snow, mature landscaping, and deeper setbacks all influence what will read clearly after dark.", "We favor warm, structured displays that follow the main roofline and use entries, columns, or one selected tree to reinforce the architecture. Resort and HOA properties require confirmation of approved colors, dates, attachment locations, and access.", ["Midway Town Square", "Dutch Fields", "neighborhoods near Wasatch Mountain State Park"], "Midway estimates are shaped by roofline length, height, custom peaks, tree size, grade, and community approval requirements. Optional features can be separated so homeowners can prioritize the strongest street-facing view.", ["heber-ut", "park-city-ut", "summit-park-ut"], "snow"),
+  city("Layton", "Davis County", "Layton stretches from established west-side neighborhoods and major commercial areas to newer homes along the east bench. The city includes accessible ramblers, broad two-story rooflines, mature trees, and hillside properties where grade and snow affect installation planning.", "We build the display around the front elevation’s strongest lines, then add a peak, garage, entry, or tree accent where it improves balance. East-bench properties benefit from earlier scheduling, while commercial sites require coordinated access and power planning.", ["East Layton", "Layton Hills", "west-side neighborhoods near Bluff Road"], "Layton pricing varies with measured footage, story height, grade, tree work, and the number of peaks or detached features selected. Commercial properties are quoted for their operating and access requirements as well as the lighting itself.", ["clearfield-ut", "bountiful-ut", "roy-ut"], "commercial"),
+  city("Roy", "Weber County", "Roy is defined by established residential streets, mature yards, accessible ramblers and split-level homes, plus commercial frontage along major east-west routes. Many properties have clear street-facing rooflines that can feel complete without an oversized display.", "A continuous eave or garage line paired with an entry peak or modest tree accent works well on many Roy homes. We inspect additions, fencing, landscaping, and available power so the route remains clean and serviceable.", ["Roy City Center", "neighborhoods near Roy High School", "the 1900 West corridor"], "Roy estimates generally follow roofline footage, split-level transitions, working height, and optional tree or porch accents. A focused front elevation can often provide stronger impact than lighting every side of the home.", ["ogden-ut", "west-haven-ut", "clearfield-ut"], "historic"),
+  city("Summit Park", "Summit County", "Summit Park’s wooded mountain setting, steep roads, deep snow, and high-elevation homes make early planning essential. Rooflines may be partially screened by trees, while driveways, icy access, and limited staging space can determine whether an installation is safe on a given day.", "We choose visible eaves, peaks, entries, and trees that can be read through the landscape without overloading the architecture. Secure attachment, supported power routes, driveway access, and a realistic weather window are part of every plan.", ["the Summit Park neighborhood", "upper mountain streets", "the I-80 corridor"], "Summit Park pricing reflects steep grade, working height, roof complexity, tree coverage, snow-sensitive access, and the selected visible features. Installation dates may need to move when roads, roofs, or driveways are unsafe.", ["park-city-ut", "heber-ut", "midway-ut"], "snow", { schemaType: "Place" }),
+  city("Bountiful", "Davis County", "Bountiful rises from established valley neighborhoods and a traditional Main Street to wooded bench properties with broad views. Mature trees, older rooflines, hillside grade, and winter conditions create a wide range of installation needs within the city.", "We keep classic homes clean with eave, porch, and entry lines, while bench properties may benefit from selected upper peaks visible from below. Tree work, narrow side yards, driveway slope, and earlier snow are reviewed before scheduling.", ["Historic Main Street", "the Bountiful Bench", "Mueller Park"], "Bountiful quotes reflect measured coverage, story height, grade, roof complexity, and mature-tree work. Bench access can add setup time even when the visible lighted footage is modest.", ["layton-ut", "clearfield-ut", "salt-lake-city-ut"], "snow"),
+  city("Clearfield", "Davis County", "Clearfield includes compact established neighborhoods, newer residential growth, rail-oriented development, and commercial areas near I-15 and Hill Air Force Base. Home styles range from simple ramblers to multi-level properties with additions and mature landscaping.", "Straight eave and garage lines create a strong foundation on many Clearfield homes, with an entry, split-level transition, or small tree added for depth. Commercial and multifamily work is planned around parking, shared access, approvals, and operating schedules.", ["Clearfield Station", "the city center", "neighborhoods west of I-15"], "Clearfield estimates are based on roofline footage, story transitions, tree work, access, and selected accents. Shared or commercial properties receive a defined scope for approvals, public areas, and service access.", ["layton-ut", "roy-ut", "west-haven-ut"], "commercial"),
+  city("West Haven", "Weber County", "West Haven’s newer subdivisions, remaining rural-scale properties, and open western exposure produce long visible rooflines and frequent wind. Homes often include multiple front-facing gables, broad garages, and generous setbacks that reward a simple, readable design.", "We prioritize the eaves and peaks that define the home from the road, then add an entry or landscape feature only where it improves the composition. Clips, unsupported transitions, and power routes are planned with exposed conditions in mind.", ["Wilson", "Kanesville", "the 1900 West corridor"], "West Haven pricing commonly reflects long front elevations, two-story access, multiple peaks, detached features, and open-site wind exposure. Quotes separate the main roofline from optional trees, garages, or outbuildings.", ["ogden-ut", "roy-ut", "clearfield-ut"], "wind"),
 ];
 
 /**
@@ -93,6 +128,16 @@ export const LAUNCH_CITY_NAMES = [
   "Murray",
   "Riverton",
   "American Fork",
+  "Ogden",
+  "Park City",
+  "Heber City",
+  "Midway",
+  "Layton",
+  "Roy",
+  "Summit Park",
+  "Bountiful",
+  "Clearfield",
+  "West Haven",
 ] as const;
 
 const launchCityNames = new Set<string>(LAUNCH_CITY_NAMES);
@@ -113,15 +158,39 @@ export function cityPagePath(entry: Pick<CityPageData, "slug">) {
   return `/christmas-light-installation/${entry.slug}`;
 }
 
-export function countyPagePath(county: CityPageData["county"]) {
-  return `/service-areas/${county === "Utah County" ? "utah-county" : "salt-lake-county"}`;
+export function cityServesCounty(entry: CityPageData, county: ServiceCounty) {
+  return entry.servedCounties.includes(county);
 }
 
-export function getCountyCityNames(county: CityPageData["county"]) {
-  return county === "Utah County" ? UTAH_COUNTY_CITIES : SALT_LAKE_COUNTY_CITIES;
+const COUNTY_SLUGS: Record<ServiceCounty, string> = {
+  "Utah County": "utah-county",
+  "Salt Lake County": "salt-lake-county",
+  "Davis County": "davis-county",
+  "Weber County": "weber-county",
+  "Summit County": "summit-county",
+  "Wasatch County": "wasatch-county",
+  "Juab County": "juab-county",
+};
+
+const COUNTY_CITIES: Record<ServiceCounty, readonly string[]> = {
+  "Utah County": UTAH_COUNTY_CITIES,
+  "Salt Lake County": SALT_LAKE_COUNTY_CITIES,
+  "Davis County": DAVIS_COUNTY_CITIES,
+  "Weber County": WEBER_COUNTY_CITIES,
+  "Summit County": SUMMIT_COUNTY_CITIES,
+  "Wasatch County": WASATCH_COUNTY_CITIES,
+  "Juab County": JUAB_COUNTY_CITIES,
+};
+
+export function countyPagePath(county: ServiceCounty) {
+  return `/service-areas/${COUNTY_SLUGS[county]}`;
 }
 
-export function getCountyCities(county: CityPageData["county"]) {
+export function getCountyCityNames(county: ServiceCounty) {
+  return COUNTY_CITIES[county];
+}
+
+export function getCountyCities(county: ServiceCounty) {
   const names = getCountyCityNames(county);
   return names
     .map((name) => LAUNCH_CITY_PAGES.find((entry) => entry.name === name))

@@ -18,8 +18,7 @@ export function Footer() {
             loading="lazy"
           />
           <p className="mt-4 text-sm leading-relaxed text-warm-white/70">
-            Premium holiday lighting for homes and businesses across Utah County
-            and Salt Lake County.
+            Premium holiday lighting across {COMPANY.serviceAreaSummary}.
           </p>
           <ul className="mt-5 space-y-2 text-sm text-warm-white/70">
             <li>
@@ -71,7 +70,7 @@ export function Footer() {
       <div className="border-t border-warm-white/10 px-4 py-4 text-center text-sm text-warm-white/50">
         <p>
           &copy; {year} {COMPANY.name}. All rights reserved. Serving{" "}
-          {COMPANY.serviceAreas.join(" & ")}.
+          {COMPANY.serviceAreaSummary}.
         </p>
         <p className="mt-1">
           {COMPANY.name} is a DBA of {COMPANY.legalEntity}.

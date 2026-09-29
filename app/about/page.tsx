@@ -18,7 +18,7 @@ import { getBreadcrumbSchema, getOrganizationSchema } from "@/lib/structured-dat
 export const metadata: Metadata = {
   title: "About Chestnut & Cheer | Christmas Light Installation in Utah",
   description:
-    "Meet Chestnut & Cheer, the Utah team creating premium, fully managed Christmas lighting experiences for homes and businesses across Utah County and Salt Lake County.",
+    `Meet Chestnut & Cheer, the Utah team creating fully managed Christmas lighting for homes and businesses across ${COMPANY.serviceAreaSummary}.`,
   alternates: { canonical: "/about" },
   openGraph: {
     title: `About ${COMPANY.name} | Christmas Light Installation in Utah`,

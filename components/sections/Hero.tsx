@@ -11,15 +11,14 @@ export function Hero() {
         <div className="grid min-w-0 grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-10">
           <div className="order-2 min-w-0 lg:order-none">
             <p className="mb-3 inline-block rounded-full bg-accent-gold/20 px-3 py-1 text-xs font-semibold text-accent-gold sm:mb-4 sm:px-4 sm:text-sm">
-              Utah County & Salt Lake County
+              Northern Utah &amp; the Wasatch Back
             </p>
             <h1 className="font-display text-3xl font-bold leading-tight text-warm-white sm:text-5xl lg:text-6xl">
               Professional Christmas Light Installation in Utah
             </h1>
             <p className="mt-4 text-base leading-relaxed text-warm-white/80 sm:mt-6 sm:text-lg">
               Chestnut &amp; Cheer designs, installs, maintains, removes, and stores
-              professional Christmas lights for homes and businesses across Utah
-              County and Salt Lake County.
+              professional Christmas lights for homes and businesses across {COMPANY.serviceAreaSummary}.
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:gap-4">
               <Button href={LINKS.estimate} variant="gold" className="w-full sm:w-auto">

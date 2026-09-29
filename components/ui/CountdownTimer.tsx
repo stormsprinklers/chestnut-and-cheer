@@ -45,7 +45,7 @@ export function CountdownTimer() {
           key={unit}
           className="rounded-2xl border border-accent-gold/30 bg-white px-4 py-6 text-center shadow-sm"
         >
-          <div className="font-display text-4xl font-bold text-primary-red tabular-nums sm:text-5xl">
+          <div suppressHydrationWarning className="font-display text-4xl font-bold text-primary-red tabular-nums sm:text-5xl">
             {String(time[unit]).padStart(2, "0")}
           </div>
           <div className="mt-1 text-sm font-medium capitalize text-chestnut/70">

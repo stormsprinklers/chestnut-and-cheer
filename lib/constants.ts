@@ -74,7 +74,17 @@ export const COMPANY = {
     full: "Lehi, Utah 84048",
   },
   license: "S330 #14211467-5501",
-  serviceAreas: ["Utah County", "Salt Lake County"],
+  serviceAreas: [
+    "Utah County",
+    "Salt Lake County",
+    "Davis County",
+    "Weber County",
+    "Summit County",
+    "Wasatch County",
+  ],
+  limitedServiceCities: ["Mona", "Nephi"],
+  serviceAreaSummary:
+    "Utah, Salt Lake, Davis, Weber, Summit, and Wasatch counties, plus Mona and Nephi",
 } as const;
 
 /** Same service area cities as Storm Sprinklers (../website home). */
@@ -86,7 +96,11 @@ export const UTAH_COUNTY_CITIES = [
   "American Fork",
   "Saratoga Springs",
   "Eagle Mountain",
+  "Cedar Fort",
   "Cedar Hills",
+  "Fairfield",
+  "Genola",
+  "Goshen",
   "Lindon",
   "Orem",
   "Provo",
@@ -102,6 +116,8 @@ export const UTAH_COUNTY_CITIES = [
 ] as const;
 
 export const SALT_LAKE_COUNTY_CITIES = [
+  "Alta",
+  "Brighton",
   "Salt Lake City",
   "West Valley City",
   "West Jordan",
@@ -115,12 +131,75 @@ export const SALT_LAKE_COUNTY_CITIES = [
   "Herriman",
   "Bluffdale",
   "Cottonwood Heights",
+  "Copperton",
+  "Emigration Canyon",
   "Holladay",
   "Millcreek",
   "Magna",
   "Kearns",
   "South Salt Lake",
+  "White City",
 ] as const;
+
+export const DAVIS_COUNTY_CITIES = [
+  "Bountiful",
+  "Centerville",
+  "Clearfield",
+  "Clinton",
+  "Farmington",
+  "Fruit Heights",
+  "Kaysville",
+  "Layton",
+  "North Salt Lake",
+  "South Weber",
+  "Sunset",
+  "Syracuse",
+  "West Bountiful",
+  "West Point",
+  "Woods Cross",
+] as const;
+
+export const WEBER_COUNTY_CITIES = [
+  "Farr West",
+  "Harrisville",
+  "Hooper",
+  "Huntsville",
+  "Marriott-Slaterville",
+  "North Ogden",
+  "Ogden",
+  "Plain City",
+  "Pleasant View",
+  "Riverdale",
+  "Roy",
+  "South Ogden",
+  "Uintah",
+  "Washington Terrace",
+  "West Haven",
+] as const;
+
+export const SUMMIT_COUNTY_CITIES = [
+  "Coalville",
+  "Francis",
+  "Henefer",
+  "Kamas",
+  "Oakley",
+  "Park City",
+  "Summit Park",
+] as const;
+
+export const WASATCH_COUNTY_CITIES = [
+  "Charleston",
+  "Daniel",
+  "Heber City",
+  "Hideout",
+  "Independence",
+  "Interlaken",
+  "Midway",
+  "Park City",
+  "Wallsburg",
+] as const;
+
+export const JUAB_COUNTY_CITIES = ["Mona", "Nephi"] as const;
 
 export const LINKS = {
   tel: `tel:${COMPANY.phoneDigits}`,
@@ -421,7 +500,7 @@ export const FAQS = [
   {
     question: "What areas do you serve?",
     answer:
-      "We service all cities within Utah County and Salt Lake County—including Provo, Orem, Lehi, Spanish Fork, Salt Lake City, Draper, Sandy, and many more. Call if you're unsure!",
+      `We service every city in ${COMPANY.serviceAreas.join(", ")}, plus Mona and Nephi in Juab County. Call if you're unsure whether your address is covered.`,
   },
   {
     question: "What if a bulb goes out?",
@@ -437,6 +516,6 @@ export const TRUST_BADGES = [
   { label: "Locally Sourced", detail: "Utah permanent lights" },
 ] as const;
 
-/** Google Maps embed framed on Utah County + Salt Lake County (Point of the Mountain). */
+/** Google Maps embed framed on the northern Utah and Wasatch Back service area. */
 export const MAP_EMBED_URL =
-  "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d170000!2d-111.86!3d40.40!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus";
+  "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d420000!2d-111.82!3d40.47!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus";

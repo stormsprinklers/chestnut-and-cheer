@@ -3,12 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { Breadcrumbs, PageHero } from "@/components/pages/PageChrome";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { ASSETS, LINKS } from "@/lib/constants";
+import { ASSETS, COMPANY, LINKS } from "@/lib/constants";
 import { getBreadcrumbSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "Christmas & Holiday Lighting Services",
-  description: "Compare residential Christmas light installation, commercial holiday lighting, permanent roofline lighting, and seasonal service across Utah County and Salt Lake County.",
+  description: "Compare residential Christmas light installation, commercial holiday lighting, permanent roofline lighting, and seasonal service across northern Utah and the Wasatch Back.",
   alternates: { canonical: "/services" },
 };
 
@@ -27,7 +27,7 @@ export default function ServicesPage() {
       <PageHero
         eyebrow="Professional design, installation, and service"
         title="Christmas and Holiday Lighting Services"
-        description="Choose a seasonal residential display, a coordinated commercial installation, or permanent roofline lighting. Chestnut & Cheer serves Utah County and Salt Lake County from Lehi."
+        description={`Choose a seasonal residential display, a coordinated commercial installation, or permanent roofline lighting. Chestnut & Cheer serves ${COMPANY.serviceAreaSummary}.`}
         image={ASSETS.professionalPhotos.bundlingLights}
         imageAlt="Chestnut & Cheer technician preparing commercial-grade Christmas lights for installation"
       />

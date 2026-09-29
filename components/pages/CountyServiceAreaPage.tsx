@@ -4,9 +4,9 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { Button } from "@/components/ui/Button";
 import {
   cityPagePath,
+  cityServesCounty,
   countyPagePath,
   getCountyCityNames,
-  getCountyCities,
   LAUNCH_CITY_BY_NAME,
   type CityPageData,
 } from "@/lib/cities";
@@ -23,7 +23,6 @@ type CountyContent = {
 };
 
 export function CountyServiceAreaPage({ content }: { content: CountyContent }) {
-  const cities = getCountyCities(content.county);
   const countyCityNames = getCountyCityNames(content.county);
   const path = countyPagePath(content.county);
   const schema = [
@@ -41,13 +40,39 @@ export function CountyServiceAreaPage({ content }: { content: CountyContent }) {
       url: absoluteUrl(path),
       mainEntity: {
         "@type": "ItemList",
-        itemListElement: cities.map((city, index) => ({
-          "@type": "ListItem",
-          position: index + 1,
-          name: city.name,
-          url: absoluteUrl(cityPagePath(city)),
-        })),
+        itemListElement: countyCityNames.map((cityName, index) => {
+          const city = LAUNCH_CITY_BY_NAME.get(cityName);
+          const localPage = city && cityServesCounty(city, content.county) ? city : undefined;
+          return {
+            "@type": "ListItem",
+            position: index + 1,
+            item: {
+              "@type": city?.schemaType ?? "Place",
+              name: cityName,
+              ...(localPage ? { url: absoluteUrl(cityPagePath(localPage)) } : {}),
+              containedInPlace: { "@type": "AdministrativeArea", name: content.county },
+            },
+          };
+        }),
       },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "@id": `${absoluteUrl(path)}#service`,
+      name: `Christmas Light Installation in ${content.county}`,
+      description: content.description,
+      url: absoluteUrl(path),
+      serviceType: "Christmas light installation",
+      provider: { "@id": `${absoluteUrl("/")}#organization` },
+      areaServed:
+        content.county === "Juab County"
+          ? countyCityNames.map((name) => ({
+              "@type": "City",
+              name,
+              containedInPlace: { "@type": "AdministrativeArea", name: "Juab County" },
+            }))
+          : { "@type": "AdministrativeArea", name: content.county },
     },
   ];
 
@@ -83,17 +108,18 @@ export function CountyServiceAreaPage({ content }: { content: CountyContent }) {
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {countyCityNames.map((cityName) => {
               const city = LAUNCH_CITY_BY_NAME.get(cityName);
+              const localPage = city && cityServesCounty(city, content.county) ? city : undefined;
               const className = "rounded-2xl border border-chestnut/10 bg-cream p-5";
               const cityContent = (
                 <>
                   <h3 className="font-display text-xl font-bold text-chestnut">{cityName}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-chestnut/65">Professional seasonal and permanent Christmas lighting in {cityName}, Utah.</p>
-                  {city ? <span className="mt-4 inline-block text-sm font-semibold text-primary-red">View {cityName} service details</span> : null}
+                  {localPage ? <span className="mt-4 inline-block text-sm font-semibold text-primary-red">View {cityName} service details</span> : null}
                 </>
               );
 
-              return city ? (
-                <Link key={cityName} href={cityPagePath(city)} className={`${className} transition-colors hover:border-primary-red`}>
+              return localPage ? (
+                <Link key={cityName} href={cityPagePath(localPage)} className={`${className} transition-colors hover:border-primary-red`}>
                   {cityContent}
                 </Link>
               ) : (

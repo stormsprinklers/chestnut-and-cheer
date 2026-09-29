@@ -1,8 +1,13 @@
-/** Utah County + Salt Lake County ZIPs (same coverage as Storm Sprinklers). */
+/** ZIP and city coverage for Chestnut & Cheer service areas. */
 
 import {
+  DAVIS_COUNTY_CITIES,
+  JUAB_COUNTY_CITIES,
   SALT_LAKE_COUNTY_CITIES,
+  SUMMIT_COUNTY_CITIES,
   UTAH_COUNTY_CITIES,
+  WASATCH_COUNTY_CITIES,
+  WEBER_COUNTY_CITIES,
 } from "@/lib/constants";
 
 const UTAH_COUNTY_ZIPS = [
@@ -24,7 +29,33 @@ const SALT_LAKE_COUNTY_ZIPS = [
   "84171", "84180", "84190", "84199",
 ];
 
-const SERVICE_ZIPS = new Set([...UTAH_COUNTY_ZIPS, ...SALT_LAKE_COUNTY_ZIPS]);
+const DAVIS_COUNTY_ZIPS = [
+  "84010", "84011", "84014", "84015", "84016", "84025", "84037",
+  "84040", "84041", "84054", "84056", "84075", "84087", "84089",
+];
+
+const WEBER_COUNTY_ZIPS = [
+  "84067", "84310", "84315", "84317", "84401", "84402", "84403",
+  "84404", "84405", "84407", "84408", "84409", "84412", "84414", "84415",
+];
+
+const SUMMIT_COUNTY_ZIPS = [
+  "84017", "84024", "84033", "84036", "84055", "84060", "84061", "84068", "84098",
+];
+
+const WASATCH_COUNTY_ZIPS = ["84032", "84036", "84049", "84082"];
+
+const LIMITED_JUAB_ZIPS = ["84645", "84648"];
+
+const SERVICE_ZIPS = new Set([
+  ...UTAH_COUNTY_ZIPS,
+  ...SALT_LAKE_COUNTY_ZIPS,
+  ...DAVIS_COUNTY_ZIPS,
+  ...WEBER_COUNTY_ZIPS,
+  ...SUMMIT_COUNTY_ZIPS,
+  ...WASATCH_COUNTY_ZIPS,
+  ...LIMITED_JUAB_ZIPS,
+]);
 
 export function normalizeZip(zip: string): string {
   return zip.replace(/\D/g, "").slice(0, 5);
@@ -36,7 +67,15 @@ export function isInServiceArea(zip: string): boolean {
 }
 
 const SERVICE_CITIES = new Set(
-  [...UTAH_COUNTY_CITIES, ...SALT_LAKE_COUNTY_CITIES].map((c) =>
+  [
+    ...UTAH_COUNTY_CITIES,
+    ...SALT_LAKE_COUNTY_CITIES,
+    ...DAVIS_COUNTY_CITIES,
+    ...WEBER_COUNTY_CITIES,
+    ...SUMMIT_COUNTY_CITIES,
+    ...WASATCH_COUNTY_CITIES,
+    ...JUAB_COUNTY_CITIES,
+  ].map((c) =>
     c.trim().toLowerCase()
   )
 );
