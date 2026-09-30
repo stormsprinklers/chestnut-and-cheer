@@ -4,6 +4,7 @@ import { Gift, Heart, Lightbulb, Mail, Phone, Sparkles, TreePine, UtensilsCrosse
 import { CheerForm } from "@/components/share-the-cheer/CheerForm";
 import { Button } from "@/components/ui/Button";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { ParallaxHeroImage } from "@/components/motion/ParallaxHeroImage";
 import { ASSETS, COMPANY, LINKS } from "@/lib/constants";
 import { SHARE_THE_CHEER, nominationsOpen } from "@/lib/share-the-cheer";
 import { absoluteUrl } from "@/lib/site";
@@ -40,9 +41,8 @@ export default function ShareTheCheerPage() {
   return <>
     <JsonLd data={[getOrganizationSchema(), getBreadcrumbSchema([{ name: "Home", path: "/" }, { name: "Share the Cheer", path: "/share-the-cheer" }]), { "@context": "https://schema.org", "@type": "WebPage", name: "Share the Cheer", description, url: absoluteUrl("/share-the-cheer"), about: { "@id": `${absoluteUrl("/")}#organization` } }]} />
     <section className="relative overflow-hidden bg-chestnut text-warm-white">
-      <div className="absolute inset-0 opacity-30"><Image src={ASSETS.photos.hero} alt="" fill priority sizes="100vw" className="object-cover object-center" /></div>
-      <div className="absolute inset-0 bg-gradient-to-r from-chestnut via-chestnut/95 to-chestnut/55" />
-      <div className="relative mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28 lg:py-36">
+      <ParallaxHeroImage src={ASSETS.photos.hero} alt="A festive Utah Christmas light installation" />
+      <div className="relative z-10 mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28 lg:py-36">
         <p className="text-xs font-bold uppercase tracking-[.25em] text-accent-gold">A Christmas tradition, shared together</p>
         <h1 className="mt-4 max-w-3xl font-display text-5xl font-semibold leading-tight sm:text-6xl">Share the Cheer</h1>
         <p className="mt-6 max-w-2xl text-lg leading-relaxed text-warm-white/90 sm:text-xl">When neighbors and local businesses come together, Christmas can feel a little brighter. Chestnut & Cheer is bringing our Utah community together to create meaningful moments at home for local families facing a difficult season.</p>

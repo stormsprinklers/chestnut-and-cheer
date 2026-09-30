@@ -4,19 +4,19 @@ import { ArrowRight, BookOpen, Cable, Lightbulb, Ruler } from "lucide-react";
 const GUIDES = [
   {
     href: "/blog/christmas-light-installation-mistakes",
-    title: "Installation mistakes our crews notice",
+    title: "7 DIY Christmas Light Mistakes to Avoid",
     description: "Seven details that separate a clean roofline from a visibly improvised one.",
     icon: Ruler,
   },
   {
     href: "/blog/c7-vs-c9-vs-mini-christmas-lights",
-    title: "C7 vs. C9 vs. mini lights",
+    title: "What are C9 and C7 LED Lights?",
     description: "Choose the right bulb scale for rooflines, branches, bushes, and landscape edges.",
     icon: Lightbulb,
   },
   {
     href: "/blog/why-christmas-lights-trip-gfci",
-    title: "Why outdoor lights trip a GFCI",
+    title: "Electrical Issues when Installing Christmas Lights",
     description: "How water, exposed ends, plug placement, and long runs affect reliability.",
     icon: Cable,
   },

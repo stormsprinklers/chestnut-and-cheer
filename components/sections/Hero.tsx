@@ -1,15 +1,17 @@
-import Image from "next/image";
 import { Button } from "@/components/ui/Button";
+import { ParallaxHeroImage } from "@/components/motion/ParallaxHeroImage";
 import { ASSETS, COMPANY, LINKS } from "@/lib/constants";
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-chestnut">
-      <div className="absolute inset-0 bg-gradient-to-br from-chestnut via-chestnut to-primary-red/40" />
+    <section className="relative flex min-h-[min(82vh,720px)] items-center overflow-hidden bg-chestnut">
+      <ParallaxHeroImage
+        src={ASSETS.photos.hero}
+        alt="Chestnut & Cheer Christmas light technician carrying a ladder to a Utah installation"
+      />
 
-      <div className="relative mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-16 lg:py-24">
-        <div className="grid min-w-0 grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-10">
-          <div className="order-2 min-w-0 lg:order-none">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-24 lg:py-28">
+        <div className="max-w-3xl">
             <p className="mb-3 inline-block rounded-full bg-accent-gold/20 px-3 py-1 text-xs font-semibold text-accent-gold sm:mb-4 sm:px-4 sm:text-sm">
               Northern Utah &amp; the Wasatch Back
             </p>
@@ -32,19 +34,6 @@ export function Hero() {
                 Call {COMPANY.phone}
               </Button>
             </div>
-          </div>
-
-          <div className="relative order-1 aspect-[4/3] w-full min-w-0 overflow-hidden rounded-2xl border border-warm-white/10 shadow-2xl lg:order-none">
-            <Image
-              src={ASSETS.photos.hero}
-              alt="Chestnut & Cheer Christmas light technician carrying a ladder to a Utah installation"
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 40vw"
-              priority
-              fetchPriority="high"
-            />
-          </div>
         </div>
       </div>
     </section>

@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { ParallaxHeroImage } from "@/components/motion/ParallaxHeroImage";
 import { ProfessionalPhotoGallery } from "@/components/sections/ProfessionalPhotoGallery";
 import { Button } from "@/components/ui/Button";
 import { ASSETS, COMPANY, LINKS, PRICING } from "@/lib/constants";
@@ -44,10 +44,13 @@ export function CityChristmasLightsPage({ city }: { city: CityPageData }) {
         </ol>
       </nav>
 
-      <section className="relative overflow-hidden bg-chestnut">
-        <div className="absolute inset-0 bg-gradient-to-br from-chestnut via-chestnut to-primary-red/40" />
-        <div className="relative mx-auto grid max-w-6xl items-center gap-8 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[1.05fr_0.95fr] lg:py-20">
-          <div>
+      <section className="relative flex min-h-[min(64vh,620px)] items-center overflow-hidden bg-chestnut">
+        <ParallaxHeroImage
+          src={ASSETS.professionalPhotos.technicianHero}
+          alt="Chestnut & Cheer technician installing professional Christmas lights in Utah"
+        />
+        <div className="relative z-10 mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
+          <div className="max-w-3xl">
             <p className="text-sm font-semibold text-accent-gold">Professional holiday lighting</p>
             <h1 className="mt-3 font-display text-3xl font-bold leading-tight text-warm-white sm:text-5xl">
               Christmas Light Installation in {city.name}, Utah
@@ -61,17 +64,6 @@ export function CityChristmasLightsPage({ city }: { city: CityPageData }) {
               <Button href={estimateHref} variant="gold">Get a {city.name} Estimate</Button>
               <Button href={LINKS.tel} variant="outline" className="border-warm-white/30 text-warm-white hover:bg-warm-white/10">Call {COMPANY.phone}</Button>
             </div>
-          </div>
-          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-warm-white/10">
-            <Image
-              src={ASSETS.professionalPhotos.technicianHero}
-              alt="Chestnut & Cheer technician installing professional Christmas lights in Utah"
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 45vw"
-              priority
-              fetchPriority="high"
-            />
           </div>
         </div>
       </section>

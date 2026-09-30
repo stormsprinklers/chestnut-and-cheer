@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Clock3 } from "lucide-react";
 import { ArticleCard } from "@/components/blog/ArticleCard";
+import { ParallaxHeroImage } from "@/components/motion/ParallaxHeroImage";
 import { Breadcrumbs } from "@/components/pages/PageChrome";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Button } from "@/components/ui/Button";
@@ -85,27 +86,19 @@ export default function BlogIndexPage() {
       />
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Expert Guides" }]} />
 
-      <section className="relative overflow-hidden bg-chestnut">
-        <div className="absolute inset-0 bg-gradient-to-br from-chestnut via-chestnut to-primary-red/45" />
-        <div className="relative mx-auto grid max-w-6xl items-center gap-9 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[1.02fr_0.98fr] lg:py-20">
-          <div>
+      <section className="relative flex min-h-[min(60vh,580px)] items-center overflow-hidden bg-chestnut">
+        <ParallaxHeroImage
+          src="/images/photos/professional/chestnut-cheer-lighting-technician-traven.avif"
+          alt="Chestnut & Cheer lighting technician beside a Utah home"
+        />
+        <div className="relative z-10 mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
+          <div className="max-w-3xl">
             <h1 className="font-display text-4xl font-bold leading-[1.08] text-warm-white sm:text-5xl">
               Christmas light installation guides
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-warm-white/80 sm:text-lg">
               Plan rooflines, wrap trees, choose bulbs, route power, prevent weather problems, and prepare every display to come down cleanly.
             </p>
-          </div>
-          <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-warm-white/10 shadow-2xl">
-            <Image
-              src="/images/photos/professional/chestnut-cheer-lighting-technician-traven.avif"
-              alt="Chestnut & Cheer lighting technician beside a Utah home"
-              fill
-              loading="eager"
-              fetchPriority="high"
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 48vw"
-            />
           </div>
         </div>
       </section>

@@ -7,6 +7,7 @@ import { ArticleCard } from "@/components/blog/ArticleCard";
 import { RichText } from "@/components/blog/RichText";
 import { Breadcrumbs } from "@/components/pages/PageChrome";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { ParallaxHeroImage } from "@/components/motion/ParallaxHeroImage";
 import { Button } from "@/components/ui/Button";
 import {
   BLOG_POSTS,
@@ -119,10 +120,10 @@ export default async function BlogPostPage({ params }: Props) {
         ]}
       />
 
-      <header className="relative overflow-hidden bg-chestnut text-warm-white">
-        <div className="absolute inset-0 bg-gradient-to-br from-chestnut via-chestnut to-primary-red/45" />
-        <div className="relative mx-auto grid max-w-6xl items-center gap-9 px-4 py-10 sm:px-6 sm:py-14 lg:grid-cols-[1.08fr_0.92fr] lg:py-16">
-          <div>
+      <header className="relative flex min-h-[min(64vh,620px)] items-center overflow-hidden bg-chestnut text-warm-white">
+        <ParallaxHeroImage src={post.heroImage} alt={post.heroAlt} />
+        <div className="relative z-10 mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 lg:py-20">
+          <div className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent-gold">
               {post.eyebrow}
             </p>
@@ -143,17 +144,6 @@ export default async function BlogPostPage({ params }: Props) {
               <time dateTime={post.modified}>Updated September 29, 2026</time>
             </div>
           </div>
-          <figure className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-warm-white/10 shadow-2xl">
-            <Image
-              src={post.heroImage}
-              alt={post.heroAlt}
-              fill
-              loading="eager"
-              fetchPriority="high"
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 45vw"
-            />
-          </figure>
         </div>
       </header>
 

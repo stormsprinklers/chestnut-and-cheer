@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Button } from "@/components/ui/Button";
+import { ParallaxHeroImage } from "@/components/motion/ParallaxHeroImage";
 import { LINKS } from "@/lib/constants";
 
 export type BreadcrumbItem = { label: string; href?: string };
@@ -44,10 +44,18 @@ export function PageHero({
   imageAlt = "Chestnut & Cheer Christmas light installation technician in Utah",
 }: PageHeroProps) {
   return (
-    <section className="relative overflow-hidden bg-chestnut">
-      <div className="absolute inset-0 bg-gradient-to-br from-chestnut via-chestnut to-primary-red/40" />
-      <div className={`relative mx-auto px-4 py-12 sm:px-6 sm:py-16 ${image ? "grid max-w-6xl items-center gap-8 text-left lg:grid-cols-[1fr_0.9fr]" : "max-w-3xl text-center"}`}>
-        <div>
+    <section
+      className={`relative overflow-hidden bg-chestnut ${image ? "flex min-h-[min(64vh,620px)] items-center" : ""}`}
+    >
+      {image ? (
+        <ParallaxHeroImage src={image} alt={imageAlt} />
+      ) : (
+        <div className="absolute inset-0 bg-gradient-to-br from-chestnut via-chestnut to-primary-red/40" />
+      )}
+      <div
+        className={`relative z-10 mx-auto w-full px-4 py-12 sm:px-6 sm:py-16 ${image ? "max-w-6xl text-left lg:py-24" : "max-w-3xl text-center"}`}
+      >
+        <div className={image ? "max-w-3xl" : undefined}>
         {eyebrow ? (
           <p className="mb-3 inline-block rounded-full bg-accent-gold/20 px-3 py-1 text-xs font-semibold text-accent-gold sm:text-sm">
             {eyebrow}
@@ -72,19 +80,6 @@ export function PageHero({
           </Button>
         </div>
         </div>
-        {image ? (
-          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-warm-white/10 shadow-2xl">
-            <Image
-              src={image}
-              alt={imageAlt}
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 45vw"
-              priority
-              fetchPriority="high"
-            />
-          </div>
-        ) : null}
       </div>
     </section>
   );

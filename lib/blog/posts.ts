@@ -185,8 +185,8 @@ export const BLOG_POSTS: BlogPost[] = [
   },
   {
     slug: "christmas-light-installation-mistakes",
-    title: "7 Christmas Light Installation Mistakes Our Crews Notice",
-    shortTitle: "Common Installation Mistakes",
+    title: "7 DIY Christmas Light Mistakes to Avoid",
+    shortTitle: "7 DIY Christmas Light Mistakes to Avoid",
     description:
       "Loose ends, wrong clips, crooked peaks, empty sockets, dangling cords, exposed plugs, and unsafe access—plus how a professional prevents each problem.",
     date: PUBLISHED,
@@ -296,8 +296,8 @@ export const BLOG_POSTS: BlogPost[] = [
   },
   {
     slug: "c7-vs-c9-vs-mini-christmas-lights",
-    title: "C7 vs. C9 vs. Mini Christmas Lights: Where Each Belongs",
-    shortTitle: "C7 vs. C9 vs. Mini Lights",
+    title: "What are C9 and C7 LED Lights?",
+    shortTitle: "What are C9 and C7 LED Lights?",
     description:
       "A simple field guide to bulb size, spacing, orientation, customization, and the best uses for C7, C9, and mini Christmas lights.",
     date: PUBLISHED,
@@ -350,8 +350,8 @@ export const BLOG_POSTS: BlogPost[] = [
   },
   {
     slug: "why-christmas-lights-trip-gfci",
-    title: "Why Christmas Lights Trip a GFCI in Rain or Snow",
-    shortTitle: "Why Christmas Lights Trip GFCIs",
+    title: "Electrical Issues when Installing Christmas Lights",
+    shortTitle: "Electrical Issues when Installing Christmas Lights",
     description:
       "Learn why wet plugs, exposed wire ends, long runs, and simple power interruptions make Christmas lights go dark—and what to check safely first.",
     date: PUBLISHED,
