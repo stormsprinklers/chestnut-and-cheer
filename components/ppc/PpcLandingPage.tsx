@@ -4,6 +4,7 @@ import { PpcLeadForm } from "@/components/ppc/PpcLeadForm";
 import { ASSETS, COMPANY, LINKS } from "@/lib/constants";
 
 type Service = "temporary" | "permanent";
+type CampaignChannel = "ppc" | "meta";
 
 const COPY = {
   temporary: {
@@ -24,7 +25,7 @@ const COPY = {
   },
 } as const;
 
-export function PpcLandingPage({ service }: { service: Service }) {
+export function PpcLandingPage({ service, channel = "ppc" }: { service: Service; channel?: CampaignChannel }) {
   const content = COPY[service];
   return (
     <article className="ppc-page min-h-screen bg-cream text-chestnut">
@@ -35,11 +36,16 @@ export function PpcLandingPage({ service }: { service: Service }) {
         </div>
       </header>
       <main className="mx-auto grid max-w-6xl gap-8 px-4 py-8 sm:px-6 sm:py-12 lg:grid-cols-[1.15fr_.85fr] lg:items-center lg:gap-14 lg:py-16">
-        <div>
+        <div className="lg:col-start-1 lg:row-start-1">
           <p className="text-sm font-semibold uppercase tracking-[.16em] text-primary-red">Northern Utah &amp; the Wasatch Back</p>
           <h1 className="mt-3 max-w-3xl font-display text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl">{content.title}</h1>
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-chestnut/70">{content.description}</p>
           <p className="mt-6 font-display text-3xl font-semibold text-primary-red">Starting at {content.price}</p>
+        </div>
+        <div className="lg:col-start-2 lg:row-span-2 lg:row-start-1">
+          <PpcLeadForm service={service} channel={channel} />
+        </div>
+        <div className="lg:col-start-1 lg:row-start-2">
           <ul className="mt-5 space-y-3">
             {content.benefits.map((benefit) => <li key={benefit} className="flex items-center gap-3 text-chestnut/80"><span className="grid h-6 w-6 place-items-center rounded-full bg-accent-gold/30"><Check className="h-4 w-4 text-primary-red" aria-hidden="true" /></span>{benefit}</li>)}
           </ul>
@@ -47,7 +53,6 @@ export function PpcLandingPage({ service }: { service: Service }) {
             <Image src={content.photo} alt={content.alt} fill priority sizes="(max-width: 1024px) 100vw, 55vw" className="object-cover" />
           </div>
         </div>
-        <PpcLeadForm service={service} />
       </main>
       <footer className="border-t border-chestnut/10 px-4 py-5 text-center text-xs text-chestnut/55">© {new Date().getFullYear()} {COMPANY.name} · Licensed &amp; Insured · S330 #14211467-5501</footer>
     </article>

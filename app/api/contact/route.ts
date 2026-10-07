@@ -67,10 +67,10 @@ export async function POST(request: Request) {
   const address = String(body.address ?? "").trim();
   const formattedAddress = String(body.formattedAddress ?? body.address ?? "").trim();
   const city = String(body.city ?? "").trim();
-  const allowedLeadSources = new Set(["ppc_temporary_lights", "ppc_permanent_lights"]);
-  const isPpcLead = allowedLeadSources.has(String(body.leadSource));
-  const leadSource = isPpcLead ? String(body.leadSource) : "christmas-contact";
-  const conversionPage = /^\/ppc\/(christmas-light-installation|permanent-christmas-light-installation)$/.test(String(body.conversionPage))
+  const allowedLeadSources = new Set(["ppc_temporary_lights", "ppc_permanent_lights", "meta_temporary_lights"]);
+  const isAdLead = allowedLeadSources.has(String(body.leadSource));
+  const leadSource = isAdLead ? String(body.leadSource) : "christmas-contact";
+  const conversionPage = /^\/(ppc\/(christmas-light-installation|permanent-christmas-light-installation)|meta\/christmas-light-installation)$/.test(String(body.conversionPage))
     ? String(body.conversionPage)
     : "/contact";
 
@@ -83,7 +83,7 @@ export async function POST(request: Request) {
       { status: 400 }
     );
   }
-  if (isPpcLead && !formattedAddress) {
+  if (isAdLead && !formattedAddress) {
     return NextResponse.json(
       { ok: false, error: "Please enter the property address." },
       { status: 400 }
@@ -129,7 +129,7 @@ export async function POST(request: Request) {
       message,
       conversion_page: conversionPage,
       service: String(body.service ?? "").slice(0, 30),
-      ...(isPpcLead
+      ...(isAdLead
         ? {
             property: {
               formattedAddress,

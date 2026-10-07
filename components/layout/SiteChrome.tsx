@@ -7,11 +7,11 @@ import { FloatingBookButton } from "@/components/layout/FloatingBookButton";
 
 export function SiteHeaderChrome() {
   const pathname = usePathname();
-  return pathname?.startsWith("/ppc/") ? null : <Header />;
+  return pathname?.startsWith("/ppc/") || pathname?.startsWith("/meta/") ? null : <Header />;
 }
 
 export function SiteFooterChrome() {
   const pathname = usePathname();
-  if (pathname?.startsWith("/ppc/")) return null;
+  if (pathname?.startsWith("/ppc/") || pathname?.startsWith("/meta/")) return null;
   return <><Footer /><FloatingBookButton /></>;
 }
