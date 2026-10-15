@@ -8,6 +8,7 @@ import { SITE_URL, absoluteUrl } from "@/lib/site";
 import "./globals.css";
 
 const GOOGLE_ADS_TAG_ID = "AW-18477697547";
+const GOOGLE_ANALYTICS_TAG_ID = "G-6XQT6MPZ4S";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -70,15 +71,16 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col font-sans pb-[calc(4.75rem+env(safe-area-inset-bottom))] lg:pb-0">
         <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_TAG_ID}`}
+          src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_TAG_ID}`}
           strategy="afterInteractive"
         />
-        <Script id="google-ads-tag" strategy="afterInteractive">
+        <Script id="google-tag" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             window.gtag = gtag;
             gtag('js', new Date());
+            gtag('config', '${GOOGLE_ANALYTICS_TAG_ID}');
             gtag('config', '${GOOGLE_ADS_TAG_ID}');
           `}
         </Script>
