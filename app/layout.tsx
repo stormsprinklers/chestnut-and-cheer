@@ -9,6 +9,7 @@ import "./globals.css";
 
 const GOOGLE_ADS_TAG_ID = "AW-18477697547";
 const GOOGLE_ANALYTICS_TAG_ID = "G-6XQT6MPZ4S";
+const GOOGLE_TAG_MANAGER_ID = "GTM-NBV7LQDC";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -62,6 +63,15 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full antialiased">
       <head>
+        <Script id="google-tag-manager" strategy="beforeInteractive">
+          {`
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','${GOOGLE_TAG_MANAGER_ID}');
+          `}
+        </Script>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
@@ -70,6 +80,14 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col font-sans pb-[calc(4.75rem+env(safe-area-inset-bottom))] lg:pb-0">
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${GOOGLE_TAG_MANAGER_ID}`}
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_TAG_ID}`}
           strategy="afterInteractive"
