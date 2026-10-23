@@ -7,6 +7,7 @@ import { SmsOptInCopy } from "@/components/forms/SmsOptInCopy";
 import { Button } from "@/components/ui/Button";
 import { Mascot } from "@/components/ui/Mascot";
 import { track } from "@/lib/analytics/track";
+import { getFormTrackingData } from "@/lib/analytics/form-tracking";
 import { COMPANY, LINKS } from "@/lib/constants";
 
 type Status = "idle" | "sending" | "success" | "error";
@@ -56,6 +57,7 @@ export function Contact({ standalone = false }: { standalone?: boolean }) {
           smsMarketingConsent,
           websiteUrl: fd.get("websiteUrl"),
           turnstileToken,
+          tracking: getFormTrackingData(),
         }),
       });
       const json = (await res.json()) as { ok?: boolean; error?: string };

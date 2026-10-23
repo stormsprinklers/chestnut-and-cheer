@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import TurnstileWidget from "@/components/TurnstileWidget";
 import { track } from "@/lib/analytics/track";
+import { getFormTrackingData } from "@/lib/analytics/form-tracking";
 import { COMPANY, LINKS } from "@/lib/constants";
 import { type CheerFormKind, type CheerSubmission, nominationFields, partnerFields, validateCheerSubmission } from "@/lib/share-the-cheer";
 
@@ -67,7 +68,7 @@ export function CheerForm({ kind }: { kind: CheerFormKind }) {
     try {
       const response = await fetch("/api/share-the-cheer", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ kind, data, websiteUrl: fd.get("websiteUrl"), turnstileToken: token }),
+        body: JSON.stringify({ kind, data, websiteUrl: fd.get("websiteUrl"), turnstileToken: token, tracking: getFormTrackingData() }),
       });
       const result = await response.json() as { ok?: boolean; error?: string; errors?: Record<string, string> };
       if (!response.ok || !result.ok) {

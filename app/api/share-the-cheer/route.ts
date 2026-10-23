@@ -4,6 +4,7 @@ import { buildLeadExternalId, forwardLeadToCrm, isCrmConfigured } from "@/lib/in
 import { checkCheerRateLimit } from "@/lib/share-the-cheer-rate-limit";
 import { nominationsOpen, type CheerFormKind, type CheerSubmission, validateCheerSubmission } from "@/lib/share-the-cheer";
 import { clientIpFromRequest, isHoneypotTripped, verifyTurnstileToken } from "@/lib/turnstile";
+import { normalizeFormTrackingData } from "@/lib/analytics/form-tracking";
 
 export const runtime = "nodejs";
 
@@ -15,7 +16,7 @@ export async function POST(request: Request) {
   }
   if (Number(request.headers.get("content-length") || 0) > 16000) return NextResponse.json({ ok: false, error: "Submission is too large." }, { status: 413 });
 
-  let body: { kind?: CheerFormKind; data?: CheerSubmission; websiteUrl?: string; turnstileToken?: string };
+  let body: { kind?: CheerFormKind; data?: CheerSubmission; websiteUrl?: string; turnstileToken?: string; tracking?: unknown };
   try {
     const raw = await request.text();
     if (raw.length > 16000) return NextResponse.json({ ok: false, error: "Submission is too large." }, { status: 413 });
@@ -37,6 +38,10 @@ export async function POST(request: Request) {
   if (!isCrmConfigured()) return NextResponse.json({ ok: false, error: "The form is temporarily unavailable. Please contact our office." }, { status: 503 });
 
   const data = body.data;
+  const tracking = normalizeFormTrackingData(
+    body.tracking,
+    request.headers.get("user-agent")
+  );
   const source = body.kind === "nomination" ? "share-the-cheer-nomination" : "share-the-cheer-partner";
   const name = String(body.kind === "nomination" ? data.nominatorName : data.contactName).trim();
   const email = String(body.kind === "nomination" ? data.nominatorEmail : data.email).trim();
@@ -59,7 +64,7 @@ export async function POST(request: Request) {
   const result = await forwardLeadToCrm({
     externalId: buildLeadExternalId(source, randomUUID()), name, email, phone, source, notes,
     city: body.kind === "nomination" ? String(data.city).trim() : null,
-    metadata: { form: source, program: "Share the Cheer", reviewStatus: "pending", privacyConsent: true, contactPermission: body.kind === "nomination" ? true : undefined, consents: { quote: false } },
+    metadata: { form: source, program: "Share the Cheer", reviewStatus: "pending", privacyConsent: true, contactPermission: body.kind === "nomination" ? true : undefined, consents: { quote: false }, attribution: tracking, tracking },
   });
   if (!result.ok) return NextResponse.json({ ok: false, error: "We could not save this submission. Please contact our office." }, { status: 502 });
   return NextResponse.json({ ok: true });

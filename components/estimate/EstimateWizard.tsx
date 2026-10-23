@@ -20,6 +20,7 @@ import {
   isDoorHangerAttribution,
   trackEstimateEvent,
 } from "@/lib/estimate/analytics";
+import { getFormTrackingData } from "@/lib/analytics/form-tracking";
 import {
   checkServiceArea,
   extractZipFromAddress,
@@ -209,6 +210,7 @@ export function EstimateWizard() {
         body: JSON.stringify({
           form,
           attribution: getAttribution(),
+          tracking: getFormTrackingData(),
           turnstileToken,
           websiteUrl: honeypot,
         }),

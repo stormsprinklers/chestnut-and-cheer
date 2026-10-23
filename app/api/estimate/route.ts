@@ -9,6 +9,7 @@ import {
   isHoneypotTripped,
   verifyTurnstileToken,
 } from "@/lib/turnstile";
+import { normalizeFormTrackingData } from "@/lib/analytics/form-tracking";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -19,6 +20,7 @@ type Body = {
   turnstileToken?: string;
   "cf-turnstile-response"?: string;
   websiteUrl?: string;
+  tracking?: unknown;
 };
 
 function validate(form: EstimateFormState): string | null {
@@ -61,13 +63,20 @@ export async function POST(request: Request) {
   const error = validate(form);
   if (error) return NextResponse.json({ error }, { status: 400 });
 
-  const attribution = body.attribution ?? {};
+  const tracking = normalizeFormTrackingData(
+    body.tracking,
+    request.headers.get("user-agent")
+  );
+  const capturedTracking = Object.fromEntries(
+    Object.entries(tracking).filter(([, value]) => value !== null)
+  );
+  const attribution = { ...(body.attribution ?? {}), ...capturedTracking };
   const fromDoorHanger = isDoorHangerAttribution(attribution);
   const leadSource = fromDoorHanger ? "christmas-door-hanger" : "christmas-estimate";
   const name = `${form.firstName.trim()} ${form.lastName.trim()}`.trim();
   const externalId = buildLeadExternalId(leadSource, randomUUID());
   const notes = buildEstimateNotes(form, attribution);
-  const metadata = buildEstimateMetadata(form, attribution);
+  const metadata = { ...buildEstimateMetadata(form, attribution), tracking };
 
   const crmResult = await forwardLeadToCrm({
     externalId,

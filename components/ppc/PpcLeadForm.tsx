@@ -7,6 +7,7 @@ import {
 } from "@/components/estimate/AddressAutocomplete";
 import TurnstileWidget from "@/components/TurnstileWidget";
 import { track } from "@/lib/analytics/track";
+import { getFormTrackingData } from "@/lib/analytics/form-tracking";
 import { COMPANY } from "@/lib/constants";
 
 type Service = "temporary" | "permanent";
@@ -80,6 +81,7 @@ export function PpcLeadForm({ service, channel = "ppc" }: { service: Service; ch
           zip: selectedPlace?.zip || null,
           lat: selectedPlace?.lat ?? null,
           lng: selectedPlace?.lng ?? null,
+          tracking: getFormTrackingData(),
         }),
       });
       const result = (await response.json()) as { ok?: boolean; error?: string; externalId?: string };

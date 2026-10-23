@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { Mascot } from "@/components/ui/Mascot";
 import { COMPANY, LINKS } from "@/lib/constants";
 import { track } from "@/lib/analytics/track";
+import { getFormTrackingData } from "@/lib/analytics/form-tracking";
 import type { CrmBookingOffer, CrmBookingSlot } from "@/lib/integrations/crm";
 
 function formatInZone(
@@ -106,6 +107,7 @@ export function BookingWizard() {
           smsConsent: true,
           turnstileToken,
           websiteUrl: honeypot,
+          tracking: getFormTrackingData(),
         }),
       });
       const data = await res.json();

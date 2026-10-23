@@ -101,6 +101,7 @@ export type CrmBookingInput = {
   notes?: string | null;
   startAt: string;
   endAt: string;
+  tracking?: Record<string, string | null>;
 };
 
 async function crmFetch(path: string, init?: RequestInit) {

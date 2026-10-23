@@ -9,6 +9,8 @@ export type Attribution = {
   term?: string;
   content?: string;
   gclid?: string;
+  gbraid?: string;
+  wbraid?: string;
   fbclid?: string;
   msclkid?: string;
   referrer?: string;
@@ -44,7 +46,7 @@ function sourceBucket(params: URLSearchParams, referrer: string) {
   const isMetaSource = /facebook|instagram|meta/.test(source);
   const isPaidMedium = /cpc|ppc|paid/.test(medium);
 
-  if (params.get("gclid") || (source === "google" && /cpc|ppc|paid/.test(medium))) return "google_ads";
+  if (params.get("gclid") || params.get("gbraid") || params.get("wbraid") || (source === "google" && /cpc|ppc|paid/.test(medium))) return "google_ads";
   if (params.get("msclkid") || source === "bing") return "microsoft_ads";
   if (isMetaSource && isPaidMedium) return "meta_ads";
   // Facebook and Instagram add fbclid to more than paid-ad clicks. Keep that
@@ -79,6 +81,8 @@ function getCurrentAttribution(): Attribution {
     term: value("utm_term"),
     content: value("utm_content"),
     gclid: value("gclid"),
+    gbraid: value("gbraid"),
+    wbraid: value("wbraid"),
     fbclid: value("fbclid"),
     msclkid: value("msclkid"),
     referrer: referrer || undefined,

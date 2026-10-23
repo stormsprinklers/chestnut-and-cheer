@@ -10,6 +10,7 @@ import {
   isHoneypotTripped,
   verifyTurnstileToken,
 } from "@/lib/turnstile";
+import { normalizeFormTrackingData } from "@/lib/analytics/form-tracking";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -34,6 +35,7 @@ type Body = {
   zip?: string;
   lat?: number | null;
   lng?: number | null;
+  tracking?: unknown;
 };
 
 export async function POST(request: Request) {
@@ -73,6 +75,10 @@ export async function POST(request: Request) {
   const conversionPage = /^\/(ppc\/(christmas-light-installation|permanent-christmas-light-installation)|meta\/christmas-light-installation)$/.test(String(body.conversionPage))
     ? String(body.conversionPage)
     : "/contact";
+  const tracking = normalizeFormTrackingData(
+    body.tracking,
+    request.headers.get("user-agent")
+  );
 
   if (!name) {
     return NextResponse.json({ ok: false, error: "Please enter your name." }, { status: 400 });
@@ -144,6 +150,8 @@ export async function POST(request: Request) {
         : {}),
       smsServiceConsent: body.smsServiceConsent === true,
       smsMarketingConsent: body.smsMarketingConsent === true,
+      attribution: tracking,
+      tracking,
     },
   });
 

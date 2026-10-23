@@ -9,6 +9,7 @@ import {
   isHoneypotTripped,
   verifyTurnstileToken,
 } from "@/lib/turnstile";
+import { normalizeFormTrackingData } from "@/lib/analytics/form-tracking";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -41,6 +42,7 @@ type Body = {
   turnstileToken?: string;
   "cf-turnstile-response"?: string;
   websiteUrl?: string;
+  tracking?: unknown;
 };
 
 export async function POST(request: Request) {
@@ -89,6 +91,10 @@ export async function POST(request: Request) {
     notes: body.notes?.trim() || null,
     startAt,
     endAt,
+    tracking: normalizeFormTrackingData(
+      body.tracking,
+      request.headers.get("user-agent")
+    ),
   });
 
   if ("skipped" in result && result.skipped) {
