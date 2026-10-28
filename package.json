@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "images:convert": "node scripts/convert-images.mjs"
+    "images:convert": "node scripts/convert-images.mjs",
+    "images:offers": "node scripts/convert-offer-images.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.22.0",

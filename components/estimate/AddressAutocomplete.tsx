@@ -19,6 +19,8 @@ type AddressAutocompleteProps = {
   onPlaceSelected: (place: ParsedPlace) => void;
   placeholder?: string;
   required?: boolean;
+  /** Wait to load Google Places until the visitor focuses the address field. */
+  deferUntilFocus?: boolean;
 };
 
 type AddressComponent = {
@@ -142,6 +144,7 @@ export function AddressAutocomplete({
   onPlaceSelected,
   placeholder = "123 Main St, Orem UT 84057",
   required = false,
+  deferUntilFocus = false,
 }: AddressAutocompleteProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<{
@@ -151,6 +154,7 @@ export function AddressAutocomplete({
   } | null>(null);
   const onPlaceSelectedRef = useRef(onPlaceSelected);
   const [mapsReady, setMapsReady] = useState(false);
+  const [mapsRequested, setMapsRequested] = useState(!deferUntilFocus);
   const inputId = useId();
 
   useEffect(() => {
@@ -158,7 +162,7 @@ export function AddressAutocomplete({
   }, [onPlaceSelected]);
 
   useEffect(() => {
-    if (!MAPS_KEY) return;
+    if (!MAPS_KEY || !mapsRequested) return;
     let cancelled = false;
     loadMapsScript(MAPS_KEY)
       .then(() => {
@@ -170,7 +174,7 @@ export function AddressAutocomplete({
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [mapsRequested]);
 
   useEffect(() => {
     if (!mapsReady || !inputRef.current || !window.google?.maps?.places) return;
@@ -211,6 +215,7 @@ export function AddressAutocomplete({
         className="mt-1 w-full rounded-xl border border-chestnut/20 bg-white px-4 py-3 text-chestnut"
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        onFocus={() => setMapsRequested(true)}
         placeholder={placeholder}
         autoComplete={MAPS_KEY ? "off" : "street-address"}
         required={required}

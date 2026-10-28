@@ -97,7 +97,7 @@ export default function AnalyticsTracker() {
 
       if (/^tel:/i.test(href)) trackTelClick(href, label);
       else if (/^sms:/i.test(href)) trackSmsClick(href, label);
-      else if (/^\/(estimate|book|contact|share-the-cheer)(?:[/?#]|$)/.test(href) || (pathname === "/share-the-cheer" && /^#(nominate|partner)$/.test(href))) {
+      else if (/^\/(estimate|book|contact|share-the-cheer|offers)(?:[/?#]|$)/.test(href) || (pathname === "/share-the-cheer" && /^#(nominate|partner)$/.test(href))) {
         track("CTA_CLICK", { button_label: label, cta_destination: href });
       }
     };
