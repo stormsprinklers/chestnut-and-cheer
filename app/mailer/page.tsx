@@ -6,15 +6,15 @@ import { ASSETS, COMPANY } from "@/lib/constants";
 import { absoluteUrl } from "@/lib/site";
 
 const description =
-  "Request a personalized Christmas lighting quote from Chestnut & Cheer and redeem the special offer printed on your mailer.";
+  "Request a personalized Christmas lighting quote from Chestnut & Cheer and redeem the special offer printed on your postcard.";
 
 export const metadata: Metadata = {
-  title: "Redeem Your Christmas Lights Mailer Offer",
+  title: "Redeem Your Christmas Lights Postcard Offer",
   description,
   alternates: { canonical: "/mailer" },
   robots: { index: false, follow: true },
   openGraph: {
-    title: `Christmas Lights Mailer Offer | ${COMPANY.name}`,
+    title: `Christmas Lights Postcard Offer | ${COMPANY.name}`,
     description,
     url: absoluteUrl("/mailer"),
     images: [{ url: absoluteUrl(ASSETS.photos.hero), alt: "Professionally installed Christmas lights on a Utah home" }],
@@ -33,14 +33,14 @@ export default function MailerPage() {
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-accent-gold/40 bg-accent-gold/15 px-4 py-2 text-sm font-semibold text-accent-gold backdrop-blur-sm">
               <Mail className="size-4" aria-hidden />
-              Your mail brought a little extra cheer
+              Your postcard brought a little extra cheer
             </div>
 
             <h1 className="mt-6 max-w-2xl font-display text-5xl font-semibold leading-[1.05] sm:text-6xl lg:text-7xl">
-              Turn your <span className="text-accent-gold">mailer offer</span> into a home that shines.
+              Turn your <span className="text-accent-gold">postcard</span> into a home that shines.
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-warm-white/85 sm:text-xl">
-              Share a few details and our Christmas lighting team will reach out with a personalized quote and confirm the offer printed on your mailer.
+              Share a few details and our Christmas lighting team will reach out with a personalized quote and confirm the offer printed on your postcard.
             </p>
 
             <ul className="mt-8 grid max-w-xl gap-3 text-sm sm:grid-cols-2 sm:text-base">
