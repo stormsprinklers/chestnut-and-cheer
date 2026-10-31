@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { ChevronDown, Mail, MapPin, Phone, UserRound } from "lucide-react";
+import { Mail, MapPin, Phone, UserRound } from "lucide-react";
 import TurnstileWidget from "@/components/TurnstileWidget";
 import { getFormTrackingData } from "@/lib/analytics/form-tracking";
 import { track } from "@/lib/analytics/track";
@@ -132,7 +132,6 @@ export function MailerQuoteForm({
             </label>
             <input id={`${formId}-address`} name="address" type="text" required autoComplete="street-address" maxLength={240} placeholder="Street address, city, state, ZIP" className={inputClass} />
           </div>
-
         </div>
 
         <div className="mt-5">
@@ -163,15 +162,6 @@ export function MailerQuoteForm({
         </p>
       </form>
 
-      <details className="group mt-6 rounded-2xl border border-chestnut/15 bg-white px-4 py-3">
-        <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-chestnut marker:hidden">
-          About your postcard
-          <ChevronDown className="size-5 shrink-0 text-primary-red transition-transform group-open:rotate-180" aria-hidden />
-        </summary>
-        <p className="mt-3 border-t border-chestnut/10 pt-3 text-sm leading-relaxed text-chestnut/75">
-          Keep your postcard handy. We&apos;ll confirm the offer, expiration date, and any details printed on it when we contact you about your quote.
-        </p>
-      </details>
     </div>
   );
 }
