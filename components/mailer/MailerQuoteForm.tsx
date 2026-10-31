@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { ChevronDown, Mail, MapPin, Phone, Tag, UserRound } from "lucide-react";
+import { ChevronDown, Mail, MapPin, Phone, UserRound } from "lucide-react";
 import TurnstileWidget from "@/components/TurnstileWidget";
 import { getFormTrackingData } from "@/lib/analytics/form-tracking";
 import { track } from "@/lib/analytics/track";
@@ -39,11 +39,10 @@ export function MailerQuoteForm({
     const name = String(data.get("name") ?? "").trim();
     const phone = String(data.get("phone") ?? "").trim();
     const address = String(data.get("address") ?? "").trim();
-    const mailerOffer = String(data.get("mailerOffer") ?? "").trim();
 
-    if (!name || !phone || !address || !mailerOffer) {
+    if (!name || !phone || !address) {
       setStatus("error");
-      setError("Please complete all four fields.");
+      setError("Please complete all three fields.");
       return;
     }
     if (!turnstileToken) {
@@ -63,7 +62,6 @@ export function MailerQuoteForm({
           name,
           phone,
           address,
-          mailerOffer,
           websiteUrl: data.get("websiteUrl"),
           turnstileToken,
           tracking: getFormTrackingData(),
@@ -135,13 +133,6 @@ export function MailerQuoteForm({
             <input id={`${formId}-address`} name="address" type="text" required autoComplete="street-address" maxLength={240} placeholder="Street address, city, state, ZIP" className={inputClass} />
           </div>
 
-          <div>
-            <label htmlFor={`${formId}-offer`} className="flex items-center gap-2 text-sm font-semibold text-chestnut">
-              <Tag className="size-4 text-primary-red" aria-hidden />
-              Offer or code printed on your postcard
-            </label>
-            <input id={`${formId}-offer`} name="mailerOffer" type="text" required maxLength={120} placeholder="Enter the offer or code" className={inputClass} />
-          </div>
         </div>
 
         <div className="mt-5">

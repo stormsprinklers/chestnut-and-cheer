@@ -12,7 +12,6 @@ type PersonalMailerRequest = {
   name?: unknown;
   phone?: unknown;
   address?: unknown;
-  mailerOffer?: unknown;
   websiteUrl?: unknown;
   turnstileToken?: unknown;
   tracking?: unknown;
@@ -53,9 +52,8 @@ export async function POST(request: Request) {
   const name = clean(body.name, 120);
   const phone = clean(body.phone, 30);
   const address = clean(body.address, 240);
-  const postcardOffer = clean(body.mailerOffer, 120);
-  if (!name || !phone || !address || !postcardOffer) {
-    return NextResponse.json({ ok: false, error: "Please complete all four fields." }, { status: 400 });
+  if (!name || !phone || !address) {
+    return NextResponse.json({ ok: false, error: "Please complete all three fields." }, { status: 400 });
   }
   if (phone.replace(/\D/g, "").length < 10) {
     return NextResponse.json({ ok: false, error: "Please enter a valid phone number." }, { status: 400 });
@@ -94,14 +92,12 @@ export async function POST(request: Request) {
     address,
     notes: [
       "Personal postcard Christmas lights quote request",
-      `Offer or code printed on postcard: ${postcardOffer}`,
       `Property address: ${address}`,
       "Customer requested contact about a quote by call or text.",
     ].join("\n"),
     metadata: {
       form: "personal_mailer_quote",
       campaign: "personal-postcard",
-      postcardOffer,
       conversion_page: "/personal-mailer",
       attribution: tracking,
       tracking,
