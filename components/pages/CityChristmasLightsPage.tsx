@@ -158,14 +158,17 @@ export function CityChristmasLightsPage({ city }: { city: CityPageData }) {
             <Link href={LINKS.pricing} className="mt-5 inline-block font-semibold text-primary-red hover:underline">See Christmas light installation pricing and examples</Link>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            {[PRICING.yearOne, PRICING.renewal].map((tier) => (
-              <article key={tier.label} className="rounded-2xl border border-chestnut/10 bg-cream p-6">
-                <p className="text-sm font-semibold text-primary-red">{tier.label}</p>
-                <h3 className="mt-1 font-display text-xl font-bold text-chestnut">{tier.title}</h3>
-                <p className="mt-3 text-3xl font-bold text-chestnut">From ${tier.startsAt}</p>
-                <p className="mt-3 text-sm leading-relaxed text-chestnut/70">{tier.summary}</p>
-              </article>
-            ))}
+            <article className="rounded-2xl border border-chestnut/10 bg-cream p-6">
+              <p className="text-sm font-semibold text-primary-red">{PRICING.service.label}</p>
+              <h3 className="mt-1 font-display text-xl font-bold text-chestnut">{PRICING.service.title}</h3>
+              <p className="mt-3 text-3xl font-bold text-chestnut">From ${PRICING.service.startsAt}</p>
+              <p className="mt-3 text-sm leading-relaxed text-chestnut/70">{PRICING.service.summary}</p>
+            </article>
+            <article className="rounded-2xl border border-chestnut/10 bg-cream p-6">
+              <p className="text-sm font-semibold text-primary-red">Company-provided materials</p>
+              <h3 className="mt-1 font-display text-xl font-bold text-chestnut">Flexible colors, lifetime warranty</h3>
+              <p className="mt-3 text-sm leading-relaxed text-chestnut/70">Choose any available color combination and change it in a future season without an added color-change fee. In-season maintenance, takedown, and storage are included.</p>
+            </article>
           </div>
         </div>
       </section>

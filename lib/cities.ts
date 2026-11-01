@@ -224,7 +224,7 @@ export function getCityFaqs(entry: CityPageData) {
   return [
     {
       question: `How much does Christmas light installation cost in ${entry.name}?`,
-      answer: `${entry.pricing} Seasonal installation starts at $699 in year one and $299 in later years, with every property quoted individually.`,
+      answer: `${entry.pricing} Seasonal service starts at $299 for qualifying scopes, with every property quoted individually. One upfront service price covers company-provided materials, installation, in-season maintenance, takedown, and storage.`,
     },
     {
       question: `When should I schedule Christmas light installation in ${entry.name}?`,

@@ -325,9 +325,6 @@ export function EstimateWizard() {
           We&apos;ll review your property and contact you shortly. Based on what
           you shared, a typical project lands around{" "}
           <span className="font-semibold text-chestnut">{softEstimate.label}</span>
-          {softEstimate.leaseLabel
-            ? `, or about ${softEstimate.leaseLabel} with a seasonal lease`
-            : ""}
           {" "}
           — your final design quote may differ.
           {LINKS.bookConsultation
@@ -805,14 +802,9 @@ export function EstimateWizard() {
                 {softEstimate.label}
               </p>
               <p className="mt-1 text-xs text-chestnut/60">{softEstimate.basis}</p>
-              {softEstimate.leaseLabel ? (
-                <p className="mt-3 text-sm text-chestnut/80">
-                  Prefer not to own the lights? A seasonal lease is often around{" "}
-                  <span className="font-semibold text-chestnut">{softEstimate.leaseLabel}</span>
-                  {" "}
-                  — you can change colors each year without a long-term commitment.
-                </p>
-              ) : null}
+              <p className="mt-3 text-sm text-chestnut/80">
+                We provide the lights and materials. Your final quote covers the complete seasonal service, and you can change colors in a future season at no added color-change cost.
+              </p>
             </div>
             <div className="space-y-2">
               {QUOTE_METHOD_OPTIONS.map((opt) => (

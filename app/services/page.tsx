@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Breadcrumbs, PageHero } from "@/components/pages/PageChrome";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { ASSETS, COMPANY, LINKS } from "@/lib/constants";
+import { ASSETS, COMPANY, LINKS, PRICING } from "@/lib/constants";
 import { getBreadcrumbSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 const services = [
-  { title: "Christmas Light Installation", description: "Start with our complete seasonal installation service, including custom design, commercial-grade lights, maintenance, takedown, and storage.", href: LINKS.christmasLightInstallation, image: ASSETS.professionalPhotos.rooflineInstall },
+  { title: "Christmas Light Installation", description: `Full seasonal service starts at $${PRICING.service.startsAt} for qualifying scopes. We provide the lights; one custom price covers installation, maintenance, takedown, and storage.`, href: LINKS.christmasLightInstallation, image: ASSETS.professionalPhotos.rooflineInstall },
   { title: "Residential Christmas Lights", description: "Professional roofline, peak, porch, tree, and bush lighting designed around the architecture of your home.", href: LINKS.residentialLighting, image: ASSETS.professionalPhotos.closeInstall },
   { title: "Commercial Holiday Lighting", description: "Planned displays for storefronts, offices, HOAs, property managers, multifamily properties, and public-facing spaces.", href: LINKS.commercialLighting, image: ASSETS.photos.commercialTree },
   { title: "Permanent Holiday Lighting", description: "Discreet, app-controlled roofline lighting for Christmas, other holidays, game days, and year-round architectural accents.", href: LINKS.permanentLighting, image: ASSETS.photos.permanentLighting },

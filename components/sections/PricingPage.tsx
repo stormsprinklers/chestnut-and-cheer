@@ -1,5 +1,16 @@
 import Image from "next/image";
-import { Check, Home, TreePine, Mountain, Ruler, Sparkles } from "lucide-react";
+import {
+  Check,
+  Home,
+  TreePine,
+  Mountain,
+  Ruler,
+  Sparkles,
+  ShieldCheck,
+  Palette,
+  RefreshCw,
+  PackageCheck,
+} from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Mascot } from "@/components/ui/Mascot";
 import { ASSETS, LINKS, PRICING } from "@/lib/constants";
@@ -12,8 +23,6 @@ function formatStartsAt(amount: number) {
 }
 
 export function PricingPage() {
-  const tiers = [PRICING.yearOne, PRICING.renewal] as const;
-
   return (
     <>
       <section className="relative overflow-hidden bg-chestnut">
@@ -35,9 +44,9 @@ export function PricingPage() {
               Christmas Light Installation Cost in Utah
             </h1>
             <p className="mt-4 text-base leading-relaxed text-warm-white/80 sm:mt-5 sm:text-lg">
-              Year 1 costs more because it includes your lights, timer, and custom
-              design — not just the install. Stay with us and Year 2+ drops to
-              installation only. Every job is custom-quoted for your property.
+              One custom price covers the complete seasonal service. We provide
+              the lights and materials; you enjoy professional installation,
+              maintenance, takedown, and storage without separate ownership tiers.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-4">
               <Button href={LINKS.estimate} variant="gold" className="w-full sm:w-auto">
@@ -61,82 +70,69 @@ export function PricingPage() {
             <Mascot variant="pointing" side="left" size={160} className="mx-auto lg:mx-0" />
             <div className="text-center">
               <h2 className="font-display text-3xl font-bold text-chestnut sm:text-4xl">
-                Year 1 vs. Year 2+
+                One quote. The whole season handled.
               </h2>
               <p className="mx-auto mt-4 max-w-2xl text-chestnut/70">
-                Your first season builds the display. Every season after that, you
-                only pay for us to put it back up.
+                Chestnut &amp; Cheer buys and provides the materials. You pay one
+                upfront service price built around your property and chosen design.
               </p>
             </div>
             <Mascot variant="pointing" side="right" size={160} className="hidden lg:block" />
           </div>
 
-          <div className="mt-12 grid gap-6 lg:grid-cols-2">
-            {tiers.map((tier, index) => {
-              const featured = index === 1;
-              return (
-                <article
-                  key={tier.label}
-                  className={`flex flex-col rounded-2xl border p-6 sm:p-8 ${
-                    featured
-                      ? "border-accent-gold/40 bg-chestnut text-warm-white shadow-md"
-                      : "border-chestnut/10 bg-white text-chestnut shadow-sm"
-                  }`}
-                >
-                  <p
-                    className={`text-sm font-semibold uppercase tracking-wide ${
-                      featured ? "text-accent-gold" : "text-primary-red"
-                    }`}
-                  >
-                    {tier.label}
-                  </p>
-                  <h3 className="mt-2 font-display text-2xl font-bold sm:text-3xl">
-                    {tier.title}
-                  </h3>
-                  <p className="mt-4 flex items-baseline gap-2">
-                    <span className="font-display text-4xl font-bold sm:text-5xl">
-                      {formatStartsAt(tier.startsAt)}
-                    </span>
-                    <span
-                      className={`text-sm ${featured ? "text-warm-white/70" : "text-chestnut/60"}`}
-                    >
-                      starting at
-                    </span>
-                  </p>
-                  <p
-                    className={`mt-4 text-sm leading-relaxed ${
-                      featured ? "text-warm-white/75" : "text-chestnut/70"
-                    }`}
-                  >
-                    {tier.summary}
-                  </p>
-                  <ul className="mt-6 flex-1 space-y-3">
-                    {tier.includes.map((item) => (
-                      <li key={item} className="flex items-start gap-2 text-sm">
-                        <Check
-                          className={`mt-0.5 h-4 w-4 shrink-0 ${
-                            featured ? "text-accent-gold" : "text-primary-red"
-                          }`}
-                          aria-hidden
-                        />
-                        <span className={featured ? "text-warm-white/90" : "text-chestnut/80"}>
-                          {item}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-8">
-                    <Button
-                      href={LINKS.estimate}
-                      variant={featured ? "gold" : "primary"}
-                      className="w-full"
-                    >
-                      Get Instant Estimate
-                    </Button>
+          <div className="mt-12 grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+            <article className="flex flex-col rounded-2xl border border-accent-gold/40 bg-chestnut p-6 text-warm-white shadow-md sm:p-8">
+              <p className="text-sm font-semibold uppercase tracking-wide text-accent-gold">
+                {PRICING.service.label}
+              </p>
+              <h3 className="mt-2 font-display text-2xl font-bold sm:text-3xl">
+                {PRICING.service.title}
+              </h3>
+              <p className="mt-4 flex items-baseline gap-2">
+                <span className="font-display text-4xl font-bold sm:text-5xl">
+                  {formatStartsAt(PRICING.service.startsAt)}
+                </span>
+                <span className="text-sm text-warm-white/70">starting at</span>
+              </p>
+              <p className="mt-4 text-sm leading-relaxed text-warm-white/75">
+                {PRICING.service.summary}
+              </p>
+              <ul className="mt-6 flex-1 space-y-3">
+                {PRICING.service.includes.map((item) => (
+                  <li key={item} className="flex items-start gap-2 text-sm">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent-gold" aria-hidden />
+                    <span className="text-warm-white/90">{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <Button href={LINKS.estimate} variant="gold" className="mt-8 w-full">
+                Get Instant Estimate
+              </Button>
+            </article>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              {[
+                { icon: ShieldCheck, title: "Background-checked employees", body: "Every employee who comes to your property is background checked, trained, and selected for professionalism." },
+                { icon: Palette, title: "Any color combination", body: "Choose from a wide variety of colors and patterns instead of being limited to a few preset displays." },
+                { icon: RefreshCw, title: "Change colors for free", body: "Warm white this season and multicolor next season? Change your display colors without an added color-change fee." },
+                { icon: PackageCheck, title: "Lifetime warranty", body: "Our lighting is backed by a lifetime warranty, with in-season maintenance included in the service." },
+              ].map(({ icon: Icon, title, body }) => (
+                <article key={title} className="rounded-2xl border border-chestnut/10 bg-white p-5 shadow-sm">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-red/10 text-primary-red">
+                    <Icon className="h-5 w-5" aria-hidden />
                   </div>
+                  <h3 className="mt-4 font-display text-xl font-bold text-chestnut">{title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-chestnut/70">{body}</p>
                 </article>
-              );
-            })}
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-6 rounded-2xl border border-chestnut/10 bg-accent-gold/10 p-5 sm:p-6">
+            <h3 className="font-display text-xl font-bold text-chestnut">What happens if you cancel service?</h3>
+            <p className="mt-2 leading-relaxed text-chestnut/75">
+              If you decide to end seasonal service, you pay the retail cost of the materials used on your home. We then leave the bulbs, strands, clips, and timer with you.
+            </p>
           </div>
         </div>
       </section>
@@ -171,8 +167,8 @@ export function PricingPage() {
                 What&apos;s Always Included
               </h2>
               <p className="mt-4 text-chestnut/70">
-                Whether it&apos;s Year 1 or Year 10, your quote covers the full
-                season experience — not just hanging lights once.
+                Your custom quote covers the full-season experience—not just
+                hanging lights once.
               </p>
               <ul className="mt-8 grid gap-3 sm:grid-cols-2">
                 {PRICING.includedEveryYear.map((item) => (
@@ -256,8 +252,10 @@ export function PricingPage() {
           <h2 className="font-display text-3xl font-bold text-chestnut">Christmas light pricing FAQs</h2>
           <div className="mt-7 space-y-3">
             {[
-              { q: "Why does the first year cost more?", a: "The first-season quote includes the commercial-grade lights, timer, custom design, preparation, and installation. Returning-customer pricing can be lower because the established lighting package is already in storage." },
+              { q: "Who provides the lights?", a: "Chestnut & Cheer provides and pays for the materials while you are an active seasonal-service customer. You receive one custom price for the service: design, installation, maintenance, takedown, and storage." },
               { q: "Does the price include maintenance and takedown?", a: "Seasonal pricing includes in-season service for normal bulb failures on the display we installed, takedown in January or early February, and organized off-season storage." },
+              { q: "Can I change colors next season?", a: "Yes. You can choose a different color combination each season at no additional color-change cost, subject to the design and materials available for your display." },
+              { q: "What happens to the lights if I cancel?", a: "If you cancel seasonal service, you pay the retail cost of the materials used on your home and we leave the bulbs, strands, clips, and timer with you." },
               { q: "Can I reduce the scope to fit a budget?", a: "Yes. Ask us to separate the main roofline from optional peaks, garages, trees, bushes, wreaths, or other accents. Prioritizing the most visible lines is often better than spreading a budget across every feature." },
               { q: "Do commercial projects use the same starting price?", a: "Commercial work is quoted for its actual scope, access, scheduling, approvals, buildings, public areas, and maintenance needs. Contact us for a property-specific proposal rather than relying on a residential starting price." },
             ].map((faq) => (

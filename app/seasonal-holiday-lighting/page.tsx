@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ServicePage } from "@/components/pages/PageChrome";
 import { ProfessionalPhotoGallery } from "@/components/sections/ProfessionalPhotoGallery";
-import { ASSETS, COMPANY } from "@/lib/constants";
+import { ASSETS, COMPANY, PRICING } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Seasonal Holiday Lighting",
@@ -20,12 +20,15 @@ export default function SeasonalHolidayLightingPage() {
       heroImage={ASSETS.professionalPhotos.technicianHero}
       heroImageAlt="Licensed Chestnut & Cheer Christmas lighting technician working from a ladder in Utah"
       highlights={[
+        `Full seasonal service from $${PRICING.service.startsAt}`,
         "Custom-fit commercial-grade lights",
+        "Background-checked employees",
         "Rooflines, trees & bushes",
         "In-season maintenance & free bulb replacement",
         "Takedown in January / early February",
         "Off-season storage included",
-        "Year 1 from $699 · Year 2+ from $299",
+        "Free color changes each season",
+        "Lifetime warranty",
       ]}
       sections={[
         {
@@ -33,8 +36,16 @@ export default function SeasonalHolidayLightingPage() {
           body: "We don’t install customer-owned lights. Every display uses professional strands and clips so your home looks even, bright, and photo-ready — then we take it down and store it until next year.",
         },
         {
-          heading: "Pricing that rewards returning customers",
-          body: "Year 1 covers parts + installation (starts at $699). Stay with us and Year 2+ drops to installation only (starts at $299) because we already own the lights. Every quote is customized to your property.",
+          heading: "One upfront service price",
+          body: "We provide and pay for the lights and materials. Your property-specific quote covers the complete service: installation, in-season maintenance, takedown, and storage. There are no separate ownership tiers.",
+        },
+        {
+          heading: "More colors, without the extra charge",
+          body: "Choose from a wide variety of colors and patterns, including custom combinations. You can change your colors in a future season at no additional color-change cost.",
+        },
+        {
+          heading: "Materials when service ends",
+          body: "If you cancel seasonal service, you pay the retail cost of the materials used on your home. We then leave the bulbs, strands, clips, and timer with you.",
         },
         {
           heading: "Serving northern Utah & the Wasatch Back",

@@ -34,7 +34,7 @@ export const metadata: Metadata = {
 const benefits = [
   "Premium permanent lights across the front roofline",
   "App-adjustable colors and patterns for every season",
-  "Professional installation with a 5-year warranty",
+  "Professional installation with a lifetime warranty",
 ];
 
 export default function PermanentLightsGiveawayPage() {
@@ -112,7 +112,7 @@ export default function PermanentLightsGiveawayPage() {
 
             <div className="mt-8 grid gap-4 md:grid-cols-3">
               {[
-                { icon: Trophy, label: "Grand prize", title: "Free premium installation", text: "Permanent lights installed across the front roofline, with adjustable colors and a 5-year warranty." },
+                { icon: Trophy, label: "Grand prize", title: "Free premium installation", text: "Permanent lights installed across the front roofline, with adjustable colors and a lifetime warranty." },
                 { icon: Gift, label: "Second-place prizes", title: "$500 gift cards", text: "Multiple winners receive credit toward a permanent lighting installation." },
                 { icon: Gift, label: "Third-place prizes", title: "$250 gift cards", text: "Multiple additional winners receive credit toward a permanent lighting installation." },
               ].map(({ icon: Icon, label, title, text }) => (
@@ -139,7 +139,7 @@ export default function PermanentLightsGiveawayPage() {
               {[
                 { icon: Palette, title: "Your colors", text: "Switch colors and patterns for Christmas, game days, birthdays, or everyday accent lighting." },
                 { icon: Lightbulb, title: "Clean roofline", text: "A professional permanent system designed to follow the architecture of the home." },
-                { icon: ShieldCheck, title: "5-year warranty", text: "The grand-prize installation includes the advertised five-year product warranty." },
+                { icon: ShieldCheck, title: "Lifetime warranty", text: "The grand-prize installation includes the advertised lifetime product warranty." },
               ].map(({ icon: Icon, title, text }) => (
                 <div key={title} className="rounded-2xl bg-cream p-5">
                   <Icon className="size-6 text-primary-red" aria-hidden />
@@ -156,7 +156,7 @@ export default function PermanentLightsGiveawayPage() {
             <p className="text-xs font-bold uppercase tracking-[.2em] text-primary-red">Giveaway details</p>
             <h2 className="mt-3 font-display text-3xl font-semibold">What the entry covers</h2>
             <div className="mt-5 space-y-4 text-sm leading-relaxed text-chestnut/72 sm:text-base">
-              <p>The grand prize covers a standard permanent-light installation on the front-facing roofline of one eligible home, including the lighting system, standard installation, basic setup, and the advertised 5-year warranty.</p>
+              <p>The grand prize covers a standard permanent-light installation on the front-facing roofline of one eligible home, including the lighting system, standard installation, basic setup, and the advertised lifetime warranty.</p>
               <p>Final scope is subject to a property review, safe access, compatible roofline conditions, available electrical service, and the current Chestnut &amp; Cheer service area. Electrical upgrades, structural repairs, specialty access equipment, side or rear rooflines, trees, landscaping, and other add-ons are not included unless confirmed in writing.</p>
               <p>Gift-card prizes may be applied toward a permanent-lighting project with Chestnut &amp; Cheer. Entering does not guarantee selection. Drawing timing, winner contact, prize acceptance, and any additional official rules will be communicated as the promotion is finalized.</p>
             </div>

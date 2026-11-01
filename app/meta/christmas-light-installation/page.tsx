@@ -4,7 +4,7 @@ import { PpcLandingPage } from "@/components/ppc/PpcLandingPage";
 
 export const metadata: Metadata = {
   title: "Christmas Light Installation | Get a Free Quote",
-  description: "Professional Christmas light installation in Utah starting at $499.",
+  description: "Professional full-service Christmas light installation in Utah starting at $299.",
   robots: {
     index: false,
     follow: false,

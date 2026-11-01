@@ -29,7 +29,6 @@ export function buildEstimateNotes(
     `Address: ${[state.address, state.city, state.state, state.zip].filter(Boolean).join(", ")}`,
     `In service area: ${state.inServiceArea === null ? "unknown" : state.inServiceArea ? "yes" : "no"}`,
     `Soft estimate range: ${soft.label}`,
-    ...(soft.leaseLabel ? [`Lease option (customer-facing): ${soft.leaseLabel}`] : []),
     soft.staffSummary,
   ];
 
@@ -88,9 +87,6 @@ export function buildEstimateMetadata(
     high: soft.high,
     label: soft.label,
     basis: soft.basis,
-    ...(soft.leaseLabel ? { leaseLabel: soft.leaseLabel } : {}),
-    ...(soft.leaseLow !== undefined ? { leaseLow: soft.leaseLow } : {}),
-    ...(soft.leaseHigh !== undefined ? { leaseHigh: soft.leaseHigh } : {}),
   };
   return {
     form: isDoorHangerAttribution(attribution) ? "christmas-door-hanger" : "christmas-estimate",

@@ -12,11 +12,11 @@ const heroImage = "/images/offers/christmas-lights-white-roofline.webp";
 export const metadata: Metadata = {
   title: "Free Commercial-Grade Christmas Lights",
   description:
-    "Chestnut & Cheer buys the commercial-grade LED lights and clips. You pay for professional installation, with lifetime bulb and clip coverage.",
+    "Chestnut & Cheer provides the commercial-grade LED lights and clips. One service price covers installation, maintenance, takedown, and storage, with lifetime coverage.",
   alternates: { canonical: path },
   robots: { index: false, follow: false },
   openGraph: {
-    title: "Free Christmas Lights—Pay Only for Installation | Chestnut & Cheer",
+    title: "Free Christmas Lights With Full Seasonal Service | Chestnut & Cheer",
     description:
       "Commercial-grade LEDs and clips included, plus lifetime bulb and clip coverage and fast in-season repairs.",
     url: absoluteUrl(path),
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
 
 const benefits = [
   "Commercial-grade LED bulbs and clips included",
-  "You pay for professional installation",
+  "One price for the complete seasonal service",
   "Lifetime bulb-and-clip coverage with 2-business-day service",
 ];
 
@@ -52,10 +52,10 @@ export default function FreeChristmasLightsPage() {
                 Commercial-grade lights included
               </p>
               <h1 className="mt-3 max-w-3xl font-display text-4xl font-semibold leading-[1.02] sm:text-5xl xl:text-6xl">
-                The Christmas lights are free. You pay for installation.
+                We provide the lights. You enjoy the full service.
               </h1>
               <p className="mt-4 max-w-2xl text-base leading-relaxed text-warm-white/82 sm:text-lg">
-                We buy the professional LED bulbs and clips for your custom display. You get the polished roofline without paying separately for the light package.
+                We buy the professional LED bulbs and clips for your custom display. Your one upfront service price covers installation, in-season maintenance, takedown, and storage.
               </p>
 
               <ul className="mt-5 grid gap-2.5 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
@@ -110,12 +110,12 @@ export default function FreeChristmasLightsPage() {
         <section className="px-4 py-14 sm:px-6 sm:py-18 lg:px-8">
           <div className="mx-auto max-w-6xl">
             <div className="max-w-2xl">
-              <p className="text-xs font-bold uppercase tracking-[.2em] text-primary-red">A simpler first season</p>
+              <p className="text-xs font-bold uppercase tracking-[.2em] text-primary-red">A simpler service</p>
               <h2 className="mt-3 font-display text-3xl font-semibold sm:text-4xl">
-                We cover the light package. You cover the skilled work.
+                We cover the materials. Your quote covers the complete service.
               </h2>
               <p className="mt-4 leading-relaxed text-chestnut/72">
-                Your quote is built around the installation itself: measuring, custom fitting, safely attaching, testing, and presenting a clean professional display.
+                Your quote is built around the property and design, then presented as one service price for installation, maintenance, takedown, and storage.
               </p>
             </div>
 
@@ -141,20 +141,20 @@ export default function FreeChristmasLightsPage() {
           <div className="mx-auto max-w-5xl">
             <p className="text-xs font-bold uppercase tracking-[.2em] text-primary-red">Offer terms &amp; ownership</p>
             <h2 className="mt-3 max-w-3xl font-display text-3xl font-semibold sm:text-4xl">
-              The lights stay our property. The worry stays ours, too.
+              We provide the lights while your service is active.
             </h2>
 
             <div className="mt-7 rounded-3xl border-2 border-primary-red/25 bg-primary-red/[.035] p-6 sm:p-8">
               <h3 className="font-display text-2xl font-semibold text-primary-red">Chestnut &amp; Cheer owns the lights.</h3>
               <p className="mt-3 text-base leading-relaxed text-chestnut/78 sm:text-lg">
-                All bulbs, clips, wire, and related lighting materials supplied through this offer remain the sole property of Chestnut &amp; Cheer. They are provided as part of our installation and service program and are not sold, gifted, or transferred to the customer. Paying the installation charge does not give the customer ownership of the lights or materials.
+                All bulbs, clips, wire, timer, and related lighting materials supplied through this offer remain the property of Chestnut &amp; Cheer while seasonal service is active. If the customer cancels service, the customer pays the retail cost of the materials used on the home and Chestnut &amp; Cheer leaves those bulbs, strands, clips, and timer with the customer.
               </p>
             </div>
 
             <div className="mt-8 grid gap-7 text-sm leading-relaxed text-chestnut/72 md:grid-cols-2 md:text-base">
               <div className="space-y-4">
                 <h3 className="font-display text-2xl font-semibold text-chestnut">What is included</h3>
-                <p>The offer includes the commercial-grade LED bulbs and standard clips needed for the roofline design approved in your written quote. The customer pays the quoted installation labor and any applicable taxes.</p>
+                <p>The offer includes the commercial-grade LED bulbs and standard clips needed for the roofline design approved in your written quote. The customer pays one quoted service price covering installation, in-season maintenance, takedown, off-season storage, and any applicable taxes.</p>
                 <p>Bulbs and clips carry the advertised lifetime coverage. If a covered bulb or clip fails, Chestnut &amp; Cheer will repair or replace it at no charge within two business days after notice, weather and safe roof access permitting.</p>
               </div>
               <div className="space-y-4">

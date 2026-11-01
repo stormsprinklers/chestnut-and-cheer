@@ -6,7 +6,7 @@ import { getServicePageSchemas } from "@/lib/structured-data";
 
 const path = "/permanent-lighting";
 const title = "Permanent Christmas Lights in Utah";
-const description = "Professional permanent Christmas and year-round roofline lighting for Utah homes and businesses, with app-controlled colors and a 5-year warranty.";
+const description = "Professional permanent Christmas and year-round roofline lighting for Utah homes and businesses, with app-controlled colors and a lifetime warranty.";
 
 export const metadata: Metadata = {
   title,
@@ -22,12 +22,12 @@ export default function PermanentLightingPage() {
       breadcrumbs={[{ label: "Home", href: "/" }, { label: "Services", href: LINKS.services }, { label: "Permanent Lighting" }]}
       eyebrow="Year-round brilliance"
       title={title}
-      description={`Install once, enjoy every season. ${COMPANY.name} installs premium permanent LED lighting with a 5-year warranty — perfect for Christmas, holidays, and everyday curb appeal.`}
+      description={`Install once, enjoy every season. ${COMPANY.name} installs premium permanent LED lighting with a lifetime warranty — perfect for Christmas, holidays, and everyday curb appeal.`}
       heroImage={ASSETS.photos.permanentLighting}
       heroImageAlt="Permanent app-controlled roofline lighting installed on a Utah home"
       highlights={[
         "Locally sourced Utah product",
-        "5-year warranty",
+        "Lifetime warranty",
         "App-controlled color & schedules",
         "Professional roofline install",
         "Year-round lighting modes",
@@ -56,7 +56,7 @@ export default function PermanentLightingPage() {
         },
         {
           heading: "Warranty and service expectations",
-          body: "Permanent lighting includes a 5-year warranty. Your proposal should identify the covered product and workmanship terms, control components, exclusions, and how to request support. Ask for those details before approving the installation so expectations are clear.",
+          body: "Permanent lighting includes a lifetime warranty. Your proposal should identify the covered product and workmanship terms, control components, exclusions, and how to request support. Ask for those details before approving the installation so expectations are clear.",
         },
       ]}
       relatedLinks={[{ label: "Compare seasonal Christmas lights", href: LINKS.residentialLighting }, { label: "Commercial Christmas lighting", href: LINKS.commercialLighting }, { label: "Pricing", href: LINKS.pricing }, { label: "Service areas", href: LINKS.serviceAreas }, { label: "Project gallery", href: LINKS.projects }]}

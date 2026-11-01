@@ -295,38 +295,28 @@ export const NAV_LINKS = [
 ] as const;
 
 export const PRICING = {
-  yearOne: {
-    label: "Year 1",
-    title: "Parts + Installation",
-    startsAt: 699,
-    summary:
-      "Your first year includes the lights, timer, and custom design — plus professional installation.",
-    includes: [
-      "Commercial-grade lights",
-      "Timer",
-      "Custom design for your property",
-      "Professional installation",
-    ],
-  },
-  renewal: {
-    label: "Year 2+",
-    title: "Installation Only",
+  service: {
+    label: "One upfront price",
+    title: "Full-Season Lighting Service",
     startsAt: 299,
     summary:
-      "Stay with us and your price drops — we already own the lights, so you pay for installation only.",
+      "We provide and pay for the materials. Your custom quote covers the complete seasonal service from installation through storage.",
     includes: [
-      "Professional reinstallation",
-      "Your existing custom design",
-      "Same premium light package",
+      "Custom design and company-provided lights",
+      "Installation by background-checked employees",
+      "In-season maintenance",
+      "Takedown and off-season storage",
     ],
   },
   includedEveryYear: [
     "Custom-designed commercial-grade lights",
-    "Professional installation",
+    "Background-checked installation team",
     "In-season maintenance",
     "Takedown after the holidays",
     "Off-season storage",
-    "Replacement of normal bulb failures",
+    "Any color combination you choose",
+    "Free color changes each season",
+    "Lifetime warranty",
   ],
   quoteFactors: [
     { label: "Tree size", detail: "Height, canopy, and how many trees to light" },
@@ -345,7 +335,8 @@ export const SERVICES = [
       "Custom-fit premium strands installed on your roofline, trees, and bushes — then removed and stored for summer.",
     features: [
       "Custom-fit lights",
-      "Professional installation",
+      "Background-checked installation team",
+      "Free color changes each season",
       "Removal in January & early February",
       "Summer storage included",
       "No customer-owned light installs",
@@ -360,7 +351,7 @@ export const SERVICES = [
       "A discreet, durable roofline system with app-controlled colors and schedules for holidays, game days, and year-round accent lighting.",
     features: [
       "Locally sourced in Utah",
-      "5-year warranty",
+      "Lifetime warranty",
       "Premium, durable product",
       "Year-round lighting options",
     ],
@@ -384,6 +375,16 @@ export const SERVICES = [
 ] as const;
 
 export const WHY_CHOOSE_US = [
+  {
+    title: "One Full-Service Price",
+    description:
+      "We provide the lights and materials. Your custom quote covers installation, maintenance, takedown, and storage.",
+  },
+  {
+    title: "Colors Your Way",
+    description:
+      "Choose from a wide variety of colors and patterns, then change colors in a future season without an added fee.",
+  },
   {
     title: "Premium Materials",
     description:
@@ -412,6 +413,11 @@ export const WHY_CHOOSE_US = [
   {
     title: "Licensed & Insured",
     description: `Fully licensed and insured — Utah DOPL license ${COMPANY.license} for your peace of mind.`,
+  },
+  {
+    title: "Background-Checked Team",
+    description:
+      "Every employee who comes to your property is background checked, trained, and selected for professionalism.",
   },
 ] as const;
 
@@ -452,7 +458,7 @@ export const TESTIMONIALS = [
   },
   {
     quote:
-      "We switched to permanent lighting last year and couldn't be happier. The 5-year warranty gave us total confidence.",
+      "We switched to permanent lighting last year and couldn't be happier. The lifetime warranty gave us total confidence.",
     author: "David & Lisa K.",
     location: "Homeowner in Provo",
     starsImage: ASSETS.reviews.starsGreen,
@@ -470,7 +476,7 @@ export const FAQS = [
   {
     question: "How does pricing work?",
     answer:
-      "Year 1 is Parts + Installation (starts at $699) and covers lights, timer, custom design, and install. Year 2+ with us drops to Installation Only (starts at $299). Every job is custom-quoted based on tree size, roof angle, home height, and other property features. Prices include commercial-grade lights, install, in-season maintenance, takedown, storage, and normal bulb replacements.",
+      "We give you one custom upfront service price based on your property and design. Chestnut & Cheer provides and pays for the lights and materials; your quote covers professional installation, in-season maintenance, takedown, and off-season storage. Seasonal service starts at $299 for qualifying scopes.",
   },
   {
     question: "When do you take down temporary lights?",
@@ -480,7 +486,7 @@ export const FAQS = [
   {
     question: "What's the difference between temporary and permanent lighting?",
     answer:
-      "Temporary lights are installed each season, removed after the holidays, and stored by us over summer. Permanent lighting is a higher-ticket, locally sourced Utah product with a 5-year warranty — installed once and enjoyed year after year.",
+      "Temporary lights are installed each season, removed after the holidays, and stored by us over summer. Permanent lighting is a higher-ticket, locally sourced Utah product with a lifetime warranty — installed once and enjoyed year after year.",
   },
   {
     question: "Do you install lights I already own?",
@@ -511,9 +517,9 @@ export const FAQS = [
 
 export const TRUST_BADGES = [
   { label: "Licensed & Insured", detail: COMPANY.license },
-  { label: "5-Year Warranty", detail: "On permanent lighting" },
+  { label: "Lifetime Warranty", detail: "On our lighting" },
   { label: "Free Bulb Replacement", detail: "All season long" },
-  { label: "Locally Sourced", detail: "Utah permanent lights" },
+  { label: "Background Checked", detail: "Every employee" },
 ] as const;
 
 /** Google Maps embed framed on the northern Utah and Wasatch Back service area. */

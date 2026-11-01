@@ -32,9 +32,9 @@ const COPY: Record<OfferId, { title: string; intro: string; button: string; succ
   },
   "free-christmas-lights": {
     title: "Claim the free lights offer",
-    intro: "Get availability and an installation-only quote for your home.",
-    button: "Get My Installation Quote",
-    success: "We received your request and will follow up with availability and an installation quote.",
+    intro: "Get availability and a complete seasonal-service quote for your home.",
+    button: "Get My Service Quote",
+    success: "We received your request and will follow up with availability and your seasonal-service quote.",
   },
 };
 

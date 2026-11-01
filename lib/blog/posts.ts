@@ -148,7 +148,7 @@ export const BLOG_POSTS: BlogPost[] = [
         heading: "Compare the whole service, not just the installation day",
         paragraphs: [
           "Professional quotes vary with workmanship, crew experience, demand, access, design, and the materials included. A complete seasonal service should make it clear who provides the lights and whether installation, in-season maintenance, removal, and storage are included.",
-          "Look for reviews, reliable communication, a company that stands behind its work, and a clear takedown commitment. Buying, leasing, and multi-year programs distribute cost and ownership differently, so ask who owns the lights and what happens in later seasons. Use our [installer comparison checklist](/blog/how-to-choose-christmas-light-installer) and review [Chestnut & Cheer pricing](/pricing) before deciding.",
+          "Look for reviews, reliable communication, a company that stands behind its work, and a clear takedown commitment. Ask whether the quote includes the materials, installation, maintenance, takedown, and storage—and what happens to the materials if service ends. Use our [installer comparison checklist](/blog/how-to-choose-christmas-light-installer) and review [Chestnut & Cheer pricing](/pricing) before deciding.",
         ],
       },
       {
@@ -582,10 +582,10 @@ export const BLOG_POSTS: BlogPost[] = [
     heroImage: "/images/photos/professional/chestnut-cheer-lighting-technician-traven.avif",
     heroAlt: "Experienced Chestnut & Cheer Christmas lighting technician in Utah",
     takeaways: [
-      "Confirm exactly who provides and owns the lights.",
+      "Confirm who provides the lights and how the materials are handled if service ends.",
       "The proposal should address installation, maintenance, removal, and storage.",
       "Check reviews for follow-through, especially service and takedown.",
-      "Understand how later-season pricing works before signing the first year.",
+      "Confirm whether future color changes and warranty service cost extra.",
     ],
     expertQuote:
       "Look at their reviews and make sure you’re hiring a company that is going to do a good job, stand behind its work, and actually come back to take the lights down when the season is over.",
@@ -616,22 +616,22 @@ export const BLOG_POSTS: BlogPost[] = [
           "Do reviews mention communication, maintenance, and takedown—not only installation day?",
           "Who should the customer contact when part of the display goes dark?",
           "What weather or access conditions can move an appointment?",
-          "Who owns the lights after payment?",
-          "How does first-year, renewal, lease, or multi-year pricing change over time?",
+          "Who provides the materials, and what happens to them if service ends?",
+          "Can the customer change colors in a future season without an added fee?",
         ],
       },
       {
         id: "ownership-models",
-        heading: "Understand buying, leasing, and multi-year programs",
+        heading: "Understand the service price and cancellation terms",
         paragraphs: [
-          "Buying normally carries a higher first-year price but gives the customer ownership. Leasing reduces the upfront price but the company retains the lights. A multi-year program can exchange a longer commitment for discounted pricing.",
-          "None of those models is automatically best. The important part is knowing what you own, what service is included, and what happens next season. Chestnut & Cheer publishes its [starting prices and yearly inclusions](/pricing) and describes the complete [residential installation process](/christmas-light-installation/residential).",
+          "A complete proposal should state whether the company provides the materials and whether one quoted service price includes installation, in-season maintenance, takedown, and storage. It should also explain warranty coverage, future color changes, and what happens to the materials if the customer cancels service.",
+          "Chestnut & Cheer provides and pays for the lighting materials while seasonal service is active. If service is cancelled, the customer pays the retail cost of the materials used on the home and keeps the bulbs, strands, clips, and timer. Review our [pricing and inclusions](/pricing) and the complete [residential installation process](/christmas-light-installation/residential).",
         ],
       },
     ],
     relatedSlugs: ["best-time-to-install-christmas-lights", "christmas-light-installation-mistakes", "professional-christmas-light-installation-guide"],
     serviceLinks: [
-      { label: "Pricing and inclusions", href: "/pricing", description: "Review Chestnut & Cheer’s first-year and returning-customer structure." },
+      { label: "Pricing and inclusions", href: "/pricing", description: "Review Chestnut & Cheer’s one-price seasonal service model." },
       { label: "About Chestnut & Cheer", href: "/about", description: "Meet the company behind the installation program." },
       { label: "Get an estimate", href: "/estimate", description: "Request a property-specific starting point." },
     ],

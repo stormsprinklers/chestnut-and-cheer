@@ -5,11 +5,8 @@ import type { EstimateFormState, ScopeItem, Stories } from "@/lib/estimate/types
  * Customers only see the resulting dollar estimate.
  */
 const RATES = {
-  installPartsPerFt: 5.25,
-  installPartsMin: 699,
-  installOnlyPerFt: 2.99,
-  installOnlyMin: 299,
-  leasePerFt: 4.49,
+  seasonalServicePerFt: 5.25,
+  seasonalServiceMin: 299,
   steepRoofPremium: 0.25,
 } as const;
 
@@ -19,10 +16,6 @@ export type SoftEstimate = {
   high: number;
   label: string;
   basis: string;
-  /** Alternative seasonal-lease range; omitted for returning/service. */
-  leaseLabel?: string;
-  leaseLow?: number;
-  leaseHigh?: number;
   /** Staff-only breakdown (CRM notes). Do not render in the wizard. */
   staffSummary: string;
 };
@@ -146,8 +139,9 @@ function priceBand(
 ) {
   const rawLow = Math.max(minimum, feet.low * rate * steep.low);
   const rawHigh = Math.max(minimum, feet.high * rate * steep.high);
-  const low = roundMoney(rawLow);
-  const high = roundMoney(Math.max(rawLow, rawHigh));
+  const low = rawLow <= minimum ? minimum : roundMoney(rawLow);
+  const highRaw = Math.max(rawLow, rawHigh);
+  const high = highRaw <= minimum ? minimum : roundMoney(highRaw);
   return {
     low,
     high: Math.max(low, high),
@@ -160,7 +154,6 @@ function formatRange(low: number, high: number) {
 }
 
 export function computeSoftEstimate(state: EstimateFormState): SoftEstimate {
-  const returning = state.need === "returning";
   const service = state.need === "service";
   const commercial = state.need === "commercial";
 
@@ -176,10 +169,7 @@ export function computeSoftEstimate(state: EstimateFormState): SoftEstimate {
 
   const feet = estimateLinearFeet(state);
   const steep = steepFactors(state, commercial);
-  const rate = returning ? RATES.installOnlyPerFt : RATES.installPartsPerFt;
-  const min = returning ? RATES.installOnlyMin : RATES.installPartsMin;
-  const priced = priceBand(feet, rate, min, steep);
-  const lease = priceBand(feet, RATES.leasePerFt, 0, steep);
+  const priced = priceBand(feet, RATES.seasonalServicePerFt, RATES.seasonalServiceMin, steep);
 
   const steepNote =
     steep.high > 1
@@ -190,22 +180,9 @@ export function computeSoftEstimate(state: EstimateFormState): SoftEstimate {
 
   const staffSummary = [
     `Internal: ~${feet.low}–${feet.high} ft`,
-    returning
-      ? `install-only $${RATES.installOnlyPerFt.toFixed(2)}/ft (min $${RATES.installOnlyMin})`
-      : `install+parts $${RATES.installPartsPerFt.toFixed(2)}/ft (min $${RATES.installPartsMin})`,
+    `seasonal service $${RATES.seasonalServicePerFt.toFixed(2)}/ft (min $${RATES.seasonalServiceMin})`,
     steepNote,
-    `lease $${RATES.leasePerFt.toFixed(2)}/ft → $${lease.low.toLocaleString()}–$${lease.high.toLocaleString()}`,
   ].join(" · ");
-
-  if (returning) {
-    return {
-      low: priced.low,
-      high: priced.high,
-      label: formatRange(priced.low, priced.high),
-      basis: "Returning-customer installation for this season. Final quote after we confirm your display.",
-      staffSummary,
-    };
-  }
 
   return {
     low: priced.low,
@@ -213,10 +190,7 @@ export function computeSoftEstimate(state: EstimateFormState): SoftEstimate {
     label: formatRange(priced.low, priced.high),
     basis: commercial
       ? "Commercial / HOA ballpark after we review the property. Not a final quote."
-      : "Includes professional install, lights, takedown, and storage. Final quote after we review your property.",
-    leaseLow: lease.low,
-    leaseHigh: lease.high,
-    leaseLabel: formatRange(lease.low, lease.high),
+      : "Includes company-provided lights, installation, maintenance, takedown, and storage. Final quote after we review your property.",
     staffSummary,
   };
 }

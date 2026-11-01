@@ -8,14 +8,14 @@ import { getBreadcrumbSchema } from "@/lib/structured-data";
 export const metadata: Metadata = {
   title: "Christmas Light Installation Cost & Pricing in Utah",
   description:
-    "Year 1 Parts + Installation starts at $699. Year 2+ Installation Only starts at $299. Custom quotes based on your property — lights, install, maintenance, takedown & storage included.",
+    "One custom service price covers company-provided lights, installation, maintenance, takedown, and storage. Seasonal service starts at $299 for qualifying scopes.",
   alternates: {
     canonical: "/pricing",
   },
   openGraph: {
     title: `Christmas Light Pricing | ${COMPANY.name}`,
     description:
-      "Understand Year 1 vs Year 2+ pricing. Parts + Installation from $699. Installation only from $299. Every job custom-quoted.",
+      "One custom upfront price for the complete seasonal lighting service, with company-provided materials and no ownership tiers.",
     url: `${SITE_URL}/pricing`,
     images: [
       {
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `Christmas Light Pricing | ${COMPANY.name}`,
     description:
-      "Year 1 from $699 (parts + install). Year 2+ from $299 (install only). Free custom quotes.",
+      "Company-provided lights, installation, maintenance, takedown, and storage in one custom service quote.",
     images: [absoluteUrl(ASSETS.photos.hero)],
   },
 };

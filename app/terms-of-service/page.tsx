@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function TermsOfServicePage() {
   return (
-    <LegalDoc title="Terms of Service" effectiveDate="9/5/2026">
+    <LegalDoc title="Terms of Service" effectiveDate="10/31/2026">
       <h2>1. Introduction</h2>
       <p>
         These Terms of Service (&quot;Terms&quot;) govern your use of the website and
@@ -43,6 +43,12 @@ export default function TermsOfServicePage() {
         property review. Final pricing is confirmed before work begins. Scope changes may
         affect price.
       </p>
+      <p>
+        Seasonal lighting is quoted as one upfront service price covering the approved
+        design, company-provided materials, installation, in-season maintenance, takedown,
+        and storage. We provide and pay for the lighting materials while seasonal service
+        remains active.
+      </p>
 
       <h2>4. Payments</h2>
       <p>
@@ -57,6 +63,10 @@ export default function TermsOfServicePage() {
         property. Please provide reasonable notice if you need to reschedule. Late
         cancellations may incur fees as stated in your agreement.
       </p>
+      <p>
+        If you cancel seasonal lighting service, you pay the retail cost of the materials
+        used on your property. We then leave the bulbs, strands, clips, and timer with you.
+      </p>
 
       <h2>6. Customer Responsibilities</h2>
       <p>
@@ -66,10 +76,10 @@ export default function TermsOfServicePage() {
 
       <h2>7. Warranties</h2>
       <p>
-        Permanent lighting products may include manufacturer or installer warranties as
-        described in your proposal (including multi-year coverage where offered). Seasonal
-        installs include in-season maintenance and bulb replacement as described at the
-        time of sale.
+        Our lighting includes a lifetime warranty as described in your proposal. Seasonal
+        service also includes in-season maintenance and normal bulb replacement for the
+        display we installed. Your proposal identifies applicable product and workmanship
+        coverage, exclusions, and how to request service.
       </p>
 
       <h2>8. Website Use</h2>

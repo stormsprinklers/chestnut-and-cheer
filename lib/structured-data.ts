@@ -213,7 +213,7 @@ export function getCityPageSchemas(
         "@type": "Offer",
         priceSpecification: {
           "@type": "PriceSpecification",
-          minPrice: PRICING.yearOne.startsAt,
+          minPrice: PRICING.service.startsAt,
           priceCurrency: "USD",
         },
       },

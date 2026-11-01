@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ServicePage } from "@/components/pages/PageChrome";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { ASSETS, COMPANY, LINKS } from "@/lib/constants";
+import { ASSETS, COMPANY, LINKS, PRICING } from "@/lib/constants";
 import { getServicePageSchemas } from "@/lib/structured-data";
 
 const path = "/christmas-light-installation";
@@ -25,9 +25,9 @@ export default function ChristmasLightInstallationPage() {
         description={`${COMPANY.name} provides professional Christmas light installation from the first design conversation through January takedown across ${COMPANY.serviceAreaSummary}.`}
         heroImage={ASSETS.professionalPhotos.carryingLadderHero}
         heroImageAlt="Chestnut & Cheer Christmas light technician carrying a ladder to an installation"
-        highlights={["Commercial-grade custom-fit strands", "Residential and commercial properties", "Rooflines, peaks, trees, bushes, and entries", "In-season maintenance", "January and early-February takedown", "Off-season storage for seasonal displays"]}
+        highlights={[`Full seasonal service from $${PRICING.service.startsAt}`, "Company-provided commercial-grade lights", "Background-checked employees", "Free color changes each season", "Lifetime warranty", "Maintenance, takedown, and storage included"]}
         sections={[
-          { heading: "A complete service, not just light hanging", body: "We measure the property, build a design around the most visible architectural lines, prepare the strands, install and test the display, respond to normal bulb failures, and return for takedown. Seasonal customers do not need to untangle, label, store, or replace a mismatched collection of consumer lights." },
+          { heading: "One price for the complete seasonal service", body: `Seasonal service starts at $${PRICING.service.startsAt} for qualifying scopes. We provide and pay for the materials, then give you one property-specific price covering installation, in-season maintenance, takedown, and storage. Seasonal customers do not need to untangle, label, store, or replace a mismatched collection of consumer lights.` },
           { heading: "Custom-fit residential displays", body: "Residential plans can include eaves, peaks, garages, porches, columns, trees, and bushes. We prioritize the features that create the strongest view from the street instead of lighting every edge by default. Story height, roof pitch, safe ladder access, power, and landscaping shape the final scope." },
           { heading: "Commercial and community lighting", body: "Storefronts, offices, HOAs, multifamily properties, campuses, and public-facing spaces need scheduling and maintenance plans as well as a design. We coordinate access, operating hours, approvals, power, pedestrian areas, installation windows, and takedown expectations before work begins." },
           { heading: "Temporary or permanent Christmas lights", body: "Seasonal lighting delivers the traditional custom-cut C9 look and can add trees or landscape accents, then comes down after the holidays. Permanent lighting stays discreetly mounted along the roofline and provides app-controlled colors for holidays and year-round use. We can help compare the visual goals and long-term cost of each." },

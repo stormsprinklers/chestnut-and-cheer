@@ -167,8 +167,8 @@ export function GiftCardQuoteForm() {
           <li>• This is a promotional gift card with no cash value.</li>
           <li>• The expiration date is printed on the gift card.</li>
           <li>• The gift card may be used toward seasonal or permanent holiday lighting.</li>
-          <li>• Only one gift card may be used per purchase.</li>
-          <li>• The gift card applies only to the purchase of new lights.</li>
+          <li>• Only one gift card may be used per seasonal or permanent lighting project.</li>
+          <li>• The gift card applies only to a new lighting-service agreement or permanent-lighting project.</li>
         </ul>
       </details>
     </div>

@@ -9,11 +9,11 @@ type CampaignChannel = "ppc" | "meta";
 const COPY = {
   temporary: {
     title: "Professional Christmas Light Installation",
-    price: "$499",
-    description: "Custom-fit holiday lights installed, maintained, removed, and stored by a licensed local team.",
+    price: "$299",
+    description: "One upfront service price for company-provided lights, installation, maintenance, takedown, and storage.",
     photo: ASSETS.photos.temporaryInstall,
     alt: "Professional Christmas light installer working on a Utah roofline",
-    benefits: ["Custom-fit commercial-grade lights", "In-season maintenance", "Takedown and storage included"],
+    benefits: ["Background-checked employees", "Free color changes each season", "Lifetime warranty"],
   },
   permanent: {
     title: "Permanent Christmas Light Installation",
@@ -21,7 +21,7 @@ const COPY = {
     description: "Clean, app-controlled roofline lighting for Christmas, game days, and year-round curb appeal.",
     photo: ASSETS.photos.permanentLighting,
     alt: "Utah home illuminated with permanent roofline lights",
-    benefits: ["Discreet daytime appearance", "App-controlled colors and schedules", "Professional installation and warranty"],
+    benefits: ["Discreet daytime appearance", "App-controlled colors and schedules", "Professional installation and lifetime warranty"],
   },
 } as const;
 
