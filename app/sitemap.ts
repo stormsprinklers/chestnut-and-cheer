@@ -19,6 +19,7 @@ const STATIC_PAGES = [
   { path: "/christmas-light-installation/commercial", priority: 0.9, changeFrequency: "monthly" as const },
   { path: "/permanent-lighting", priority: 0.85, changeFrequency: "monthly" as const },
   { path: "/pricing", priority: 0.85, changeFrequency: "monthly" as const },
+  { path: "/discounts", priority: 0.8, changeFrequency: "monthly" as const },
   { path: "/service-areas", priority: 0.9, changeFrequency: "monthly" as const },
   { path: "/projects", priority: 0.75, changeFrequency: "monthly" as const },
   { path: "/about", priority: 0.6, changeFrequency: "yearly" as const },
