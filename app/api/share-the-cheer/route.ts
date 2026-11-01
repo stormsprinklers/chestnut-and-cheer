@@ -25,7 +25,7 @@ export async function POST(request: Request) {
   catch { return NextResponse.json({ ok: false, error: "Invalid request." }, { status: 400 }); }
   if (!body || typeof body !== "object" || Array.isArray(body)) return NextResponse.json({ ok: false, error: "Invalid request." }, { status: 400 });
   if (isHoneypotTripped(body.websiteUrl)) return NextResponse.json({ ok: true });
-  if (body.kind !== "nomination" && body.kind !== "partner") return NextResponse.json({ ok: false, error: "Choose a form." }, { status: 400 });
+  if (body.kind !== "nomination" && body.kind !== "support") return NextResponse.json({ ok: false, error: "Choose a form." }, { status: 400 });
   if (body.kind === "nomination" && !nominationsOpen()) return NextResponse.json({ ok: false, error: "Nominations are not open right now. Please contact our office with questions." }, { status: 403 });
   const ip = clientIpFromRequest(request) ?? "unknown";
   const key = createHash("sha256").update(`${body.kind}:${ip}`).digest("hex");
@@ -42,29 +42,63 @@ export async function POST(request: Request) {
     body.tracking,
     request.headers.get("user-agent")
   );
-  const source = body.kind === "nomination" ? "share-the-cheer-nomination" : "share-the-cheer-partner";
-  const name = String(body.kind === "nomination" ? data.nominatorName : data.contactName).trim();
-  const email = String(body.kind === "nomination" ? data.nominatorEmail : data.email).trim();
-  const phone = String(body.kind === "nomination" ? data.nominatorPhone : data.phone).trim();
+  const source = body.kind === "nomination" ? "share-the-cheer-nomination" : "share-the-cheer-support";
+  const name = String(body.kind === "nomination" ? data.submitterName : data.supporterName).trim();
+  const email = String(body.kind === "nomination" ? data.submitterEmail : data.supporterEmail).trim();
+  const phone = String(body.kind === "nomination" ? data.submitterPhone : data.supporterPhone).trim();
   const notes = body.kind === "nomination"
     ? [
-        `Family: ${data.familyName}`, `Family email: ${data.familyEmail || "Not known"}`, `Family phone: ${data.familyPhone || "Not known"}`,
-        `Relationship: ${data.relationship}`, `Household size: ${data.householdSize}`, `Children/dependents: ${data.dependents}`,
-        `Why nominated: ${data.reason}`, `Known needs/circumstances: ${data.needs}`, `Privacy/contact considerations: ${data.privacyConsiderations || "None provided"}`,
-        "Nominator confirmed belief family may be contacted. Privacy policy and program terms accepted.",
+        "=== SUBMITTER / NOMINATOR ===",
+        `Submitter name: ${data.submitterName}`,
+        `Submitter email: ${data.submitterEmail}`,
+        `Submitter phone: ${data.submitterPhone}`,
+        `Relationship to family: ${data.relationship || "Not provided"}`,
+        "",
+        "=== NOMINATED FAMILY ===",
+        `Family or primary contact: ${data.familyName}`,
+        `Family email: ${data.familyEmail || "Not provided"}`,
+        `Family phone: ${data.familyPhone || "Not provided"}`,
+        `Family city: ${data.familyCity}`,
+        `Household size: ${data.householdSize}`,
+        "",
+        "=== WHY THEY WERE NOMINATED ===",
+        String(data.reason),
+        "",
+        "=== AT-COST SPONSORSHIP ===",
+        `Submitter willing to discuss sponsoring this family at cost: ${data.sponsorAtCost === "yes" ? "YES" : "NO"}`,
+        "The nominated family pays nothing. Partners add no markup and make no profit from this campaign.",
+        "",
+        "Submitter confirmed the family may be contacted privately. Privacy policy and program terms accepted.",
       ].join("\n")
     : [
-        `Organization: ${data.organization}`, `Website: ${data.website || "Not provided"}`, `Contribution type: ${data.contributionType}`,
-        `Offer: ${data.description}`, `Quantity: ${data.quantity}`, `Approximate value: ${data.approximateValue || "Not provided"}`,
-        `Can support every selected family: ${data.supportsEveryFamily ? "Yes" : "No"}`, `Restrictions: ${data.restrictions || "None provided"}`,
-        `Delivery/pickup: ${data.delivery}`, `Interested in volunteering: ${data.volunteer ? "Yes" : "No"}`,
-        `Public recognition allowed: ${data.publicRecognition ? "Yes" : "No"}`, `Additional notes: ${data.notes || "None provided"}`,
-        "Offer pending office confirmation. Privacy policy and program terms accepted.",
+        "=== SUPPORTER CONTACT ===",
+        `Supporter name: ${data.supporterName}`,
+        `Supporter email: ${data.supporterEmail}`,
+        `Supporter phone: ${data.supporterPhone}`,
+        `Business or organization: ${data.organization || "Not provided"}`,
+        "",
+        "=== POSSIBLE CONTRIBUTION ===",
+        String(data.contributionNotes),
+        "",
+        "Support offer is pending office confirmation. Privacy policy and program terms accepted.",
       ].join("\n");
   const result = await forwardLeadToCrm({
     externalId: buildLeadExternalId(source, randomUUID()), name, email, phone, source, notes,
-    city: body.kind === "nomination" ? String(data.city).trim() : null,
-    metadata: { form: source, program: "Share the Cheer", reviewStatus: "pending", privacyConsent: true, contactPermission: body.kind === "nomination" ? true : undefined, consents: { quote: false }, attribution: tracking, tracking },
+    city: body.kind === "nomination" ? String(data.familyCity).trim() : null,
+    metadata: {
+      form: source,
+      program: "Share the Cheer",
+      reviewStatus: "pending",
+      privacyConsent: true,
+      submissionRole: body.kind === "nomination" ? "nominator" : "supporter",
+      nominatedFamilyName: body.kind === "nomination" ? String(data.familyName) : undefined,
+      householdSize: body.kind === "nomination" ? Number(data.householdSize) : undefined,
+      sponsorAtCost: body.kind === "nomination" ? data.sponsorAtCost === "yes" : undefined,
+      contactPermission: body.kind === "nomination" ? true : undefined,
+      consents: { quote: false },
+      attribution: tracking,
+      tracking,
+    },
   });
   if (!result.ok) return NextResponse.json({ ok: false, error: "We could not save this submission. Please contact our office." }, { status: 502 });
   return NextResponse.json({ ok: true });

@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { nomination, partner } from "../../../lib/share-the-cheer-fixtures";
+import { nomination, support } from "../../../lib/share-the-cheer-fixtures";
 import { POST } from "./route";
 
 process.env.CRM_INTEGRATION_URL = "https://crm.example.test/api/integrations";
@@ -29,20 +29,26 @@ test("nomination saves to CRM without putting personal details in analytics", as
     const lead = JSON.parse(calls[1].body);
     assert.equal(lead.source, "share-the-cheer-nomination");
     assert.match(lead.notes, /Jordan Family/);
+    assert.match(lead.notes, /=== SUBMITTER \/ NOMINATOR ===/);
+    assert.match(lead.notes, /=== NOMINATED FAMILY ===/);
+    assert.match(lead.notes, /sponsoring this family at cost: YES/);
+    assert.equal(lead.name, "Taylor Neighbor");
+    assert.equal(lead.metadata.submissionRole, "nominator");
+    assert.equal(lead.metadata.sponsorAtCost, true);
     assert.equal(lead.metadata.reviewStatus, "pending");
     assert.equal(lead.metadata.consents.quote, false);
   } finally { globalThis.fetch = originalFetch; }
 });
 
-test("partner offer saves separately as pending", async () => {
+test("support offer saves separately as pending", async () => {
   globalThis.fetch = async (input) => Response.json(String(input).includes("siteverify") ? { success: true } : { leadId: "lead-2" }, { status: String(input).includes("siteverify") ? 200 : 201 });
-  try { assert.equal((await POST(request("partner", partner))).status, 200); }
+  try { assert.equal((await POST(request("support", support))).status, 200); }
   finally { globalThis.fetch = originalFetch; }
 });
 
 test("failed CRM save reports failure, never success", async () => {
   globalThis.fetch = async (input) => Response.json(String(input).includes("siteverify") ? { success: true } : { error: "offline" }, { status: String(input).includes("siteverify") ? 200 : 503 });
-  try { assert.equal((await POST(request("partner", partner))).status, 502); }
+  try { assert.equal((await POST(request("support", support))).status, 502); }
   finally { globalThis.fetch = originalFetch; }
 });
 
@@ -60,7 +66,7 @@ test("server rejects invalid details and missing human verification", async () =
     assert.equal(bad.status, 400);
     assert.ok((await bad.json()).errors.termsConsent);
   } finally { globalThis.fetch = originalFetch; }
-  const noToken = new Request("https://www.utah.christmas/api/share-the-cheer", { method: "POST", headers: { host: "www.utah.christmas", "x-forwarded-for": "203.0.113.220" }, body: JSON.stringify({ kind: "partner", data: partner }) });
+  const noToken = new Request("https://www.utah.christmas/api/share-the-cheer", { method: "POST", headers: { host: "www.utah.christmas", "x-forwarded-for": "203.0.113.220" }, body: JSON.stringify({ kind: "support", data: support }) });
   assert.equal((await POST(noToken)).status, 403);
 });
 
@@ -72,8 +78,8 @@ test("repeated requests are rate limited before reaching CRM", async () => {
   };
   try {
     const ip = "203.0.113.222";
-    for (let i = 0; i < 5; i++) assert.equal((await POST(request("partner", partner, "", ip))).status, 200);
-    assert.equal((await POST(request("partner", partner, "", ip))).status, 429);
+    for (let i = 0; i < 5; i++) assert.equal((await POST(request("support", support, "", ip))).status, 200);
+    assert.equal((await POST(request("support", support, "", ip))).status, 429);
     assert.equal(crmCalls, 5);
   } finally { globalThis.fetch = originalFetch; }
 });

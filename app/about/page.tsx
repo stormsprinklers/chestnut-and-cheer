@@ -11,6 +11,7 @@ import {
 import { Breadcrumbs, PageHero } from "@/components/pages/PageChrome";
 import { Button } from "@/components/ui/Button";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { CompanyVideo } from "@/components/sections/CompanyVideo";
 import { ASSETS, COMPANY, LINKS } from "@/lib/constants";
 import { SITE_URL, absoluteUrl } from "@/lib/site";
 import { getBreadcrumbSchema, getOrganizationSchema } from "@/lib/structured-data";
@@ -18,7 +19,7 @@ import { getBreadcrumbSchema, getOrganizationSchema } from "@/lib/structured-dat
 export const metadata: Metadata = {
   title: "About Chestnut & Cheer | Christmas Light Installation in Utah",
   description:
-    `Meet Chestnut & Cheer, the Utah team creating fully managed Christmas lighting for homes and businesses across ${COMPANY.serviceAreaSummary}.`,
+    `Meet Austin Green, his family, and the local Utah team behind Chestnut & Cheer's fully managed Christmas lighting and Share the Cheer campaign.`,
   alternates: { canonical: "/about" },
   openGraph: {
     title: `About ${COMPANY.name} | Christmas Light Installation in Utah`,
@@ -102,35 +103,36 @@ export default function AboutPage() {
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:gap-16">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-primary-red">
-              Why we exist
+              Meet the family behind the company
             </p>
             <h2 className="mt-3 font-display text-3xl font-bold text-chestnut sm:text-4xl">
-              Christmas should still feel like something special is about to happen.
+              Hi, I&apos;m Austin—and this is a very personal kind of business.
             </h2>
             <div className="mt-5 space-y-4 leading-relaxed text-chestnut/75">
               <p>
-                Chestnut &amp; Cheer started with the Christmases you remember for the
-                feeling, not for how much was spent: quieter family traditions, a warm
-                home, and the anticipation that built as December arrived.
+                My name is Austin Green. I graduated from BYU this year, and my wife
+                Emma and I are expecting our first baby in January. We are building
+                our own little family while building a company rooted right here in
+                the community we call home.
               </p>
               <p>
-                Our founder grew up loving that feeling. His family decorated like so
-                many families do, but never had the big exterior display that could
-                make an entire home—or a whole street—feel transformed. That small
-                wish became the spark for Chestnut &amp; Cheer.
+                I love learning languages, helping people, and running my business. I
+                never had Christmas lights on the outside of my home growing up, so
+                there is something especially exciting about creating that magic for
+                families throughout Utah now.
               </p>
               <p>
-                We are here to help people create those moments for the people they
-                love, with professional Christmas light installation that feels easy,
-                personal, and genuinely fun from the first conversation to the last
-                strand packed away.
+                Chestnut &amp; Cheer grew from a simple belief: Christmas should feel
+                like something special is about to happen. We help create that feeling
+                with roofline lighting, tree wraps, permanent lighting, and a friendly
+                team that handles every detail for you.
               </p>
             </div>
           </div>
-          <figure className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-chestnut shadow-xl">
+          <figure className="relative aspect-[16/11] overflow-hidden rounded-2xl bg-chestnut shadow-xl">
             <Image
-              src={ASSETS.photos.hero}
-              alt="Chestnut & Cheer technician arriving for a Christmas light installation in Utah"
+              src="/images/postcards/austin-emma.webp"
+              alt="Austin and Emma Green sharing their pregnancy announcement"
               fill
               className="object-cover"
               sizes="(max-width: 1024px) 100vw, 48vw"
@@ -138,12 +140,14 @@ export default function AboutPage() {
             />
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-chestnut/75 to-transparent px-5 pb-5 pt-16">
               <figcaption className="max-w-sm text-sm leading-relaxed text-warm-white/90">
-                A little more anticipation. A little less to-do list.
+                Austin and Emma, with their first baby arriving in January.
               </figcaption>
             </div>
           </figure>
         </div>
       </section>
+
+      <CompanyVideo />
 
       <section className="section-pad below-fold bg-white">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -199,21 +203,25 @@ export default function AboutPage() {
               The people at your home
             </p>
             <h2 className="mt-3 font-display text-3xl font-bold text-warm-white sm:text-4xl">
-              People you&apos;re happy to have at your home.
+              A young, local team building bright futures.
             </h2>
             <div className="mt-5 space-y-4 leading-relaxed text-warm-white/78">
               <p>
-                Inviting a crew to your home is personal. We take that seriously in
-                the way we choose, prepare, and support our team.
+                Our team is made up mostly of young people who live nearby and truly
+                love Christmas. Many are students working part time to support their
+                small families, pay for school, and fund the goals they are working
+                toward next.
               </p>
               <p>
-                Every Chestnut &amp; Cheer team member is background checked, trained,
-                and selected for professionalism, friendliness, and the kind of
-                character we would feel good about sending to our own family&apos;s home.
+                When you hire Chestnut &amp; Cheer, you are supporting local people who
+                are learning useful skills, working hard, and trying to build something
+                meaningful for their own futures.
               </p>
               <p>
-                You can expect clear communication, care around your property, and a
-                crew that is there to make the season easier—not add friction to it.
+                Inviting a crew to your home is still personal, and we take that
+                responsibility seriously. Every team member is background checked,
+                trained, and chosen for professionalism, friendliness, and the kind
+                of character we would feel good about sending to our own family&apos;s home.
               </p>
             </div>
             <div className="mt-7 flex items-start gap-3 rounded-2xl border border-accent-gold/30 bg-warm-white/5 p-4 text-warm-white/85">
@@ -234,24 +242,26 @@ export default function AboutPage() {
             More Christmas. More cheer.
           </p>
           <h2 className="mt-3 font-display text-3xl font-bold text-warm-white sm:text-4xl">
-            Your Christmas can brighten another.
+            Share the Cheer is part of why we exist.
           </h2>
           <div className="mx-auto mt-5 max-w-3xl space-y-4 text-lg leading-relaxed text-warm-white/85">
             <p>
-              Every Christmas season, Chestnut &amp; Cheer plans to create a free,
-              complete Christmas experience for five local families who deserve a
-              magical season but may not otherwise be able to afford one.
+              Our purpose goes beyond making beautiful homes. We want to give back to
+              the community that supports our team and help make Christmas magical for
+              families who could use a little extra magic.
             </p>
             <p>
-              It is not a vague promise tucked into the fine print. It is part of why
-              this company exists: to put lights on homes, yes, but also to help make
-              more Christmas memories possible right here in our community.
+              Through Share the Cheer, Chestnut &amp; Cheer is fully supporting five local
+              families this year out of our own pocket, with help from generous
+              sponsors. The families receive their support completely free, and none
+              of our campaign partners add markup or make a profit from the giving.
             </p>
           </div>
-          <p className="mx-auto mt-6 max-w-2xl text-sm leading-relaxed text-warm-white/65">
-            We&apos;re building the details of this program carefully and will share
-            nomination information as it becomes available.
-          </p>
+          <div className="mt-8 flex justify-center">
+            <Button href="/share-the-cheer" variant="gold" className="w-full sm:w-auto">
+              Explore Share the Cheer
+            </Button>
+          </div>
         </div>
       </section>
 

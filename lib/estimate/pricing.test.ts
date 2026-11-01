@@ -1,78 +1,69 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { INITIAL_ESTIMATE_STATE, type EstimateFormState } from "./types";
-import { computeSoftEstimate, estimateLinearFeet } from "./pricing";
+import { computeSoftEstimate } from "./pricing";
 
 function form(partial: Partial<EstimateFormState>): EstimateFormState {
   return { ...INITIAL_ESTIMATE_STATE, ...partial };
 }
 
-const RATE_LEAK = /5\.25|\/ft|25%|\$299 minimum/i;
-
-test("small one-story roofline hits the seasonal service floor without leaking rates", () => {
-  const estimate = computeSoftEstimate(
-    form({
-      need: "residential",
-      propertyType: "townhome",
-      stories: "one",
-      scope: ["roofline"],
-      displayStyle: "simple",
-    })
-  );
-  assert.equal(estimate.low, 299);
-  assert.ok(estimate.high >= estimate.low);
-  assert.doesNotMatch(estimate.label, RATE_LEAK);
-  assert.doesNotMatch(estimate.basis, RATE_LEAK);
-  assert.match(estimate.staffSummary, /\$5\.25\/ft/);
+test("small home rooflines are about $350 for every coverage choice", () => {
+  for (const rooflineCoverage of ["front", "front_sides", "full_perimeter"] as const) {
+    const estimate = computeSoftEstimate(form({ homeSize: "small", rooflineCoverage, treeSize: "none" }));
+    assert.equal(estimate.low, 350);
+    assert.equal(estimate.high, 350);
+    assert.equal(estimate.label, "About $350");
+  }
 });
 
-test("returning customers use the same full seasonal service model", () => {
-  const estimate = computeSoftEstimate(
-    form({
-      need: "returning",
-      propertyType: "townhome",
-      stories: "one",
-      scope: ["roofline"],
-      displayStyle: "simple",
-    })
-  );
-  assert.equal(estimate.low, 299);
-  assert.match(estimate.staffSummary, /seasonal service/);
+test("medium home roofline prices match the requested table", () => {
+  const expected = { front: 500, front_sides: 750, full_perimeter: 1000 } as const;
+  for (const [rooflineCoverage, price] of Object.entries(expected)) {
+    const estimate = computeSoftEstimate(
+      form({ homeSize: "medium", rooflineCoverage: rooflineCoverage as keyof typeof expected, treeSize: "none" })
+    );
+    assert.equal(estimate.low, price);
+    assert.equal(estimate.high, price);
+  }
 });
 
-test("two-story full property is above the parts minimum and applies steep on the high end", () => {
-  const estimate = computeSoftEstimate(
-    form({
-      need: "residential",
-      propertyType: "single_family",
-      stories: "two",
-      scope: ["entire"],
-      treeCount: "3",
-      treeSize: "large",
-      treeCoverage: "trunks_and_branches",
-      displayStyle: "premium",
-    })
-  );
-  assert.ok(estimate.low > 299, `expected low > 299, got ${estimate.low}`);
-  assert.ok(estimate.high > estimate.low);
-  assert.match(estimate.staffSummary, /steep-roof premium on high end/);
-  const feet = estimateLinearFeet(
-    form({
-      need: "residential",
-      propertyType: "single_family",
-      stories: "two",
-      scope: ["entire"],
-      treeCount: "3",
-      treeSize: "large",
-      treeCoverage: "trunks_and_branches",
-      displayStyle: "premium",
-    })
-  );
-  assert.ok(feet.high > feet.low);
-  assert.ok(feet.low > 200);
+test("large home roofline prices match the requested table", () => {
+  const expected = { front: 750, front_sides: 1500, full_perimeter: 2500 } as const;
+  for (const [rooflineCoverage, price] of Object.entries(expected)) {
+    const estimate = computeSoftEstimate(
+      form({ homeSize: "large", rooflineCoverage: rooflineCoverage as keyof typeof expected, treeSize: "none" })
+    );
+    assert.equal(estimate.low, price);
+    assert.equal(estimate.high, price);
+  }
 });
 
-test("service work is not priced on the seasonal foot card", () => {
-  const estimate = computeSoftEstimate(form({ need: "service", serviceNotes: "bulb out" }));
-  assert.equal(estimate.label, "$89–$499");
+test("tree ranges are added to the roofline estimate", () => {
+  const smallTree = computeSoftEstimate(
+    form({ homeSize: "medium", rooflineCoverage: "front", treeSize: "small" })
+  );
+  assert.equal(smallTree.treeLabel, "$100–$250");
+  assert.equal(smallTree.label, "$600–$750");
+
+  const mediumTree = computeSoftEstimate(
+    form({ homeSize: "medium", rooflineCoverage: "front", treeSize: "medium" })
+  );
+  assert.equal(mediumTree.treeLabel, "$500–$750");
+  assert.equal(mediumTree.label, "$1,000–$1,250");
+
+  const largeTree = computeSoftEstimate(
+    form({ homeSize: "large", rooflineCoverage: "full_perimeter", treeSize: "large" })
+  );
+  assert.equal(largeTree.treeLabel, "$1,000–$2,000");
+  assert.equal(largeTree.label, "$3,500–$4,500");
+});
+
+test("color preference does not change the estimate", () => {
+  const warmWhite = computeSoftEstimate(
+    form({ homeSize: "medium", rooflineCoverage: "front_sides", treeSize: "none", colorPref: "warm_white" })
+  );
+  const multicolor = computeSoftEstimate(
+    form({ homeSize: "medium", rooflineCoverage: "front_sides", treeSize: "none", colorPref: "multicolor" })
+  );
+  assert.equal(warmWhite.label, multicolor.label);
 });

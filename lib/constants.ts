@@ -87,6 +87,12 @@ export const COMPANY = {
     "Utah, Salt Lake, Davis, Weber, Summit, and Wasatch counties, plus Mona and Nephi",
 } as const;
 
+/** Company introduction video. The YouTube player is created only after a visitor presses play. */
+export const CHESTNUT_PROMO_YOUTUBE = {
+  videoId: "dG9nVNa6z7o",
+  title: "Meet Chestnut & Cheer Christmas Lighting",
+} as const;
+
 /** Same service area cities as Storm Sprinklers (../website home). */
 export const UTAH_COUNTY_CITIES = [
   "Highland",
@@ -219,6 +225,7 @@ export const LINKS = {
   services: "/services",
   christmasLightInstallation: "/christmas-light-installation",
   residentialLighting: "/christmas-light-installation/residential",
+  treeLighting: "/tree-lighting",
   commercialLighting: "/christmas-light-installation/commercial",
   projects: "/projects",
   doorHanger: "/door-hanger",
@@ -252,6 +259,7 @@ export const FOOTER_COLUMNS = [
     links: [
       { label: "Christmas Light Installation", href: LINKS.christmasLightInstallation },
       { label: "Residential Christmas Lights", href: LINKS.residentialLighting },
+      { label: "Tree Lighting & Wrapping", href: LINKS.treeLighting },
       { label: "Permanent Lighting", href: LINKS.permanentLighting },
       { label: "Commercial Christmas Lights", href: LINKS.commercialLighting },
       { label: "Gutter Cleaning", href: LINKS.gutterCleaning },

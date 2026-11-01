@@ -71,6 +71,7 @@ export function getOrganizationSchema() {
     priceRange: "$$",
     knowsAbout: [
       "Christmas light installation",
+      "Outdoor tree lighting and tree wrapping",
       "Permanent holiday lighting",
       "Commercial holiday lighting",
     ],

@@ -11,6 +11,7 @@ import { ServiceAreaMap } from "@/components/sections/ServiceAreaMap";
 import { BookingPlaceholder } from "@/components/sections/BookingPlaceholder";
 import { ProfessionalPhotoGallery } from "@/components/sections/ProfessionalPhotoGallery";
 import { ExpertGuides } from "@/components/sections/ExpertGuides";
+import { CompanyVideo } from "@/components/sections/CompanyVideo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { COMPANY, ASSETS } from "@/lib/constants";
 import { getHomePageSchemas } from "@/lib/structured-data";
@@ -75,6 +76,7 @@ export default function Home() {
       <BookingProcess />
       <ServicesOverview />
       <WhyChooseUs />
+      <CompanyVideo />
       <ProfessionalPhotoGallery
         eyebrow="Real local installs"
         title="Professional Christmas light installation in action"

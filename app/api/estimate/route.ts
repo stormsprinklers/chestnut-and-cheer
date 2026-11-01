@@ -24,13 +24,15 @@ type Body = {
 };
 
 function validate(form: EstimateFormState): string | null {
-  if (!form.need) return "Please tell us how we can help.";
-  if (!form.address.trim() || !form.zip.trim()) return "Property address and ZIP are required.";
-  if (!form.firstName.trim() || !form.lastName.trim()) return "Please enter your name.";
+  if (!form.address.trim()) return "Property address is required.";
+  if (!form.name.trim()) return "Please enter your name.";
   if (!form.phone.trim()) return "Mobile phone is required.";
   if (!form.email.trim() || !form.email.includes("@")) return "A valid email is required.";
+  if (!form.homeSize) return "Please select a home size.";
+  if (!form.rooflineCoverage) return "Please select the roofline coverage.";
+  if (!form.colorPref) return "Please select a color preference.";
+  if (!form.treeSize) return "Please select a tree option.";
   if (!form.quoteConsent) return "Please consent so we can contact you about your quote.";
-  if (!form.quoteMethod) return "Please choose how you'd like to receive your quote.";
   return null;
 }
 
@@ -73,7 +75,7 @@ export async function POST(request: Request) {
   const attribution = { ...(body.attribution ?? {}), ...capturedTracking };
   const fromDoorHanger = isDoorHangerAttribution(attribution);
   const leadSource = fromDoorHanger ? "christmas-door-hanger" : "christmas-estimate";
-  const name = `${form.firstName.trim()} ${form.lastName.trim()}`.trim();
+  const name = form.name.trim();
   const externalId = buildLeadExternalId(leadSource, randomUUID());
   const notes = buildEstimateNotes(form, attribution);
   const metadata = { ...buildEstimateMetadata(form, attribution), tracking };

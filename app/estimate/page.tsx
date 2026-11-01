@@ -6,13 +6,13 @@ import { SITE_URL, absoluteUrl } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Get Instant Estimate",
   description:
-    "Get a free Christmas lighting design and quote in a few minutes. Upload photos of your Utah home or business — no obligation.",
+    "Get a Christmas lighting estimate in about 60 seconds using your home size, roofline coverage, color preference, and tree size — no photos required.",
   alternates: { canonical: "/estimate" },
   robots: { index: false, follow: true },
   openGraph: {
     title: `Get Instant Estimate | ${COMPANY.name}`,
     description:
-      "Tell us about your property and get a free Christmas lighting design & quote.",
+      "Choose your home size, roofline coverage, colors, and tree size to see a realistic Christmas lighting range.",
     url: `${SITE_URL}/estimate`,
     images: [
       {

@@ -1,12 +1,9 @@
 import type { EstimateFormState } from "@/lib/estimate/types";
 import {
-  BUDGET_OPTIONS,
   COLOR_OPTIONS,
-  NEED_OPTIONS,
-  QUOTE_METHOD_OPTIONS,
-  SCOPE_OPTIONS,
-  STYLE_OPTIONS,
-  TIMING_OPTIONS,
+  HOME_SIZE_OPTIONS,
+  ROOFLINE_OPTIONS,
+  TREE_SIZE_OPTIONS,
 } from "@/lib/estimate/types";
 import { computeSoftEstimate } from "@/lib/estimate/pricing";
 import { isDoorHangerAttribution } from "@/lib/estimate/analytics";
@@ -16,20 +13,27 @@ function labelOf<T extends string>(
   value: T | null | undefined
 ) {
   if (!value) return "—";
-  return options.find((o) => o.value === value)?.label ?? value;
+  return options.find((option) => option.value === value)?.label ?? value;
 }
 
 export function buildEstimateNotes(
   state: EstimateFormState,
   attribution?: Record<string, unknown>
 ): string {
-  const soft = computeSoftEstimate(state);
+  const estimate = computeSoftEstimate(state);
   const lines: string[] = [
-    `Need: ${labelOf(NEED_OPTIONS, state.need)}`,
     `Address: ${[state.address, state.city, state.state, state.zip].filter(Boolean).join(", ")}`,
     `In service area: ${state.inServiceArea === null ? "unknown" : state.inServiceArea ? "yes" : "no"}`,
-    `Soft estimate range: ${soft.label}`,
-    soft.staffSummary,
+    `Home size: ${labelOf(HOME_SIZE_OPTIONS, state.homeSize)}`,
+    `Roofline coverage: ${labelOf(ROOFLINE_OPTIONS, state.rooflineCoverage)}`,
+    `Color preference: ${labelOf(COLOR_OPTIONS, state.colorPref)}`,
+    `Tree size: ${labelOf(TREE_SIZE_OPTIONS, state.treeSize)}`,
+    `Roofline estimate: ${estimate.rooflineLabel}`,
+    ...(estimate.treeLabel ? [`Tree estimate: ${estimate.treeLabel} per tree`] : []),
+    `Combined estimate: ${estimate.label}`,
+    estimate.staffSummary,
+    `Quote consent: ${state.quoteConsent ? "yes" : "no"}`,
+    `Marketing consent: ${state.marketingConsent ? "yes" : "no"}`,
   ];
 
   if (attribution && isDoorHangerAttribution(attribution)) {
@@ -38,42 +42,6 @@ export function buildEstimateNotes(
     );
   }
 
-  if (state.need === "residential") {
-    lines.push(
-      `Property type: ${state.propertyType ?? "—"}`,
-      `Stories: ${state.stories ?? "—"}`
-    );
-  }
-
-  if (state.need === "service" || state.need === "returning") {
-    if (state.serviceNotes) lines.push(`Notes: ${state.serviceNotes}`);
-  }
-
-  if (state.scope.length) {
-    lines.push(
-      `Scope: ${state.scope.map((s) => SCOPE_OPTIONS.find((o) => o.value === s)?.label ?? s).join(", ")}`
-    );
-  }
-  if (state.scope.includes("trees")) {
-    lines.push(
-      `Trees: count=${state.treeCount || "—"}, coverage=${state.treeCoverage || "—"}, size=${state.treeSize || "—"}`
-    );
-  }
-  if (state.scope.includes("wreaths") && state.wreathPlacement) {
-    lines.push(`Wreath/garland placement: ${state.wreathPlacement}`);
-  }
-
-  lines.push(
-    `Color: ${labelOf(COLOR_OPTIONS, state.colorPref)}`,
-    `Style: ${labelOf(STYLE_OPTIONS, state.displayStyle)}`,
-    `Photos uploaded: ${state.photos.length}`,
-    `Install timing: ${labelOf(TIMING_OPTIONS, state.installTiming)}`,
-    `Budget: ${labelOf(BUDGET_OPTIONS, state.budget)}`,
-    `Quote method: ${labelOf(QUOTE_METHOD_OPTIONS, state.quoteMethod)}`,
-    `Quote consent: ${state.quoteConsent ? "yes" : "no"}`,
-    `Marketing consent: ${state.marketingConsent ? "yes" : "no"}`
-  );
-
   return lines.join("\n");
 }
 
@@ -81,25 +49,22 @@ export function buildEstimateMetadata(
   state: EstimateFormState,
   attribution: Record<string, unknown>
 ) {
-  const soft = computeSoftEstimate(state);
-  const customerSoft = {
-    low: soft.low,
-    high: soft.high,
-    label: soft.label,
-    basis: soft.basis,
-  };
+  const estimate = computeSoftEstimate(state);
   return {
     form: isDoorHangerAttribution(attribution) ? "christmas-door-hanger" : "christmas-estimate",
-    need: state.need,
-    tag:
-      state.need === "commercial"
-        ? "commercial"
-        : state.need === "returning"
-          ? "returning"
-          : state.need === "service"
-            ? "service"
-            : "residential",
-    softEstimate: customerSoft,
+    tag: "residential",
+    softEstimate: {
+      low: estimate.low,
+      high: estimate.high,
+      label: estimate.label,
+      rooflineLow: estimate.rooflineLow,
+      rooflineHigh: estimate.rooflineHigh,
+      rooflineLabel: estimate.rooflineLabel,
+      treeLow: estimate.treeLow,
+      treeHigh: estimate.treeHigh,
+      treeLabel: estimate.treeLabel,
+      basis: estimate.basis,
+    },
     property: {
       address: state.address,
       city: state.city,
@@ -108,31 +73,11 @@ export function buildEstimateMetadata(
       lat: state.lat,
       lng: state.lng,
       inServiceArea: state.inServiceArea,
-      propertyType: state.propertyType,
-      stories: state.stories,
+      homeSize: state.homeSize,
     },
-    scope: state.scope,
-    trees: state.scope.includes("trees")
-      ? {
-          count: state.treeCount,
-          coverage: state.treeCoverage,
-          size: state.treeSize,
-        }
-      : null,
-    wreathPlacement: state.wreathPlacement || null,
-    serviceNotes: state.serviceNotes || null,
+    rooflineCoverage: state.rooflineCoverage,
     colorPref: state.colorPref,
-    displayStyle: state.displayStyle,
-    photoCount: state.photos.length,
-    photoNames: state.photos.map((p) => p.name),
-    // Keep compressed data URLs for CRM blob persistence (stripped after upload)
-    photos: state.photos
-      .filter((p) => p.dataUrl && p.dataUrl.length < 700_000)
-      .slice(0, 8)
-      .map((p) => ({ name: p.name, dataUrl: p.dataUrl })),
-    installTiming: state.installTiming,
-    budget: state.budget,
-    quoteMethod: state.quoteMethod,
+    treeSize: state.treeSize,
     consents: {
       quote: state.quoteConsent,
       marketing: state.marketingConsent,

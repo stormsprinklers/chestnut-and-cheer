@@ -2,10 +2,9 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { Check, Camera, Loader2 } from "lucide-react";
+import { Check, Home, Loader2, Palette, TreePine } from "lucide-react";
 import {
   AddressAutocomplete,
-  streetViewUrl,
   type ParsedPlace,
 } from "@/components/estimate/AddressAutocomplete";
 import { EstimateProgress } from "@/components/estimate/EstimateProgress";
@@ -13,7 +12,7 @@ import TurnstileWidget from "@/components/TurnstileWidget";
 import { SmsOptInCopy } from "@/components/forms/SmsOptInCopy";
 import { Button } from "@/components/ui/Button";
 import { Mascot } from "@/components/ui/Mascot";
-import { COMPANY, LINKS } from "@/lib/constants";
+import { LINKS } from "@/lib/constants";
 import {
   captureAttributionFromUrl,
   getAttribution,
@@ -21,52 +20,32 @@ import {
   trackEstimateEvent,
 } from "@/lib/estimate/analytics";
 import { getFormTrackingData } from "@/lib/analytics/form-tracking";
+import { checkServiceArea } from "@/lib/estimate/service-area";
 import {
-  checkServiceArea,
-  extractZipFromAddress,
-  normalizeZip,
-} from "@/lib/estimate/service-area";
-import {
-  BUDGET_OPTIONS,
   COLOR_OPTIONS,
+  HOME_SIZE_OPTIONS,
   INITIAL_ESTIMATE_STATE,
-  NEED_OPTIONS,
-  QUOTE_METHOD_OPTIONS,
-  SCOPE_OPTIONS,
-  STYLE_OPTIONS,
-  TIMING_OPTIONS,
+  ROOFLINE_OPTIONS,
+  TREE_SIZE_OPTIONS,
   type EstimateFormState,
-  type ScopeItem,
 } from "@/lib/estimate/types";
 import { computeSoftEstimate } from "@/lib/estimate/pricing";
 
 type Phase = "intro" | "steps" | "done";
+type StepKey = "contact" | "roofline" | "design" | "estimate";
+
+const STEPS: StepKey[] = ["contact", "roofline", "design", "estimate"];
 
 function optionCardClass(selected: boolean) {
-  return `w-full rounded-2xl border px-4 py-3 text-left transition-colors touch-manipulation min-h-12 ${
+  return `min-h-14 w-full rounded-2xl border px-4 py-3 text-left transition-colors touch-manipulation ${
     selected
       ? "border-primary-red bg-primary-red/5 ring-1 ring-primary-red/30"
       : "border-chestnut/15 bg-white hover:border-chestnut/30"
   }`;
 }
 
-async function compressImage(file: File, maxEdge = 1280, quality = 0.72): Promise<{
-  name: string;
-  dataUrl: string;
-  size: number;
-}> {
-  const bitmap = await createImageBitmap(file);
-  const scale = Math.min(1, maxEdge / Math.max(bitmap.width, bitmap.height));
-  const w = Math.max(1, Math.round(bitmap.width * scale));
-  const h = Math.max(1, Math.round(bitmap.height * scale));
-  const canvas = document.createElement("canvas");
-  canvas.width = w;
-  canvas.height = h;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) throw new Error("Canvas unsupported");
-  ctx.drawImage(bitmap, 0, 0, w, h);
-  const dataUrl = canvas.toDataURL("image/jpeg", quality);
-  return { name: file.name || "photo.jpg", dataUrl, size: dataUrl.length };
+function fieldClass() {
+  return "mt-1 min-h-12 w-full rounded-xl border border-chestnut/20 bg-white px-4 text-base text-chestnut outline-none transition focus:border-primary-red focus:ring-2 focus:ring-primary-red/15";
 }
 
 export function EstimateWizard() {
@@ -92,23 +71,11 @@ export function EstimateWizard() {
     );
   }, []);
 
-  const steps = useMemo(() => {
-    const base = ["need", "property", "contact"] as const;
-    if (form.need === "service") {
-      return [...base, "serviceScope", "timing", "method"] as const;
-    }
-    if (form.need === "returning") {
-      return [...base, "scope", "photos", "timing", "method"] as const;
-    }
-    return [...base, "scope", "style", "photos", "timing", "method"] as const;
-  }, [form.need]);
-
-  const totalSteps = steps.length;
-  const currentKey = steps[stepIndex] ?? "need";
-  const softEstimate = useMemo(() => computeSoftEstimate(form), [form]);
+  const currentStep = STEPS[stepIndex] ?? "contact";
+  const estimate = useMemo(() => computeSoftEstimate(form), [form]);
 
   const patch = (partial: Partial<EstimateFormState>) =>
-    setForm((prev) => ({ ...prev, ...partial }));
+    setForm((previous) => ({ ...previous, ...partial }));
 
   const start = () => {
     trackEstimateEvent("form_started");
@@ -117,74 +84,49 @@ export function EstimateWizard() {
   };
 
   const validateStep = (): string | null => {
-    switch (currentKey) {
-      case "need":
-        return form.need ? null : "Select how we can help.";
-      case "property": {
-        if (!form.address.trim()) return "Enter your property address.";
-        const zip = normalizeZip(form.zip || extractZipFromAddress(form.address) || "");
-        if (zip.length !== 5) return "Enter a valid 5-digit ZIP code.";
-        if (form.need === "residential") {
-          if (!form.propertyType) return "Select a property type.";
-          if (!form.stories) return "Select number of stories.";
-        }
-        return null;
-      }
-      case "contact":
-        if (!form.firstName.trim() || !form.lastName.trim()) return "Enter your first and last name.";
-        if (!form.phone.trim()) return "Mobile phone is required.";
-        if (!form.email.trim() || !form.email.includes("@")) return "Enter a valid email.";
-        if (!form.quoteConsent) return "Please agree so we can contact you about your quote.";
-        return null;
-      case "scope":
-        return form.scope.length ? null : "Select at least one area to decorate.";
-      case "serviceScope":
-        return form.serviceNotes.trim() ? null : "Tell us briefly what you need.";
-      case "style":
-        if (!form.colorPref) return "Pick a lighting look.";
-        if (!form.displayStyle) return "Pick a display style.";
-        return null;
-      case "photos":
-        return null;
-      case "timing":
-        if (!form.installTiming) return "Select an install window.";
-        if (!form.budget) return "Select an investment range (or “not sure”).";
-        return null;
-      case "method":
-        if (!form.quoteMethod) return "Choose how you'd like to receive your quote.";
-        if (!turnstileToken) return "Please complete the human verification checkbox.";
-        return null;
-      default:
-        return null;
+    if (currentStep === "contact") {
+      if (!form.address.trim()) return "Enter your property address.";
+      if (!form.name.trim()) return "Enter your name.";
+      if (!form.phone.trim()) return "Enter your mobile phone number.";
+      if (!form.email.trim() || !form.email.includes("@")) return "Enter a valid email address.";
+      if (!form.quoteConsent) return "Please agree so we can contact you about your estimate.";
     }
+    if (currentStep === "roofline") {
+      if (!form.homeSize) return "Choose the size of your home.";
+      if (!form.rooflineCoverage) return "Choose the roofline coverage you want.";
+    }
+    if (currentStep === "design") {
+      if (!form.colorPref) return "Choose a color preference.";
+      if (!form.treeSize) return "Tell us whether you want any trees lit.";
+    }
+    if (currentStep === "estimate" && !turnstileToken) {
+      return "Please complete the human verification checkbox.";
+    }
+    return null;
   };
 
   const goNext = () => {
-    const err = validateStep();
-    if (err) {
-      setError(err);
+    const validationError = validateStep();
+    if (validationError) {
+      setError(validationError);
       return;
     }
     setError(null);
 
-    if (currentKey === "property") {
-      const zip = normalizeZip(form.zip || extractZipFromAddress(form.address) || "");
-      const inArea = checkServiceArea(zip, form.city);
-      patch({ zip, inServiceArea: inArea });
-      trackEstimateEvent("address_entered", { zip, inServiceArea: inArea });
-    }
-    if (currentKey === "contact") trackEstimateEvent("contact_completed");
-    if (currentKey === "photos") {
-      trackEstimateEvent(form.photos.length ? "photos_uploaded" : "photos_skipped", {
-        count: form.photos.length,
+    if (currentStep === "contact") {
+      trackEstimateEvent("address_entered", {
+        zip: form.zip,
+        inServiceArea: form.inServiceArea ?? "unknown",
       });
+      trackEstimateEvent("contact_completed");
     }
 
-    if (stepIndex >= totalSteps - 1) {
+    if (currentStep === "estimate") {
       void submit();
       return;
     }
-    setStepIndex((i) => i + 1);
+
+    setStepIndex((index) => index + 1);
   };
 
   const goBack = () => {
@@ -193,7 +135,7 @@ export function EstimateWizard() {
       setPhase("intro");
       return;
     }
-    setStepIndex((i) => i - 1);
+    setStepIndex((index) => index - 1);
   };
 
   const submit = async () => {
@@ -201,10 +143,11 @@ export function EstimateWizard() {
       setError("Please complete the human verification checkbox.");
       return;
     }
+
     setSubmitting(true);
     setError(null);
     try {
-      const res = await fetch("/api/estimate", {
+      const response = await fetch("/api/estimate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -215,62 +158,38 @@ export function EstimateWizard() {
           websiteUrl: honeypot,
         }),
       });
-      const data = (await res.json()) as { error?: string };
-      if (!res.ok) {
+      const data = (await response.json()) as { error?: string };
+      if (!response.ok) {
         setError(data.error ?? "Something went wrong. Please try again.");
         setTurnstileToken(null);
-        setTurnstileReset((n) => n + 1);
+        setTurnstileReset((value) => value + 1);
         return;
       }
-      trackEstimateEvent("form_submitted", { need: form.need });
+      trackEstimateEvent("form_submitted", {
+        homeSize: form.homeSize ?? "",
+        rooflineCoverage: form.rooflineCoverage ?? "",
+        treeSize: form.treeSize ?? "",
+      });
       setPhase("done");
     } catch {
       setError("Network error. Check your connection and try again.");
       setTurnstileToken(null);
-      setTurnstileReset((n) => n + 1);
+      setTurnstileReset((value) => value + 1);
     } finally {
       setSubmitting(false);
     }
   };
 
   const onPlaceSelected = (place: ParsedPlace) => {
-    const zip = place.zip || normalizeZip(extractZipFromAddress(place.formattedAddress) || "");
     patch({
-      address: place.address || place.formattedAddress,
+      address: place.formattedAddress,
       city: place.city,
       state: place.state || "UT",
-      zip,
+      zip: place.zip,
       lat: place.lat,
       lng: place.lng,
-      inServiceArea: checkServiceArea(zip, place.city),
+      inServiceArea: checkServiceArea(place.zip, place.city),
     });
-  };
-
-  const toggleScope = (value: ScopeItem) => {
-    setForm((prev) => {
-      const has = prev.scope.includes(value);
-      let scope = has ? prev.scope.filter((s) => s !== value) : [...prev.scope, value];
-      if (value === "entire" && !has) scope = ["entire"];
-      if (value !== "entire" && scope.includes("entire")) {
-        scope = scope.filter((s) => s !== "entire");
-      }
-      return { ...prev, scope };
-    });
-  };
-
-  const onPhotos = async (files: FileList | null) => {
-    if (!files?.length) return;
-    const next = [...form.photos];
-    for (const file of Array.from(files).slice(0, 8 - next.length)) {
-      if (!file.type.startsWith("image/")) continue;
-      try {
-        const compressed = await compressImage(file);
-        next.push(compressed);
-      } catch {
-        /* skip bad file */
-      }
-    }
-    patch({ photos: next.slice(0, 8) });
   };
 
   if (phase === "intro") {
@@ -288,17 +207,16 @@ export function EstimateWizard() {
             </div>
           ) : null}
           <h1 className="font-display text-3xl font-bold text-chestnut sm:text-4xl">
-            Get Your Free Christmas Lighting Design &amp; Quote
+            Get Your Instant Christmas Lighting Estimate
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-chestnut/70">
-            Tell us about your property and upload a few photos. Most quotes can
-            be completed remotely in just a few minutes.
+            Share a few property details and see a realistic roofline and tree-lighting range—no photos, budget questions, or lengthy consultation required.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-sm text-chestnut/60">
-            <span className="rounded-full bg-white px-3 py-1 border border-chestnut/10">
-              Takes about 2 minutes
+            <span className="rounded-full border border-chestnut/10 bg-white px-3 py-1">
+              Takes about 60 seconds
             </span>
-            <span className="rounded-full bg-white px-3 py-1 border border-chestnut/10">
+            <span className="rounded-full border border-chestnut/10 bg-white px-3 py-1">
               No obligation
             </span>
           </div>
@@ -307,7 +225,7 @@ export function EstimateWizard() {
             onClick={start}
             className="mt-8 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-accent-gold px-6 text-sm font-semibold text-chestnut touch-manipulation sm:w-auto"
           >
-            Start My Quote
+            Get My Estimate
           </button>
         </div>
       </div>
@@ -319,541 +237,276 @@ export function EstimateWizard() {
       <div className="mx-auto max-w-2xl px-4 py-10 text-center sm:px-6 sm:py-14">
         <Mascot variant="cheer" size={140} className="mx-auto mb-4" />
         <h1 className="font-display text-3xl font-bold text-chestnut sm:text-4xl">
-          Your request has been received.
+          Your estimate request is in.
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-chestnut/70">
-          We&apos;ll review your property and contact you shortly. Based on what
-          you shared, a typical project lands around{" "}
-          <span className="font-semibold text-chestnut">{softEstimate.label}</span>
-          {" "}
-          — your final design quote may differ.
-          {LINKS.bookConsultation
-            ? " You can also book a free consultation below."
-            : " For the fastest start, call or text us now."}
+          Based on what you shared, your project is typically around{" "}
+          <span className="font-semibold text-chestnut">{estimate.label}</span>.
+          We&apos;ll review the property and contact you with the final design quote.
         </p>
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
-          {LINKS.bookConsultation ? (
-            <Button
-              href={LINKS.bookConsultation}
-              variant="gold"
-              className="w-full sm:w-auto"
-              external={LINKS.bookConsultation.startsWith("http")}
-            >
-              Book a free consultation
-            </Button>
+        <div className="mx-auto mt-6 max-w-md rounded-2xl border border-chestnut/10 bg-white p-5 text-left">
+          <p className="flex justify-between gap-4 text-sm text-chestnut/75">
+            <span>Roofline</span>
+            <strong className="text-chestnut">{estimate.rooflineLabel}</strong>
+          </p>
+          {estimate.treeLabel ? (
+            <p className="mt-3 flex justify-between gap-4 border-t border-chestnut/10 pt-3 text-sm text-chestnut/75">
+              <span>Tree lighting</span>
+              <strong className="text-right text-chestnut">{estimate.treeLabel} per tree</strong>
+            </p>
           ) : null}
-          <Button href={LINKS.tel} variant="primary" className="w-full sm:w-auto">
-            Call us
-          </Button>
-          <Button href={LINKS.sms} variant="outline" className="w-full sm:w-auto">
-            Text us
-          </Button>
+        </div>
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+          <Button href={LINKS.tel} variant="primary" className="w-full sm:w-auto">Call us</Button>
+          <Button href={LINKS.sms} variant="outline" className="w-full sm:w-auto">Text us</Button>
         </div>
         <p className="mt-6 text-sm text-chestnut/50">
-          <Link href="/" className="underline-offset-2 hover:underline">
-            Back to home
-          </Link>
+          <Link href="/" className="underline-offset-2 hover:underline">Back to home</Link>
         </p>
       </div>
     );
   }
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 sm:py-10">
-      <EstimateProgress current={stepIndex + 1} total={totalSteps} />
+    <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 sm:py-12">
+      <EstimateProgress current={stepIndex + 1} total={STEPS.length} />
 
-      <div className="mt-8 space-y-6">
-        {currentKey === "need" && (
-          <section className="space-y-4">
-            <h2 className="font-display text-2xl font-bold text-chestnut">How can we help?</h2>
-            <div className="space-y-3">
-              {NEED_OPTIONS.map((opt) => (
-                <button
-                  key={opt.value}
-                  type="button"
-                  className={optionCardClass(form.need === opt.value)}
-                  onClick={() => patch({ need: opt.value })}
-                >
-                  <div className="font-semibold text-chestnut">{opt.label}</div>
-                  <div className="mt-1 text-sm text-chestnut/60">{opt.detail}</div>
-                </button>
-              ))}
+      <div className="mt-7 rounded-3xl border border-chestnut/10 bg-white p-5 shadow-sm sm:p-8">
+        {currentStep === "contact" ? (
+          <section className="space-y-6">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-primary-red">Property &amp; contact</p>
+              <h2 className="mt-2 font-display text-2xl font-bold text-chestnut sm:text-3xl">Where is the display going?</h2>
+              <p className="mt-2 text-sm text-chestnut/65">We only need the basics to prepare and follow up on your estimate.</p>
             </div>
-          </section>
-        )}
 
-        {currentKey === "property" && (
-          <section className="space-y-4">
-            <h2 className="font-display text-2xl font-bold text-chestnut">Property information</h2>
-            <label className="block text-sm font-medium text-chestnut">
+            <label className="block text-sm font-semibold text-chestnut">
               Property address
               <AddressAutocomplete
                 value={form.address}
-                onChange={(address) => patch({ address })}
+                onChange={(address) => patch({
+                  address,
+                  city: "",
+                  zip: "",
+                  lat: null,
+                  lng: null,
+                  inServiceArea: null,
+                })}
                 onPlaceSelected={onPlaceSelected}
+                placeholder="Start typing your full address"
+                required
+                deferUntilFocus
               />
             </label>
-            {form.lat != null && form.lng != null && streetViewUrl(form.lat, form.lng) ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={streetViewUrl(form.lat, form.lng)!}
-                alt="Street View of your property"
-                className="w-full rounded-2xl border border-chestnut/10 object-cover aspect-[16/9]"
-              />
-            ) : null}
-            <div className="grid gap-3 sm:grid-cols-3">
-              <label className="block text-sm font-medium text-chestnut sm:col-span-1">
-                City
-                <input
-                  className="mt-1 w-full rounded-xl border border-chestnut/20 bg-white px-4 py-3"
-                  value={form.city}
-                  onChange={(e) => patch({ city: e.target.value })}
-                  autoComplete="address-level2"
-                />
-              </label>
-              <label className="block text-sm font-medium text-chestnut">
-                State
-                <input
-                  className="mt-1 w-full rounded-xl border border-chestnut/20 bg-white px-4 py-3"
-                  value={form.state}
-                  onChange={(e) => patch({ state: e.target.value })}
-                  autoComplete="address-level1"
-                />
-              </label>
-              <label className="block text-sm font-medium text-chestnut">
-                ZIP
-                <input
-                  className="mt-1 w-full rounded-xl border border-chestnut/20 bg-white px-4 py-3"
-                  value={form.zip}
-                  onChange={(e) => {
-                    const zip = normalizeZip(e.target.value);
-                    patch({
-                      zip,
-                      inServiceArea:
-                        zip.length === 5 ? checkServiceArea(zip, form.city) : null,
-                    });
-                  }}
-                  inputMode="numeric"
-                  autoComplete="postal-code"
-                />
-              </label>
-            </div>
-            {form.zip.length === 5 && (
-              <p
-                className={`text-sm ${
-                  checkServiceArea(form.zip, form.city)
-                    ? "text-green-700"
-                    : "text-primary-red"
-                }`}
-              >
-                {checkServiceArea(form.zip, form.city)
-                  ? `Great — you're in our ${COMPANY.name} service area.`
-                  : "This ZIP may be outside our usual area. Submit anyway and we'll confirm coverage."}
-              </p>
-            )}
-            {form.need === "residential" && (
-              <>
-                <fieldset>
-                  <legend className="text-sm font-medium text-chestnut">Property type</legend>
-                  <div className="mt-2 grid gap-2 sm:grid-cols-3">
-                    {(
-                      [
-                        ["single_family", "Single-family home"],
-                        ["townhome", "Townhome"],
-                        ["other", "Other"],
-                      ] as const
-                    ).map(([value, label]) => (
-                      <button
-                        key={value}
-                        type="button"
-                        className={optionCardClass(form.propertyType === value)}
-                        onClick={() => patch({ propertyType: value })}
-                      >
-                        {label}
-                      </button>
-                    ))}
-                  </div>
-                </fieldset>
-                <fieldset>
-                  <legend className="text-sm font-medium text-chestnut">Number of stories</legend>
-                  <div className="mt-2 grid gap-2 sm:grid-cols-3">
-                    {(
-                      [
-                        ["one", "One"],
-                        ["two", "Two"],
-                        ["three_plus", "Three or more"],
-                      ] as const
-                    ).map(([value, label]) => (
-                      <button
-                        key={value}
-                        type="button"
-                        className={optionCardClass(form.stories === value)}
-                        onClick={() => patch({ stories: value })}
-                      >
-                        {label}
-                      </button>
-                    ))}
-                  </div>
-                </fieldset>
-              </>
-            )}
-          </section>
-        )}
 
-        {currentKey === "contact" && (
-          <section className="space-y-4">
-            <h2 className="font-display text-2xl font-bold text-chestnut">
-              Where should we send your design and quote?
-            </h2>
-            <div className="grid gap-3 sm:grid-cols-2">
-              <label className="block text-sm font-medium text-chestnut">
-                First name
+            <div className="grid gap-4 sm:grid-cols-2">
+              <label className="block text-sm font-semibold text-chestnut sm:col-span-2">
+                Name
                 <input
-                  className="mt-1 w-full rounded-xl border border-chestnut/20 bg-white px-4 py-3"
-                  value={form.firstName}
-                  onChange={(e) => patch({ firstName: e.target.value })}
-                  autoComplete="given-name"
+                  className={fieldClass()}
+                  value={form.name}
+                  onChange={(event) => patch({ name: event.target.value })}
+                  autoComplete="name"
+                  placeholder="Your full name"
                 />
               </label>
-              <label className="block text-sm font-medium text-chestnut">
-                Last name
+              <label className="block text-sm font-semibold text-chestnut">
+                Mobile phone
                 <input
-                  className="mt-1 w-full rounded-xl border border-chestnut/20 bg-white px-4 py-3"
-                  value={form.lastName}
-                  onChange={(e) => patch({ lastName: e.target.value })}
-                  autoComplete="family-name"
+                  className={fieldClass()}
+                  value={form.phone}
+                  onChange={(event) => patch({ phone: event.target.value })}
+                  type="tel"
+                  inputMode="tel"
+                  autoComplete="tel"
+                  placeholder="(385) 555-0123"
+                />
+              </label>
+              <label className="block text-sm font-semibold text-chestnut">
+                Email
+                <input
+                  className={fieldClass()}
+                  value={form.email}
+                  onChange={(event) => patch({ email: event.target.value })}
+                  type="email"
+                  autoComplete="email"
+                  placeholder="you@example.com"
                 />
               </label>
             </div>
-            <label className="block text-sm font-medium text-chestnut">
-              Mobile phone
-              <input
-                className="mt-1 w-full rounded-xl border border-chestnut/20 bg-white px-4 py-3"
-                value={form.phone}
-                onChange={(e) => patch({ phone: e.target.value })}
-                inputMode="tel"
-                autoComplete="tel"
-              />
-            </label>
-            <label className="block text-sm font-medium text-chestnut">
-              Email
-              <input
-                className="mt-1 w-full rounded-xl border border-chestnut/20 bg-white px-4 py-3"
-                value={form.email}
-                onChange={(e) => patch({ email: e.target.value })}
-                type="email"
-                autoComplete="email"
-              />
-            </label>
-            <div className="flex items-start gap-3 text-sm leading-relaxed text-chestnut/80">
-              <input
-                id="estimate-sms-service"
-                type="checkbox"
-                className="mt-1 h-4 w-4 shrink-0 rounded border-chestnut/30"
-                checked={form.quoteConsent}
-                onChange={(e) => patch({ quoteConsent: e.target.checked })}
-              />
-              <SmsOptInCopy kind="service" htmlFor="estimate-sms-service" />
-            </div>
-            <div className="flex items-start gap-3 text-sm leading-relaxed text-chestnut/80">
-              <input
-                id="estimate-sms-marketing"
-                type="checkbox"
-                className="mt-1 h-4 w-4 shrink-0 rounded border-chestnut/30"
-                checked={form.marketingConsent}
-                onChange={(e) => patch({ marketingConsent: e.target.checked })}
-              />
-              <SmsOptInCopy kind="marketing" htmlFor="estimate-sms-marketing" />
-            </div>
-          </section>
-        )}
 
-        {currentKey === "scope" && (
-          <section className="space-y-4">
-            <h2 className="font-display text-2xl font-bold text-chestnut">
-              What would you like decorated?
-            </h2>
-            <div className="grid gap-2 sm:grid-cols-2">
-              {SCOPE_OPTIONS.map((opt) => {
-                const selected = form.scope.includes(opt.value);
-                return (
-                  <button
-                    key={opt.value}
-                    type="button"
-                    className={optionCardClass(selected)}
-                    onClick={() => toggleScope(opt.value)}
-                  >
-                    <span className="inline-flex items-center gap-2 font-medium text-chestnut">
-                      {selected ? <Check className="h-4 w-4 text-primary-red" /> : null}
-                      {opt.label}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-            {form.scope.includes("trees") && (
-              <div className="space-y-3 rounded-2xl border border-chestnut/10 bg-cream p-4">
-                <label className="block text-sm font-medium text-chestnut">
-                  How many trees?
-                  <input
-                    className="mt-1 w-full rounded-xl border border-chestnut/20 bg-white px-4 py-3"
-                    value={form.treeCount}
-                    onChange={(e) => patch({ treeCount: e.target.value })}
-                    inputMode="numeric"
-                  />
-                </label>
-                <fieldset>
-                  <legend className="text-sm font-medium text-chestnut">Coverage</legend>
-                  <div className="mt-2 space-y-2">
-                    {(
-                      [
-                        ["trunks", "Trunks only"],
-                        ["trunks_and_branches", "Trunks and branches"],
-                        ["unsure", "Unsure"],
-                      ] as const
-                    ).map(([value, label]) => (
-                      <button
-                        key={value}
-                        type="button"
-                        className={optionCardClass(form.treeCoverage === value)}
-                        onClick={() => patch({ treeCoverage: value })}
-                      >
-                        {label}
-                      </button>
-                    ))}
-                  </div>
-                </fieldset>
-                <fieldset>
-                  <legend className="text-sm font-medium text-chestnut">Tree size</legend>
-                  <div className="mt-2 grid grid-cols-2 gap-2">
-                    {(
-                      [
-                        ["small", "Small"],
-                        ["medium", "Medium"],
-                        ["large", "Large"],
-                        ["unsure", "Unsure"],
-                      ] as const
-                    ).map(([value, label]) => (
-                      <button
-                        key={value}
-                        type="button"
-                        className={optionCardClass(form.treeSize === value)}
-                        onClick={() => patch({ treeSize: value })}
-                      >
-                        {label}
-                      </button>
-                    ))}
-                  </div>
-                </fieldset>
+            <div className="space-y-3 rounded-2xl bg-cream p-4 text-sm text-chestnut/80">
+              <div className="flex items-start gap-3">
+                <input
+                  id="estimate-sms-service"
+                  type="checkbox"
+                  checked={form.quoteConsent}
+                  onChange={(event) => patch({ quoteConsent: event.target.checked })}
+                  className="mt-1 h-4 w-4 accent-primary-red"
+                />
+                <SmsOptInCopy kind="service" htmlFor="estimate-sms-service" />
               </div>
-            )}
-            {form.scope.includes("wreaths") && (
-              <label className="block text-sm font-medium text-chestnut">
-                Where should wreaths and garland go?
+              <div className="flex items-start gap-3">
                 <input
-                  className="mt-1 w-full rounded-xl border border-chestnut/20 bg-white px-4 py-3"
-                  value={form.wreathPlacement}
-                  onChange={(e) => patch({ wreathPlacement: e.target.value })}
-                  placeholder="Front door, porch rail, garage, etc."
+                  id="estimate-sms-marketing"
+                  type="checkbox"
+                  checked={form.marketingConsent}
+                  onChange={(event) => patch({ marketingConsent: event.target.checked })}
+                  className="mt-1 h-4 w-4 accent-primary-red"
                 />
-              </label>
-            )}
+                <SmsOptInCopy kind="marketing" htmlFor="estimate-sms-marketing" />
+              </div>
+            </div>
           </section>
-        )}
+        ) : null}
 
-        {currentKey === "serviceScope" && (
-          <section className="space-y-4">
-            <h2 className="font-display text-2xl font-bold text-chestnut">
-              What do you need help with?
-            </h2>
-            <textarea
-              className="min-h-32 w-full rounded-2xl border border-chestnut/20 bg-white px-4 py-3 text-chestnut"
-              value={form.serviceNotes}
-              onChange={(e) => patch({ serviceNotes: e.target.value })}
-              placeholder="Bulbs out, add a tree, move a strand, etc."
+        {currentStep === "roofline" ? (
+          <section className="space-y-7">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-primary-red">Roofline</p>
+              <h2 className="mt-2 font-display text-2xl font-bold text-chestnut sm:text-3xl">Tell us about your home</h2>
+              <p className="mt-2 text-sm text-chestnut/65">Home size and roofline coverage determine the roofline estimate.</p>
+            </div>
+
+            <fieldset>
+              <legend className="flex items-center gap-2 font-semibold text-chestnut">
+                <Home className="h-5 w-5 text-primary-red" aria-hidden /> Home size
+              </legend>
+              <div className="mt-3 grid gap-3 sm:grid-cols-3">
+                {HOME_SIZE_OPTIONS.map((option) => (
+                  <button
+                    key={option.value}
+                    type="button"
+                    className={optionCardClass(form.homeSize === option.value)}
+                    onClick={() => patch({ homeSize: option.value })}
+                  >
+                    <span className="font-semibold text-chestnut">{option.label}</span>
+                    <span className="mt-1 block text-xs leading-relaxed text-chestnut/60">{option.detail}</span>
+                  </button>
+                ))}
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend className="font-semibold text-chestnut">Roofline coverage</legend>
+              <div className="mt-3 grid gap-3 sm:grid-cols-3">
+                {ROOFLINE_OPTIONS.map((option) => (
+                  <button
+                    key={option.value}
+                    type="button"
+                    className={optionCardClass(form.rooflineCoverage === option.value)}
+                    onClick={() => patch({ rooflineCoverage: option.value })}
+                  >
+                    <span className="font-semibold text-chestnut">{option.label}</span>
+                    <span className="mt-1 block text-xs leading-relaxed text-chestnut/60">{option.detail}</span>
+                  </button>
+                ))}
+              </div>
+            </fieldset>
+          </section>
+        ) : null}
+
+        {currentStep === "design" ? (
+          <section className="space-y-7">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-primary-red">Colors &amp; trees</p>
+              <h2 className="mt-2 font-display text-2xl font-bold text-chestnut sm:text-3xl">Choose the look you want</h2>
+              <p className="mt-2 text-sm text-chestnut/65">Your color choice does not change the price.</p>
+            </div>
+
+            <fieldset>
+              <legend className="flex items-center gap-2 font-semibold text-chestnut">
+                <Palette className="h-5 w-5 text-primary-red" aria-hidden /> Color preference
+              </legend>
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                {COLOR_OPTIONS.map((option) => (
+                  <button
+                    key={option.value}
+                    type="button"
+                    className={optionCardClass(form.colorPref === option.value)}
+                    onClick={() => patch({ colorPref: option.value })}
+                  >
+                    <span className="font-semibold text-chestnut">{option.label}</span>
+                  </button>
+                ))}
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend className="flex items-center gap-2 font-semibold text-chestnut">
+                <TreePine className="h-5 w-5 text-primary-red" aria-hidden /> Trees to light
+              </legend>
+              <p className="mt-1 text-xs text-chestnut/55">Select the size that best matches the tree or trees you want wrapped.</p>
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                {TREE_SIZE_OPTIONS.map((option) => (
+                  <button
+                    key={option.value}
+                    type="button"
+                    className={optionCardClass(form.treeSize === option.value)}
+                    onClick={() => patch({ treeSize: option.value })}
+                  >
+                    <span className="font-semibold text-chestnut">{option.label}</span>
+                    <span className="mt-1 block text-xs leading-relaxed text-chestnut/60">{option.detail}</span>
+                  </button>
+                ))}
+              </div>
+            </fieldset>
+          </section>
+        ) : null}
+
+        {currentStep === "estimate" ? (
+          <section className="space-y-6">
+            <div className="text-center">
+              <span className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-accent-gold/25 text-primary-red">
+                <Check className="h-6 w-6" aria-hidden />
+              </span>
+              <p className="mt-4 text-sm font-semibold uppercase tracking-[0.16em] text-primary-red">Your instant estimate</p>
+              <h2 className="mt-2 font-display text-4xl font-bold text-chestnut">{estimate.label}</h2>
+              <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-chestnut/65">{estimate.basis}</p>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-2">
+              <article className="rounded-2xl border border-chestnut/10 bg-cream p-5">
+                <p className="text-xs font-semibold uppercase tracking-wide text-primary-red">Roofline</p>
+                <p className="mt-2 font-display text-2xl font-bold text-chestnut">{estimate.rooflineLabel}</p>
+                <p className="mt-2 text-sm text-chestnut/65">Based on your home size and selected coverage.</p>
+              </article>
+              <article className="rounded-2xl border border-chestnut/10 bg-cream p-5">
+                <p className="text-xs font-semibold uppercase tracking-wide text-primary-red">Trees</p>
+                <p className="mt-2 font-display text-2xl font-bold text-chestnut">{estimate.treeLabel ?? "None selected"}</p>
+                <p className="mt-2 text-sm text-chestnut/65">
+                  {estimate.treeLabel ? "Tree range is per tree; final price depends on count and shape." : "No tree lighting included in this estimate."}
+                </p>
+              </article>
+            </div>
+
+            <input
+              aria-hidden="true"
+              tabIndex={-1}
+              autoComplete="off"
+              className="absolute -left-[10000px] h-px w-px overflow-hidden"
+              value={honeypot}
+              onChange={(event) => setHoneypot(event.target.value)}
+              name="websiteUrl"
+            />
+
+            <TurnstileWidget
+              onToken={setTurnstileToken}
+              resetKey={turnstileReset}
+              className="flex justify-center"
             />
           </section>
-        )}
+        ) : null}
 
-        {currentKey === "style" && (
-          <section className="space-y-6">
-            <div>
-              <h2 className="font-display text-2xl font-bold text-chestnut">
-                Which look do you prefer?
-              </h2>
-              <div className="mt-3 space-y-2">
-                {COLOR_OPTIONS.map((opt) => (
-                  <button
-                    key={opt.value}
-                    type="button"
-                    className={optionCardClass(form.colorPref === opt.value)}
-                    onClick={() => patch({ colorPref: opt.value })}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div>
-              <h3 className="font-display text-xl font-semibold text-chestnut">
-                How would you describe the display you want?
-              </h3>
-              <div className="mt-3 space-y-2">
-                {STYLE_OPTIONS.map((opt) => (
-                  <button
-                    key={opt.value}
-                    type="button"
-                    className={optionCardClass(form.displayStyle === opt.value)}
-                    onClick={() => patch({ displayStyle: opt.value })}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
+        {error ? (
+          <p className="mt-6 rounded-xl bg-primary-red/5 p-3 text-sm text-primary-red" role="alert">{error}</p>
+        ) : null}
 
-        {currentKey === "photos" && (
-          <section className="space-y-4">
-            <h2 className="font-display text-2xl font-bold text-chestnut">
-              Upload photos of the areas you want decorated
-            </h2>
-            <p className="text-sm text-chestnut/70">
-              Photos help us prepare your quote faster. You can skip this step and
-              show us the property during a video consultation.
-            </p>
-            <p className="text-xs text-chestnut/50">
-              Helpful shots: front of the property, left side, right side, trees or
-              special features, and an inspiration photo if you have one.
-            </p>
-            <label className="flex min-h-28 cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-chestnut/25 bg-white px-4 py-6 text-sm font-semibold text-chestnut touch-manipulation">
-              <Camera className="h-6 w-6 text-primary-red" />
-              Take or upload photos
-              <input
-                type="file"
-                accept="image/*"
-                capture="environment"
-                multiple
-                className="hidden"
-                onChange={(e) => void onPhotos(e.target.files)}
-              />
-            </label>
-            {form.photos.length > 0 && (
-              <ul className="space-y-1 text-sm text-chestnut/70">
-                {form.photos.map((p) => (
-                  <li key={p.name + p.size}>{p.name}</li>
-                ))}
-              </ul>
-            )}
-          </section>
-        )}
-
-        {currentKey === "timing" && (
-          <section className="space-y-6">
-            <div>
-              <h2 className="font-display text-2xl font-bold text-chestnut">
-                When would you ideally like your lights installed?
-              </h2>
-              <div className="mt-3 space-y-2">
-                {TIMING_OPTIONS.map((opt) => (
-                  <button
-                    key={opt.value}
-                    type="button"
-                    className={optionCardClass(form.installTiming === opt.value)}
-                    onClick={() => patch({ installTiming: opt.value })}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div>
-              <h3 className="font-display text-xl font-semibold text-chestnut">
-                What investment range are you considering?
-              </h3>
-              <p className="mt-1 text-sm text-chestnut/60">
-                This never disqualifies you — it helps us prepare the right package.
-              </p>
-              <div className="mt-3 space-y-2">
-                {BUDGET_OPTIONS.map((opt) => (
-                  <button
-                    key={opt.value}
-                    type="button"
-                    className={optionCardClass(form.budget === opt.value)}
-                    onClick={() => patch({ budget: opt.value })}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
-
-        {currentKey === "method" && (
-          <section className="space-y-4">
-            <h2 className="font-display text-2xl font-bold text-chestnut">
-              How would you prefer to receive your quote?
-            </h2>
-            <div className="rounded-2xl border border-accent-gold/40 bg-accent-gold/10 px-4 py-3 text-left">
-              <p className="text-sm font-medium text-chestnut">Your estimate</p>
-              <p className="mt-1 font-display text-2xl font-bold text-chestnut">
-                {softEstimate.label}
-              </p>
-              <p className="mt-1 text-xs text-chestnut/60">{softEstimate.basis}</p>
-              <p className="mt-3 text-sm text-chestnut/80">
-                We provide the lights and materials. Your final quote covers the complete seasonal service, and you can change colors in a future season at no added color-change cost.
-              </p>
-            </div>
-            <div className="space-y-2">
-              {QUOTE_METHOD_OPTIONS.map((opt) => (
-                <button
-                  key={opt.value}
-                  type="button"
-                  className={optionCardClass(form.quoteMethod === opt.value)}
-                  onClick={() => patch({ quoteMethod: opt.value })}
-                >
-                  {opt.label}
-                </button>
-              ))}
-            </div>
-            <label
-              aria-hidden="true"
-              style={{
-                position: "absolute",
-                left: "-10000px",
-                top: "auto",
-                width: 1,
-                height: 1,
-                overflow: "hidden",
-              }}
-            >
-              Website
-              <input
-                type="text"
-                tabIndex={-1}
-                autoComplete="off"
-                value={honeypot}
-                onChange={(e) => setHoneypot(e.target.value)}
-              />
-            </label>
-            <TurnstileWidget onToken={setTurnstileToken} resetKey={turnstileReset} />
-          </section>
-        )}
-
-        {error && (
-          <p className="rounded-xl border border-primary-red/30 bg-primary-red/5 px-4 py-3 text-sm text-primary-red" role="alert">
-            {error}
-          </p>
-        )}
-
-        <div className="flex gap-3 pb-8">
+        <div className="mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:justify-between">
           <button
             type="button"
             onClick={goBack}
-            disabled={submitting}
-            className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full border border-chestnut/20 bg-white px-5 text-sm font-semibold text-chestnut touch-manipulation"
+            className="min-h-12 rounded-full border border-chestnut/15 px-6 font-semibold text-chestnut hover:bg-cream"
           >
             Back
           </button>
@@ -861,15 +514,14 @@ export function EstimateWizard() {
             type="button"
             onClick={goNext}
             disabled={submitting}
-            className="inline-flex min-h-12 flex-[1.4] items-center justify-center gap-2 rounded-full bg-primary-red px-5 text-sm font-semibold text-warm-white touch-manipulation disabled:opacity-60"
+            className="inline-flex min-h-12 items-center justify-center rounded-full bg-primary-red px-7 font-semibold text-white transition hover:bg-primary-red/90 disabled:opacity-60"
           >
             {submitting ? (
-              <>
-                <Loader2 className="h-4 w-4 animate-spin" />
-                Submitting…
-              </>
-            ) : stepIndex >= totalSteps - 1 ? (
-              "Submit request"
+              <><Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden /> Sending…</>
+            ) : currentStep === "estimate" ? (
+              "Send My Estimate Request"
+            ) : currentStep === "design" ? (
+              "See My Estimate"
             ) : (
               "Continue"
             )}

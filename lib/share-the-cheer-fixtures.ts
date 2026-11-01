@@ -1,14 +1,26 @@
 import type { CheerSubmission } from "./share-the-cheer";
 
 export const nomination: CheerSubmission = {
-  nominatorName: "Taylor Neighbor", nominatorEmail: "taylor@example.com", nominatorPhone: "3855550100",
-  relationship: "Neighbor", familyName: "Jordan Family", familyEmail: "", familyPhone: "", city: "Lehi",
-  householdSize: "4", dependents: "Two children, about 8 and 12", reason: "A difficult year",
-  needs: "A meal would help", privacyConsiderations: "Please call first", contactPermission: true, termsConsent: true,
+  submitterName: "Taylor Neighbor",
+  submitterEmail: "taylor@example.com",
+  submitterPhone: "3855550100",
+  relationship: "Neighbor",
+  familyName: "Jordan Family",
+  familyEmail: "jordan@example.com",
+  familyPhone: "",
+  familyCity: "Lehi",
+  householdSize: "4",
+  reason: "They have carried a lot this year and deserve a magical Christmas.",
+  sponsorAtCost: "yes",
+  contactPermission: true,
+  termsConsent: true,
 };
-export const partner: CheerSubmission = {
-  organization: "Local Shop", contactName: "Casey Owner", email: "casey@example.com", phone: "3855550101",
-  website: "https://example.com", contributionType: "Gift cards", description: "Grocery cards", quantity: "Several",
-  approximateValue: "", restrictions: "", delivery: "Can deliver", notes: "", supportsEveryFamily: false,
-  volunteer: true, publicRecognition: false, termsConsent: true,
+
+export const support: CheerSubmission = {
+  supporterName: "Casey Owner",
+  supporterEmail: "casey@example.com",
+  supporterPhone: "3855550101",
+  organization: "Local Shop",
+  contributionNotes: "We may be able to provide grocery gift cards and delivery help.",
+  termsConsent: true,
 };
