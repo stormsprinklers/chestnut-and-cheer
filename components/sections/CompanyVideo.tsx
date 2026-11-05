@@ -17,9 +17,6 @@ export function CompanyVideo() {
           <p className="mt-4 max-w-xl leading-relaxed text-chestnut/70">
             Get to know the people and purpose behind our Christmas lighting service—and why we care about making the whole experience feel as cheerful as the finished display.
           </p>
-          <p className="mt-4 text-sm font-semibold text-chestnut/55">
-            The full video player loads only when you press play.
-          </p>
         </div>
         <LazyYouTubeVideo
           videoId={CHESTNUT_PROMO_YOUTUBE.videoId}

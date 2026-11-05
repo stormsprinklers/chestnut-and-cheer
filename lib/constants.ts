@@ -298,8 +298,6 @@ export const FOOTER_COLUMNS = [
 export const NAV_LINKS = [
   { label: "Services", href: LINKS.services },
   { label: "Service Areas", href: LINKS.serviceAreas },
-  { label: "Projects", href: LINKS.projects },
-  { label: "Guides", href: LINKS.blog },
   { label: "Pricing", href: LINKS.pricing },
   { label: "About", href: LINKS.about },
   { label: "Share the Cheer", href: LINKS.shareTheCheer },
