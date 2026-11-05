@@ -7,8 +7,9 @@ import {
   countyPagePath,
 } from "@/lib/cities";
 import { SITE_URL } from "@/lib/site";
+import { getAllJobs } from "@/lib/careers";
 
-const SITE_CONTENT_UPDATED = "2026-09-29";
+const SITE_CONTENT_UPDATED = "2026-11-04";
 
 const STATIC_PAGES = [
   { path: "", priority: 1, changeFrequency: "weekly" as const },
@@ -23,6 +24,7 @@ const STATIC_PAGES = [
   { path: "/service-areas", priority: 0.9, changeFrequency: "monthly" as const },
   { path: "/projects", priority: 0.75, changeFrequency: "monthly" as const },
   { path: "/about", priority: 0.6, changeFrequency: "yearly" as const },
+  { path: "/careers", priority: 0.7, changeFrequency: "weekly" as const },
   { path: "/share-the-cheer", priority: 0.9, changeFrequency: "weekly" as const },
   { path: "/contact", priority: 0.6, changeFrequency: "yearly" as const },
   { path: "/blog", priority: 0.55, changeFrequency: "monthly" as const },
@@ -58,5 +60,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: post.hub ? 0.75 : 0.6,
   }));
 
-  return [...staticEntries, ...countyEntries, ...cityEntries, ...blogEntries];
+  const careerEntries: MetadataRoute.Sitemap = getAllJobs().map((job) => ({
+    url: `${SITE_URL}/careers/${job.slug}`,
+    lastModified: SITE_CONTENT_UPDATED,
+    changeFrequency: "weekly",
+    priority: 0.7,
+  }));
+
+  return [...staticEntries, ...countyEntries, ...cityEntries, ...blogEntries, ...careerEntries];
 }

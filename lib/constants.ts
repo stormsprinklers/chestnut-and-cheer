@@ -221,6 +221,7 @@ export const LINKS = {
   discounts: "/discounts",
   visualize: "/visualize",
   about: "/about",
+  careers: "/careers",
   blog: "/blog",
   installationGuide: "/blog/professional-christmas-light-installation-guide",
   services: "/services",
@@ -273,6 +274,7 @@ export const FOOTER_COLUMNS = [
     title: "Company",
     links: [
       { label: "About Us", href: LINKS.about },
+      { label: "Careers", href: LINKS.careers },
       { label: "Share the Cheer", href: LINKS.shareTheCheer },
       { label: "Service Areas", href: LINKS.serviceAreas },
       { label: "Project Gallery", href: LINKS.projects },

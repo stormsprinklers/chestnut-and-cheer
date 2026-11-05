@@ -57,6 +57,28 @@ export function buildLeadExternalId(prefix: string, id: string) {
   return `${prefix}:${id}`;
 }
 
+export type CrmCareersApplicationPayload = {
+  externalId: string;
+  name: string;
+  email: string;
+  phone?: string | null;
+  jobSlug: string;
+  jobTitle?: string | null;
+  interest?: string | null;
+  hardWorkMeaning: string;
+  integrityMeaning: string;
+  inconvenientServiceExample: string;
+  personalGoals: string;
+  metadata?: Record<string, unknown>;
+};
+
+export function forwardCareersApplicationToCrm(payload: CrmCareersApplicationPayload) {
+  return crmFetch("/website/careers", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
 export type CrmMarketingEventPayload = {
   externalId: string;
   eventType: string;
